@@ -8,8 +8,9 @@ import algoritmoGenetico.individuos.Individuo;
 
 public class SeleccionEstocasticaUniversal<T> extends Seleccion<T> {
 	Random rnd = new Random(); 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Individuo<T>[] Seleccion(Individuo<T>[] individuos, double [] fitness) {
+	public Individuo<T>[] seleccionar(Individuo<T>[] individuos, double [] fitness) {
 		int n = individuos.length;
 		float distancia = 1 / n;
 		double mediaFitness = 0;
@@ -27,14 +28,19 @@ public class SeleccionEstocasticaUniversal<T> extends Seleccion<T> {
 		}
 		
 		float puntoInicial = rnd.nextFloat() * distancia;
-		List<Individuo<T>> individuosSelecionados = new ArrayList<Individuo<T>>();
+		List<Individuo<T>> individuosSeleccionados = new ArrayList<Individuo<T>>();
 		for(int i = 0; i < n; ++i) {
 			float puntoActual = (puntoInicial + distancia * i)/n;
 			
-			
+			for(int j = 0; j < n; ++j) {
+				if(puntoActual < probSeleccion[j]) {
+					individuosSeleccionados.add(individuos[j]);
+					break;
+				}
+			}
 		}
-		// TODO Auto-generated method stub
-		return null;
+		
+		return (Individuo<T>[]) individuosSeleccionados.toArray();
 	}
 
 
