@@ -1,5 +1,7 @@
 package algoritmoGenetico.individuos;
 
+import java.util.Random;
+
 public abstract class Individuo<T> {
 	T[] cromosoma;
 	int[] tamGenes;
@@ -24,10 +26,10 @@ public abstract class Individuo<T> {
 	public int tamGen(double precision, double min, double max) {
 		return (int) (Math.log10(((max - min) / precision) + 1) / Math.log10(2));
 	}
+	public abstract void mutar(double probMutacion, Random r);
 	
 	public abstract double getValor();
 
 	public abstract double getFitness();
-
 	
 }

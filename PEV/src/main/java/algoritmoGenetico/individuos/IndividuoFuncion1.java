@@ -2,6 +2,8 @@ package algoritmoGenetico.individuos;
 
 import java.util.Random;
 
+import algoritmoGenetico.seleccion.Seleccion;
+
 public class IndividuoFuncion1 extends Individuo<Boolean> {
 	
 	private double min[];
@@ -82,5 +84,13 @@ public class IndividuoFuncion1 extends Individuo<Boolean> {
 	@Override
 	public double getFitness() {
 		return getValor();
+	}
+
+	@Override
+	public void mutar(double probMutacion, Random r) {
+		for (int i=0; i < cromosoma.length; i++) {
+			if (r.nextDouble() < probMutacion) 
+				cromosoma[i] = r.nextBoolean();		
+		}
 	}
 }
