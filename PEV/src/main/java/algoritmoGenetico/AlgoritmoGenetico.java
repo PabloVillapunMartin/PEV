@@ -17,6 +17,7 @@ public class AlgoritmoGenetico {
 	
 	public void run() {
 		iniciarPoblacion();
+		evaluar();
 		while(this.generacionActual < this.maxGeneraciones) {
 		
 			//Seleccion

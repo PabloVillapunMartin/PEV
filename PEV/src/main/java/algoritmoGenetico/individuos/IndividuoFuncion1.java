@@ -32,7 +32,7 @@ public class IndividuoFuncion1 extends Individuo<Boolean> {
 
 	public double getFenotipo(int genIndex) {
 		 
-		//COgemos la parte del gen adecuada 
+		//Cogemos la parte del gen adecuada 
 		Boolean[] binario = new Boolean[this.tamGenes[genIndex]];
 		//Posicion inicial desde la cual se va a copiar el cromosoma
 		int posicionInicial = 0;
