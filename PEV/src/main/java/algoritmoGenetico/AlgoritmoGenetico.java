@@ -3,6 +3,7 @@ package algoritmoGenetico;
 import algoritmoGenetico.cruces.Cruce;
 import algoritmoGenetico.cruces.CruceMonopunto;
 import algoritmoGenetico.individuos.Individuo;
+import algoritmoGenetico.individuos.IndividuoFuncion1;
 import algoritmoGenetico.mutacion.Mutacion;
 import algoritmoGenetico.seleccion.Seleccion;
 import algoritmoGenetico.seleccion.SeleccionEstocasticaUniversal;
@@ -21,7 +22,9 @@ public class AlgoritmoGenetico {
 	private int tamPoblacion;
 	private int tamTorneo;
 	private int maxGeneraciones;
-	private int pos_mejor;
+	private double mejor_absoluto;
+	private double mejor_generacion;
+	private double media_generacion;
 	
 	private double[] fitness;
 	private float probCruce;
@@ -35,6 +38,19 @@ public class AlgoritmoGenetico {
 	private Cruce cruce;
 	
 	private int generacionActual;
+	
+	public void configure(int tamPoblacion, int tamTorneo, int maxGeneraciones,
+			TipoCruce tipoCruce, TipoSeleccion tipoSeleccion, float probMutacion, float probCruce) {
+		this.tipoCruce = tipoCruce;
+		this.tipoSeleccion = tipoSeleccion;
+		elegirSeleccion();
+		elegirCruce();
+		this.tamPoblacion = tamPoblacion;
+		this.tamTorneo = tamTorneo;
+		this.maxGeneraciones = maxGeneraciones;
+		this.probMutacion = probMutacion;
+		this.probCruce = probCruce;
+	}
 	
 	public void run() {
 			
@@ -54,15 +70,33 @@ public class AlgoritmoGenetico {
 	}
 	
 	private void iniciarPoblacion() {
+		this.poblacion = new Individuo[this.tamPoblacion];
+		for(int i = 0; i< this.tamPoblacion; ++i) {
+			this.poblacion[i] = new IndividuoFuncion1();
+		}
 		
+		this.mejor_absoluto = 0;
 	}
 	
 	private void evaluar() {
-		
+		double fitnessInd = 0;
+		this.mejor_generacion = 0;
+		this.media_generacion = 0;
+		for(Individuo ind : this.poblacion) {
+			fitnessInd = ind.getFitness();
+			this.media_generacion += fitnessInd;
+			
+			if(fitnessInd > this.mejor_absoluto) {
+				this.mejor_absoluto = fitnessInd;
+				this.elMejor = ind;
+			}
+			if(fitnessInd > this.mejor_generacion) this.mejor_generacion = fitnessInd;
+		}
+		this.media_generacion /= this.poblacion.length;
 	}
 	
 	private void generaGrafica() {
-		
+		System.out.print("Generacion " + this.generacionActual + " " + this.mejor_absoluto);
 	}
 	
 	private void elegirSeleccion() {

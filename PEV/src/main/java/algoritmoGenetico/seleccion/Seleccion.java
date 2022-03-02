@@ -2,7 +2,7 @@ package algoritmoGenetico.seleccion;
 
 import algoritmoGenetico.individuos.Individuo;
 
-public abstract class Seleccion<T> {
+public abstract class Seleccion {
 	
-	public abstract Individuo<T>[] seleccionar(Individuo<T>[] individuos, double [] fitness);
+	public abstract Individuo[] seleccionar(Individuo[] individuos, double [] fitness);
 }

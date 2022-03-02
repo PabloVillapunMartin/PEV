@@ -6,7 +6,7 @@ import java.util.Random;
 
 import algoritmoGenetico.individuos.Individuo;
 
-public class SeleccionTorneoProbabilistico<T> extends Seleccion<T> {
+public class SeleccionTorneoProbabilistico extends Seleccion {
 	
 	private Random rnd;
 	
@@ -15,9 +15,9 @@ public class SeleccionTorneoProbabilistico<T> extends Seleccion<T> {
 	}
 	
 	@Override
-	public Individuo<T>[] seleccionar(Individuo<T>[] individuos, double[] fitness) {
+	public Individuo[] seleccionar(Individuo[] individuos, double[] fitness) {
 		int n = individuos.length;
-		List<Individuo<T>> individuosSeleccionados = new ArrayList<Individuo<T>>();
+		List<Individuo> individuosSeleccionados = new ArrayList<Individuo>();
 		float p = 0.55f;
 		for(int i = 0; i< n; i++) {			
 			int mejorIndividuo = rnd.nextInt(n);	
@@ -38,7 +38,7 @@ public class SeleccionTorneoProbabilistico<T> extends Seleccion<T> {
 				individuosSeleccionados.add(individuos[peorIndividuo]);		
 		}
 		
-		return (Individuo<T>[]) individuosSeleccionados.toArray();
+		return (Individuo[]) individuosSeleccionados.toArray();
 	}
 
 }

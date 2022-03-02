@@ -6,16 +6,16 @@ import java.util.Random;
 
 import algoritmoGenetico.individuos.Individuo;
 
-public class SeleccionTorneoDeterministico<T> extends Seleccion<T> {
+public class SeleccionTorneoDeterministico extends Seleccion {
 
 	Random rnd;
 	public SeleccionTorneoDeterministico() {
 		this.rnd = new Random();
 	}
 	@Override
-	public Individuo<T>[] seleccionar(Individuo<T>[] individuos, double[] fitness) {
+	public Individuo[] seleccionar(Individuo[] individuos, double[] fitness) {
 		int n = individuos.length;
-		List<Individuo<T>> individuosSeleccionados = new ArrayList<Individuo<T>>();
+		List<Individuo> individuosSeleccionados = new ArrayList<Individuo>();
 		
 		//por cada proceso se toma el mejor de los individuos de un conjuntos tomados al azar
 		//de la poblacion base
@@ -30,6 +30,6 @@ public class SeleccionTorneoDeterministico<T> extends Seleccion<T> {
 			individuosSeleccionados.add(individuos[mejorIndividuo]);
 		}
 		
-		return (Individuo<T>[]) individuosSeleccionados.toArray();
+		return (Individuo[]) individuosSeleccionados.toArray();
 	}
 }
