@@ -7,7 +7,7 @@ import algoritmoGenetico.AlgoritmoGenetico.TipoSeleccion;
 public class Main {
 	public static void main(String[] args) {
 		AlgoritmoGenetico AG = new AlgoritmoGenetico();
-		AG.configure(100, 2, 50, TipoCruce.monopunto, TipoSeleccion.porRuleta, 0.1f, 0.6f);
+		AG.configure(100, 2, 150, TipoCruce.monopunto, TipoSeleccion.porRuleta, 0.1f, 0.6f,0);
 		AG.run();
 	}
 }

@@ -28,19 +28,19 @@ public class SeleccionEstocasticaUniversal extends Seleccion {
 		}
 		
 		float puntoInicial = rnd.nextFloat() * distancia;
-		List<Individuo> individuosSeleccionados = new ArrayList<Individuo>();
+		Individuo [] individuosSeleccionados = new Individuo[individuos.length];
 		for(int i = 0; i < n; ++i) {
 			float puntoActual = (puntoInicial + distancia * i)/n;
 			
 			for(int j = 0; j < n; ++j) {
 				if(puntoActual < probSeleccion[j]) {
-					individuosSeleccionados.add(individuos[j]);
+					individuosSeleccionados[i] = individuos[j];
 					break;
 				}
 			}
 		}
 		
-		return (Individuo[]) individuosSeleccionados.toArray();
+		return individuosSeleccionados;
 	}
 
 

@@ -30,6 +30,5 @@ public abstract class Individuo<T> {
 	
 	public abstract double getValor();
 
-	public abstract double getFitness();
-	
+	public abstract double getFitness();	
 }

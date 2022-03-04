@@ -4,13 +4,21 @@ import java.util.Random;
 
 import algoritmoGenetico.seleccion.Seleccion;
 
-public class IndividuoFuncion1 extends Individuo<Boolean> {
+public class IndividuoFuncion1 extends Individuo<Boolean> implements Comparable<IndividuoFuncion1>{
 	
 	private double min[];
 	private double max[];
 	private double valorError;
 	
 	private Random rand;
+	
+	public IndividuoFuncion1(IndividuoFuncion1 ind) {
+		this.cromosoma = ind.cromosoma;
+		this.max = ind.max;
+		this.min = ind.min;
+		this.valorError = ind.valorError;
+		this.tamGenes = ind.tamGenes;
+	}
 	
 	public IndividuoFuncion1() {
 		this.tamGenes = new int[2];
@@ -34,15 +42,21 @@ public class IndividuoFuncion1 extends Individuo<Boolean> {
 
 	public double bin2dec(int genIndex) {
 		int valorDecimal = 0;
-		int indice = 0;
-		if(genIndex == 1)
-			indice = this.tamGenes[0];			
-		
-        for(int i = indice; i < this.tamGenes[genIndex] + indice; ++i) {
-        	if(this.cromosoma[i]) {
-        		valorDecimal += Math.pow(2,this.tamGenes[genIndex] - 1 - i);
-           	}
-        }
+
+		if(genIndex == 0) {
+			for(int i = this.tamGenes[genIndex] - 1; i > 0; --i) {
+				if(this.cromosoma[i]) {
+					valorDecimal += Math.pow(2,i);
+				}
+			}			
+		}
+		else {
+			for(int i = 0; i < this.tamGenes[genIndex]; ++i) {
+				if(this.cromosoma[i + this.tamGenes[1]]) {
+					valorDecimal += Math.pow(2,i);
+				}
+			}	
+		}
 		 
         return valorDecimal;
     }
@@ -68,7 +82,13 @@ public class IndividuoFuncion1 extends Individuo<Boolean> {
 	
 	private double getFenotipo(int genIndex) {
 		return this.min[genIndex] + bin2dec(genIndex) *
-				(this.max[genIndex] - this.min[genIndex]) / (Math.pow(2, this.cromosoma.length) - 1);
+				((this.max[genIndex] - this.min[genIndex]) / (Math.pow(2, this.tamGenes[genIndex]) - 1.0));
+	}
+
+	public int compareTo(IndividuoFuncion1 o) {	
+		if(this.getFitness() - o.getFitness() > 0)
+			return 1;
+		else return 0;
 	}
 	
 }
