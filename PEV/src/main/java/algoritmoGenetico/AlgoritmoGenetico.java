@@ -55,10 +55,10 @@ public class AlgoritmoGenetico {
 		this.maxGeneraciones = maxGeneraciones;
 		this.probMutacion = probMutacion;
 		this.probCruce = probCruce;
-		this.mutacion = new MutacionBasica(this.probMutacion);
 		this.tipoCruce = tipoCruce;
 		this.tipoSeleccion = tipoSeleccion;
 		this.perElite = perElite;
+		this.mutacion = new MutacionBasica(this.probMutacion);
 		elegirSeleccion();
 		elegirCruce();
 	}
