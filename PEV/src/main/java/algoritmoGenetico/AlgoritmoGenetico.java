@@ -4,12 +4,14 @@ import java.util.Arrays;
 
 import algoritmoGenetico.cruces.Cruce;
 import algoritmoGenetico.cruces.CruceMonopunto;
+import algoritmoGenetico.cruces.CruceUniforme;
 import algoritmoGenetico.individuos.Individuo;
 import algoritmoGenetico.individuos.IndividuoFuncion1;
 import algoritmoGenetico.mutacion.Mutacion;
 import algoritmoGenetico.mutacion.MutacionBasica;
 import algoritmoGenetico.seleccion.Seleccion;
 import algoritmoGenetico.seleccion.SeleccionEstocasticaUniversal;
+import algoritmoGenetico.seleccion.SeleccionRestos;
 import algoritmoGenetico.seleccion.SeleccionRuleta;
 import algoritmoGenetico.seleccion.SeleccionTorneoDeterministico;
 import algoritmoGenetico.seleccion.SeleccionTorneoProbabilistico;
@@ -23,18 +25,17 @@ public class AlgoritmoGenetico {
 	TipoSeleccion tipoSeleccion = TipoSeleccion.porRuleta;
 	TipoCruce tipoCruce = TipoCruce.monopunto;
 	
-	private int generacionActual;
+	private int generacionActual;	//generacion por la que va el algoritmo
 	
-	private int tamPoblacion;
-	private int tamTorneo;
-	private int perElite;
-	private int maxGeneraciones;
+	private int tamPoblacion;		//tamaño de la poblacion
+	private int perElite;			//porcentaje de la elite
+	private int maxGeneraciones;	//numero de generaciones a ejecutar el algoritmo
 	
-	private double mejor_absoluto;
-	private double mejor_generacion;
-	private double media_generacion;
+	private double mejor_absoluto;		//mejor valor obtenido de todas las generaciones
+	private double mejor_generacion;	//mejor obtenido en la generacion actual
+	private double media_generacion;	//media de la generacion actual
 	
-	private float probCruce;
+	private float probCruce;		//probabilidad de cruce
 	private float probMutacion;
 	
 	private double[] fitness;
@@ -48,10 +49,10 @@ public class AlgoritmoGenetico {
 	private Cruce cruce;
 	
 	
-	public void configure(int tamPoblacion, int tamTorneo, int maxGeneraciones,	TipoCruce tipoCruce, TipoSeleccion tipoSeleccion, 
+	public void configure(int tamPoblacion, int maxGeneraciones, TipoCruce tipoCruce, TipoSeleccion tipoSeleccion, 
 	float probMutacion, float probCruce, int perElite) {
+		
 		this.tamPoblacion = tamPoblacion;
-		this.tamTorneo = tamTorneo;
 		this.maxGeneraciones = maxGeneraciones;
 		this.probMutacion = probMutacion;
 		this.probCruce = probCruce;
@@ -135,13 +136,14 @@ public class AlgoritmoGenetico {
 			case torneoDet: 	this.seleccion = new SeleccionTorneoDeterministico(); 	break;
 			case torneoProb: 	this.seleccion = new SeleccionTorneoProbabilistico(); 	break;
 			case estoUniversal: this.seleccion = new SeleccionEstocasticaUniversal(); 	break;
-			case truncamiento: 	this.seleccion = new SeleccionTruncamiento(); break;
+			case truncamiento: 	this.seleccion = new SeleccionTruncamiento(); 			break;
+			case restos: 		this.seleccion = new SeleccionRestos(); 				break;
 		}
 	}
 	private void elegirCruce() {
 		switch(this.tipoCruce) {
 			case monopunto: this.cruce = new CruceMonopunto(this.probCruce); 				break;
-			case uniforme: break;
+			case uniforme:	this.cruce = new CruceUniforme(this.probCruce);					break;
 		}
 	}
 	
