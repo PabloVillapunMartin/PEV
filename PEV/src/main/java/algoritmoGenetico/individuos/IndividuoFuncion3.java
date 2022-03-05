@@ -2,15 +2,10 @@ package algoritmoGenetico.individuos;
 
 import java.util.Random;
 
-public class IndividuoFuncion3 extends Individuo<Boolean> implements Comparable<IndividuoFuncion2>{
+public class IndividuoFuncion3 extends Individuo<Boolean>{
 
 	public IndividuoFuncion3() {
 		
-	}
-
-	public int compareTo(IndividuoFuncion2 o) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	@Override
@@ -34,5 +29,10 @@ public class IndividuoFuncion3 extends Individuo<Boolean> implements Comparable<
 	protected void inicializaValores() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public int compareTo(Individuo o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

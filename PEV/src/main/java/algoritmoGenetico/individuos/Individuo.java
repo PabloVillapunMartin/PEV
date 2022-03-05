@@ -3,7 +3,7 @@ package algoritmoGenetico.individuos;
 import java.util.Random;
 
 /* Clase abstracta que codifica un individuo de una poblacion*/
-public abstract class Individuo<T> {
+public abstract class Individuo<T> implements Comparable<Individuo> {
 	T[] cromosoma;	//codificación de un cromosoma
 	int[] tamGenes;	//tamaño de los genes del individuo
 	

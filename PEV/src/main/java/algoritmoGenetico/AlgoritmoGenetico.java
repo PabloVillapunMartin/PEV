@@ -129,6 +129,7 @@ public class AlgoritmoGenetico {
 		}
 		//Asignamos el mejor absoluto a 0
 		this.mejor_absoluto = 0;
+		this.elMejor = this.poblacion[0];
 	}
 	
 	/*
@@ -146,8 +147,8 @@ public class AlgoritmoGenetico {
 		//Mejor individuo de la generacion
 		this.mejor_generacion = this.poblacion[0].getValor();
 		
-		//Comprobamos si hemos obtenido el mejor absoluto hasta el momento TODO: Hacer generico esto
-		if(this.mejor_generacion < this.mejor_absoluto) {
+		//Comprobamos si hemos obtenido el mejor absoluto hasta el momento
+		if(this.poblacion[0].compareTo(elMejor) < 0) {
 			this.mejor_absoluto = this.mejor_generacion;
 			this.elMejor = this.poblacion[0];
 		}

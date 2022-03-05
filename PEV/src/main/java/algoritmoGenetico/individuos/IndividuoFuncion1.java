@@ -5,7 +5,7 @@ import java.util.Random;
 
 import algoritmoGenetico.seleccion.Seleccion;
 
-public class IndividuoFuncion1 extends Individuo<Boolean> implements Comparable<IndividuoFuncion1>{
+public class IndividuoFuncion1 extends Individuo<Boolean>{
 	
 	private double min[];
 	private double max[];
@@ -33,14 +33,6 @@ public class IndividuoFuncion1 extends Individuo<Boolean> implements Comparable<
 		this.rand = new Random();
 	}
 	
-	public int compareTo(IndividuoFuncion1 o) {	
-		if(this.getValor() - o.getValor() > 0)
-			return -1;
-		if(this.getValor() - o.getValor() < 0)
-			return 1;
-		else return 0;
-	}
-	
 	@Override
 	public double getValor() {
 		double x1 = this.getFenotipo(0), x2 = this.getFenotipo(1);
@@ -58,6 +50,14 @@ public class IndividuoFuncion1 extends Individuo<Boolean> implements Comparable<
 	@Override
 	public double getFitness() {
 		return this.getValor();
+	}
+	
+	public int compareTo(Individuo o) {
+		if(this.getValor() - o.getValor() > 0)
+			return -1;
+		if(this.getValor() - o.getValor() < 0)
+			return 1;
+		else return 0;
 	}
 	
 	private double bin2dec(int genIndex) {

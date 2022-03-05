@@ -3,7 +3,7 @@ package algoritmoGenetico.individuos;
 import java.util.Arrays;
 import java.util.Random;
 
-public class IndividuoFuncion2 extends Individuo<Boolean> implements Comparable<IndividuoFuncion2> {
+public class IndividuoFuncion2 extends Individuo<Boolean> {
 
 	private double min[];
 	private double max[];
@@ -29,14 +29,6 @@ public class IndividuoFuncion2 extends Individuo<Boolean> implements Comparable<
 		
 		rand = new Random();
 	}
-	
-	public int compareTo(IndividuoFuncion2 o) {
-		if(this.getValor() - o.getValor() > 0)
-			return 1;
-		if(this.getValor() - o.getValor() < 0)
-			return -1;
-		else return 0;
-	}
 
 	@Override
 	public double getValor() {
@@ -61,6 +53,14 @@ public class IndividuoFuncion2 extends Individuo<Boolean> implements Comparable<
 	@Override
 	public double getFitness() {
 		return this.getValor() + 187;
+	}
+	
+	public int compareTo(Individuo o) {
+		if(this.getValor() - o.getValor() > 0)
+			return 1;
+		if(this.getValor() - o.getValor() < 0)
+			return -1;
+		else return 0;
 	}
 	
 	private double getFenotipo(int genIndex) {
