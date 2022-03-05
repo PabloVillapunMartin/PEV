@@ -13,6 +13,7 @@ import algoritmoGenetico.seleccion.SeleccionEstocasticaUniversal;
 import algoritmoGenetico.seleccion.SeleccionRuleta;
 import algoritmoGenetico.seleccion.SeleccionTorneoDeterministico;
 import algoritmoGenetico.seleccion.SeleccionTorneoProbabilistico;
+import algoritmoGenetico.seleccion.SeleccionTruncamiento;
 
 public class AlgoritmoGenetico {
 	
@@ -72,6 +73,7 @@ public class AlgoritmoGenetico {
 			for(int i = 0; i < this.perElite; i++) {
 				this.elite[i] = new IndividuoFuncion1((IndividuoFuncion1)this.poblacion[i]);
 			}*/
+			this.poblacion = this.seleccion.seleccionar(this.poblacion, fitness);
 			this.poblacion = this.cruce.cruzar(this.poblacion);
 			this.poblacion = this.mutacion.mutar(this.poblacion);
 			evaluar();
@@ -94,6 +96,8 @@ public class AlgoritmoGenetico {
 	
 	private void evaluar() {
 	
+		guardarFitness();
+		
 		double fitnessInd = 0;
 		this.mejor_generacion = 0;
 		this.media_generacion = 0;
@@ -130,6 +134,7 @@ public class AlgoritmoGenetico {
 			case torneoDet: 	this.seleccion = new SeleccionTorneoDeterministico(); 	break;
 			case torneoProb: 	this.seleccion = new SeleccionTorneoProbabilistico(); 	break;
 			case estoUniversal: this.seleccion = new SeleccionEstocasticaUniversal(); 	break;
+			case truncamiento: 	this.seleccion = new SeleccionTruncamiento(); break;
 		}
 	}
 	private void elegirCruce() {

@@ -5,6 +5,7 @@ import java.util.Random;
 public abstract class Individuo<T> {
 	T[] cromosoma;
 	int[] tamGenes;
+	double fitness;
 	
 	public T[] getCromosoma() {
 		return cromosoma;

@@ -69,7 +69,8 @@ public class IndividuoFuncion1 extends Individuo<Boolean> implements Comparable<
 
 	@Override
 	public double getFitness() {
-		return getValor();
+		this.fitness = getValor();
+		return this.fitness;
 	}
 
 	@Override

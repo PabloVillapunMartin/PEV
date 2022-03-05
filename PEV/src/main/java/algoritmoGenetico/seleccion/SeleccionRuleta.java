@@ -19,30 +19,28 @@ public class SeleccionRuleta extends Seleccion {
 		int n = individuos.length;
 		Individuo [] individuosSeleccionados = new Individuo[individuos.length];
 		
-		double [] punt_acu = new double [n];
+		double [] punt_acu = new double [n + 1];
 		double sumaFitness = 0;
 		for(int i = 0; i < n; ++i) {
-			sumaFitness += individuos[i].getFitness();
 			punt_acu[i] = sumaFitness;
+			sumaFitness += individuos[i].getFitness();
 		}
 		for(int i = 0; i < n; ++i) {
 			punt_acu[i] /=sumaFitness;
 		}
+		punt_acu[n] = 1.0;
 		
-		
-		double fitnessAcumulado;
 		//Proceso de seleccion
 		float prob = 0.0f;
 		int pos_super = 0;
 		for(int i = 0; i < n; ++i) {
 			prob = rnd.nextFloat();
 			pos_super = 0;
-			fitnessAcumulado = 0;
 			
-			while(prob > punt_acu[pos_super] && pos_super < n){
+			while(prob > punt_acu[pos_super]){
 				pos_super++;
 			}
-			individuosSeleccionados[i] = individuos[pos_super];
+			individuosSeleccionados[i] = individuos[pos_super - 1];
 		}
 		
 
