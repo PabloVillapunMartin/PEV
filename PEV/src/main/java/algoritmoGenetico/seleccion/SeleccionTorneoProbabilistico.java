@@ -15,9 +15,9 @@ public class SeleccionTorneoProbabilistico extends Seleccion {
 	}
 	
 	@Override
-	public Individuo[] seleccionar(Individuo[] individuos, double[] fitness) {
+	public int[] seleccionar(Individuo[] individuos, double[] fitness) {
 		int n = individuos.length;
-		List<Individuo> individuosSeleccionados = new ArrayList<Individuo>();
+		int[] individuosSeleccionados = new int[n];
 		float p = 0.55f;
 		for(int i = 0; i< n; i++) {			
 			int mejorIndividuo = rnd.nextInt(n);	
@@ -33,12 +33,12 @@ public class SeleccionTorneoProbabilistico extends Seleccion {
 			//Elegimos de forma probabilistica
 			float random = rnd.nextFloat();
 			if(random > p)
-				individuosSeleccionados.add(individuos[mejorIndividuo]);
+				individuosSeleccionados[i] = mejorIndividuo;
 			else
-				individuosSeleccionados.add(individuos[peorIndividuo]);		
+				individuosSeleccionados[i] = peorIndividuo;		
 		}
 		
-		return (Individuo[]) individuosSeleccionados.toArray();
+		return individuosSeleccionados;
 	}
 
 }

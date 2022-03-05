@@ -73,12 +73,11 @@ public class AlgoritmoGenetico {
 			for(int i = 0; i < this.perElite; i++) {
 				this.elite[i] = new IndividuoFuncion1((IndividuoFuncion1)this.poblacion[i]);
 			}*/
-			this.poblacion = this.seleccion.seleccionar(this.poblacion, fitness);
+			seleccionar();
 			this.poblacion = this.cruce.cruzar(this.poblacion);
 			this.poblacion = this.mutacion.mutar(this.poblacion);
 			evaluar();
-			generaGrafica();
-			
+			generaGrafica();		
 			
 			this.generacionActual++;
 		}
@@ -125,7 +124,14 @@ public class AlgoritmoGenetico {
 	
 	private void generaGrafica() {
 		System.out.println("Generacion " + this.generacionActual + " " + this.mejor_absoluto
-				+ " MejorGen: " + this.mejor_generacion);
+				+ " MejorGen: " + this.mejor_generacion + " Media : " + this.media_generacion);
+	}
+	
+	private void seleccionar(){
+		int[] seleccionados = this.seleccion.seleccionar(this.poblacion, fitness);
+		for(int i = 0; i < this.tamPoblacion; i++){
+			this.poblacion[i] = new IndividuoFuncion1((IndividuoFuncion1)this.poblacion[i]);
+		}
 	}
 	
 	private void elegirSeleccion() {

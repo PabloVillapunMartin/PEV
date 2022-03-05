@@ -22,35 +22,37 @@ public class CruceMonopunto extends Cruce {
 		int n = individuos.length;
 		Boolean[] visitados = new Boolean[n];		
 		Arrays.fill(visitados, false);
-		
+			
 		if(n%2 != 0) n--;
 		for(int i = 0; i< n; ++i) {
-			float rnd = random.nextFloat();
-			if(rnd <= this.probCruce && !visitados[i]) {
-							
+			if(!visitados[i]){
 				visitados[i] = true;
-				int segundoProg = random.nextInt(n);
-				while(visitados[segundoProg] ) {
-					segundoProg = (segundoProg + 1)%n;
-				}
-			
-				visitados[segundoProg] = true;
-				int puntoDeCorte = random.nextInt(individuos[i].getCromosoma().length);
-							
-				for(int j = 0; j < puntoDeCorte; j++) {					
-					Object aux = individuos[i].getCromosoma()[j];
-					individuos[i].getCromosoma()[j] = individuos[segundoProg].getCromosoma()[j];
-					individuos[segundoProg].getCromosoma()[j] = aux;
-				}
-				for(int j = puntoDeCorte; j < individuos[i].getCromosoma().length; j++) {
-					Object aux = individuos[segundoProg].getCromosoma()[j];
-					individuos[segundoProg].getCromosoma()[j] = individuos[i].getCromosoma()[j];
-					individuos[i].getCromosoma()[j] = aux;
+				int padre2 = buscarIndividuo(visitados, n);
+				
+				float rnd = random.nextFloat();
+				if(rnd <= this.probCruce) {
+					
+					int puntoDeCorte = random.nextInt(individuos[i].getCromosoma().length);					
+					for(int j = 0; j < individuos[i].getCromosoma().length; j++) {		
+						if(j < puntoDeCorte)
+							individuos[padre2].getCromosoma()[j] = individuos[i].getCromosoma()[j];
+						else 
+							individuos[i].getCromosoma()[j] = individuos[padre2].getCromosoma()[j];
+					}
 				}
 			}
 		}
 			
 		return individuos;
+	}
+	
+	private int buscarIndividuo(Boolean[] visitados, int n){
+		int i = 0;
+		while(visitados[i] ) {
+			i = (i + 1)%n;
+		}
+		visitados[i] = true;
+		return i;
 	}
 
 }

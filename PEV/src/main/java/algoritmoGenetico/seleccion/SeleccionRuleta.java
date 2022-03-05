@@ -15,9 +15,9 @@ public class SeleccionRuleta extends Seleccion {
 	}
 	
 	@Override
-	public Individuo[] seleccionar(Individuo[] individuos, double[] fitness) {
+	public int[] seleccionar(Individuo[] individuos, double[] fitness) {
 		int n = individuos.length;
-		Individuo [] individuosSeleccionados = new Individuo[individuos.length];
+		int [] individuosSeleccionados = new int[individuos.length];
 		
 		double [] punt_acu = new double [n + 1];
 		double sumaFitness = 0;
@@ -40,7 +40,7 @@ public class SeleccionRuleta extends Seleccion {
 			while(prob > punt_acu[pos_super]){
 				pos_super++;
 			}
-			individuosSeleccionados[i] = individuos[pos_super - 1];
+			individuosSeleccionados[i] = pos_super - 1;
 		}
 		
 

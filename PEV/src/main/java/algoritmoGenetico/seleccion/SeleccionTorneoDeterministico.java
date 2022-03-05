@@ -13,9 +13,9 @@ public class SeleccionTorneoDeterministico extends Seleccion {
 		this.rnd = new Random();
 	}
 	@Override
-	public Individuo[] seleccionar(Individuo[] individuos, double[] fitness) {
+	public int[] seleccionar(Individuo[] individuos, double[] fitness) {
 		int n = individuos.length;
-		List<Individuo> individuosSeleccionados = new ArrayList<Individuo>();
+		int[] individuosSeleccionados = new int[n];
 		
 		//por cada proceso se toma el mejor de los individuos de un conjuntos tomados al azar
 		//de la poblacion base
@@ -27,9 +27,9 @@ public class SeleccionTorneoDeterministico extends Seleccion {
 				if(individuos[aux].getFitness() > individuos[mejorIndividuo].getFitness())
 					mejorIndividuo = aux;
 			}
-			individuosSeleccionados.add(individuos[mejorIndividuo]);
+			individuosSeleccionados[i] = mejorIndividuo;
 		}
 		
-		return (Individuo[]) individuosSeleccionados.toArray();
+		return individuosSeleccionados;
 	}
 }

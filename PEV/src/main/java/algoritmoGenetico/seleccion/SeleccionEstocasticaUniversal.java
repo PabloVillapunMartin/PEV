@@ -10,7 +10,7 @@ public class SeleccionEstocasticaUniversal extends Seleccion {
 	Random rnd = new Random(); 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Individuo[] seleccionar(Individuo[] individuos, double [] fitness) {
+	public int[] seleccionar(Individuo[] individuos, double [] fitness) {
 		int n = individuos.length;
 		float distancia = 1 / n;
 		double mediaFitness = 0;
@@ -28,13 +28,13 @@ public class SeleccionEstocasticaUniversal extends Seleccion {
 		}
 		
 		float puntoInicial = rnd.nextFloat() * distancia;
-		Individuo [] individuosSeleccionados = new Individuo[individuos.length];
+		int [] individuosSeleccionados = new int[individuos.length];
 		for(int i = 0; i < n; ++i) {
 			float puntoActual = (puntoInicial + distancia * i)/n;
 			
 			for(int j = 0; j < n; ++j) {
 				if(puntoActual < probSeleccion[j]) {
-					individuosSeleccionados[i] = individuos[j];
+					individuosSeleccionados[i] = j;
 					break;
 				}
 			}

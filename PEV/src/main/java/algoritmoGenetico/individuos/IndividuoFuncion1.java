@@ -1,5 +1,6 @@
 package algoritmoGenetico.individuos;
 
+import java.util.Arrays;
 import java.util.Random;
 
 import algoritmoGenetico.seleccion.Seleccion;
@@ -12,28 +13,16 @@ public class IndividuoFuncion1 extends Individuo<Boolean> implements Comparable<
 	
 	private Random rand;
 	
-	public IndividuoFuncion1(IndividuoFuncion1 ind) {
-		this.cromosoma = ind.cromosoma;
-		this.max = ind.max;
-		this.min = ind.min;
-		this.valorError = ind.valorError;
-		this.tamGenes = ind.tamGenes;
+	public IndividuoFuncion1(IndividuoFuncion1 ind) {	
+		int tamTotal = inicializaValores();
+		this.cromosoma = new Boolean[tamTotal];
+		for(int i = 0; i < cromosoma.length; i++){
+			this.cromosoma[i] = ind.cromosoma[i];
+		}
 	}
 	
 	public IndividuoFuncion1() {
-		this.tamGenes = new int[2];
-		this.min = new double[2];
-		this.max = new double[2];
-		this.min[0] = -3.000;
-		this.min[1] = 4.100;
-		this.max[0] = 12.100;
-		this.max[1] = 5.800;
-		this.valorError = 0.001;
-		this.tamGenes[0] = this.tamGen(this.valorError, min[0], max[0]);
-		this.tamGenes[1] = this.tamGen(this.valorError, min[1], max[1]);
-		int tamTotal = tamGenes[0] + tamGenes[1];
-		this.cromosoma = new Boolean[tamTotal];
-		
+		int tamTotal = inicializaValores();		
 		this.rand = new Random();
 		
 		for(int i = 0; i < tamTotal; i++)  
@@ -41,24 +30,17 @@ public class IndividuoFuncion1 extends Individuo<Boolean> implements Comparable<
 	}
 
 	public double bin2dec(int genIndex) {
-		int valorDecimal = 0;
+		int inicio = 0;
+		if(genIndex == 1)
+			inicio += this.tamGenes[0];
+		Boolean values[] = Arrays.copyOfRange(this.cromosoma, inicio, inicio + this.tamGenes[genIndex]);
+		
+		long result = 0;
+        for (boolean bit : values) {
+            result = result * 2 + (bit ? 1 : 0);
+        }
 
-		if(genIndex == 0) {
-			for(int i = this.tamGenes[genIndex] - 1; i > 0; --i) {
-				if(this.cromosoma[i]) {
-					valorDecimal += Math.pow(2,i);
-				}
-			}			
-		}
-		else {
-			for(int i = 0; i < this.tamGenes[genIndex]; ++i) {
-				if(this.cromosoma[i + this.tamGenes[1]]) {
-					valorDecimal += Math.pow(2,i);
-				}
-			}	
-		}
-		 
-        return valorDecimal;
+        return result;
     }
 	
 	@Override
@@ -81,15 +63,31 @@ public class IndividuoFuncion1 extends Individuo<Boolean> implements Comparable<
 		}
 	}
 	
-	private double getFenotipo(int genIndex) {
-		return this.min[genIndex] + bin2dec(genIndex) *
-				((this.max[genIndex] - this.min[genIndex]) / (Math.pow(2, this.tamGenes[genIndex]) - 1.0));
-	}
-
 	public int compareTo(IndividuoFuncion1 o) {	
 		if(this.getFitness() - o.getFitness() > 0)
 			return -1;
 		else return 1;
+	}
+	
+	private double getFenotipo(int genIndex) {
+		return this.min[genIndex] + bin2dec(genIndex) *
+				((this.max[genIndex] - this.min[genIndex]) / (Math.pow(2, this.tamGenes[genIndex]) - 1.0));
+	}
+	
+	private int inicializaValores(){
+		this.tamGenes = new int[2];
+		this.min = new double[2];
+		this.max = new double[2];
+		this.min[0] = -3.000;
+		this.min[1] = 4.100;
+		this.max[0] = 12.100;
+		this.max[1] = 5.800;
+		this.valorError = 0.001;
+		this.tamGenes[0] = this.tamGen(this.valorError, min[0], max[0]);
+		this.tamGenes[1] = this.tamGen(this.valorError, min[1], max[1]);
+		int tamTotal = tamGenes[0] + tamGenes[1];
+		this.cromosoma = new Boolean[tamTotal];
+		return tamTotal;
 	}
 	
 }

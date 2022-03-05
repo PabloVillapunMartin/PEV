@@ -10,9 +10,9 @@ public class SeleccionTruncamiento extends Seleccion {
 	private float truncamiento = 0.5f;
 	
 	@Override
-	public Individuo[] seleccionar(Individuo[] individuos, double[] fitness) {
+	public int[] seleccionar(Individuo[] individuos, double[] fitness) {
 		int n = individuos.length;
-		Individuo [] individuosSeleccionados = new Individuo[individuos.length];
+		int [] individuosSeleccionados = new int[individuos.length];
 		
 		//Ordenar array de mayor a menor
 		Arrays.sort(individuos);
@@ -20,7 +20,7 @@ public class SeleccionTruncamiento extends Seleccion {
 		float offset = (n*truncamiento) / n;
 		float index = 0;
 		for(int i = 0; i < n; ++i) {
-			individuosSeleccionados[i] = individuos[(int)index];
+			individuosSeleccionados[i] = (int)index;
 			index += offset;
 		}
 		
