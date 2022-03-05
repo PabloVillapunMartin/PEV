@@ -28,20 +28,6 @@ public class IndividuoFuncion1 extends Individuo<Boolean> implements Comparable<
 		for(int i = 0; i < tamTotal; i++)  
 			this.cromosoma[i] = this.rand.nextBoolean();
 	}
-
-	public double bin2dec(int genIndex) {
-		int inicio = 0;
-		if(genIndex == 1)
-			inicio += this.tamGenes[0];
-		Boolean values[] = Arrays.copyOfRange(this.cromosoma, inicio, inicio + this.tamGenes[genIndex]);
-		
-		long result = 0;
-        for (boolean bit : values) {
-            result = result * 2 + (bit ? 1 : 0);
-        }
-
-        return result;
-    }
 	
 	@Override
 	public double getValor() {
@@ -70,6 +56,20 @@ public class IndividuoFuncion1 extends Individuo<Boolean> implements Comparable<
 			return 1;
 		else return 0;
 	}
+	
+	private double bin2dec(int genIndex) {
+		int inicio = 0;
+		if(genIndex == 1)
+			inicio += this.tamGenes[0];
+		Boolean values[] = Arrays.copyOfRange(this.cromosoma, inicio, inicio + this.tamGenes[genIndex]);
+		
+		long result = 0;
+        for (boolean bit : values) {
+            result = result * 2 + (bit ? 1 : 0);
+        }
+
+        return result;
+    }
 	
 	private double getFenotipo(int genIndex) {
 		return this.min[genIndex] + bin2dec(genIndex) *

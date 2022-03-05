@@ -44,7 +44,7 @@ public class SeleccionRestos extends Seleccion {
 				
 		}
 		
-		return null;
+		return individuosSeleccionados;
 	}
 	
 	public int ruleta(double [] punt_acu){

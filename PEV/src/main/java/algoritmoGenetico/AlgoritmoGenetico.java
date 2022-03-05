@@ -28,7 +28,6 @@ public class AlgoritmoGenetico {
 	private int generacionActual;	//generacion por la que va el algoritmo
 	
 	private int tamPoblacion;		//tamaño de la poblacion
-	private int perElite;			//porcentaje de la elite
 	private int maxGeneraciones;	//numero de generaciones a ejecutar el algoritmo
 	
 	private double mejor_absoluto;		//mejor valor obtenido de todas las generaciones
@@ -36,70 +35,109 @@ public class AlgoritmoGenetico {
 	private double media_generacion;	//media de la generacion actual
 	
 	private float probCruce;		//probabilidad de cruce
-	private float probMutacion;
+	private float probMutacion;		//probabilidad de mutacion
+	private float perElite;			//porcentaje de la elite
 	
-	private double[] fitness;
+	private double[] fitness;		//fitness de los individuos
 	
-	private Individuo[] poblacion;
-	private Individuo elMejor;
-	private Individuo[] elite;
+	private Individuo[] poblacion;	//poblacion actual
+	private Individuo elMejor;		//el mejor individuo encontrado hasta el momento
+	private Individuo[] elite;		//elite guardada
 	
-	private Seleccion seleccion;
-	private Mutacion mutacion;
-	private Cruce cruce;
+	private Seleccion seleccion;	//Método de seleccion
+	private Mutacion mutacion;		//Método de mutación
+	private Cruce cruce;			//Método de cruce
+	
+	private boolean conElite;		//Si se desea ejecutar el algoritmo con elite o sin ella
 	
 	
-	public void configure(int tamPoblacion, int maxGeneraciones, TipoCruce tipoCruce, TipoSeleccion tipoSeleccion, 
-	float probMutacion, float probCruce, int perElite) {
+	/*
+	 * Configura todo lo necesario para iniciar el algoritmo evolutivo
+	 * @params tamPoblacion tamaño de la poblacion con la que se quiere realizar el algoritmo
+	 * @param maxGeneraciones numero maximo de generaciones que se va a ejecutar el algoritmo
+	 * @param tipoCruce tipo de cruce que se va a ejecutar
+	 * @param tipoSeleccion tipo de seleccion que se va a ejecutar
+	 * @param probMutacion probabilidad de mutacion
+	 * @param probCruce probabilidad de cruce
+	 * @param perElite porcentaje de elite
+	 * */
+	public void configura(int tamPoblacion, int maxGeneraciones, TipoCruce tipoCruce, TipoSeleccion tipoSeleccion, 
+	float probMutacion, float probCruce, float perElite, boolean elite) {
 		
 		this.tamPoblacion = tamPoblacion;
 		this.maxGeneraciones = maxGeneraciones;
+		
 		this.probMutacion = probMutacion;
 		this.probCruce = probCruce;
+		
 		this.tipoCruce = tipoCruce;
 		this.tipoSeleccion = tipoSeleccion;
+		
 		this.perElite = perElite;
+		this.conElite = elite;
+		
 		this.mutacion = new MutacionBasica(this.probMutacion);
 		elegirSeleccion();
 		elegirCruce();
 	}
 	
+	/* 
+	 * Ejecuta el algoritmo inicializando la poblacion. Contiene el bucle principal que se 
+	 * ejecuta hasta terminar el numero de generaciones.
+	 * */
 	public void run() {
 			
 		iniciarPoblacion();
 		evaluar();
 		while(this.generacionActual < this.maxGeneraciones) {
-		
-			/*Arrays.sort(this.poblacion);
-			for(int i = 0; i < this.perElite; i++) {
-				this.elite[i] = new IndividuoFuncion1((IndividuoFuncion1)this.poblacion[i]);
-			}*/
+			
+			if(conElite)
+				guardarElite();
 			seleccionar();
 			this.poblacion = this.cruce.cruzar(this.poblacion);
 			this.poblacion = this.mutacion.mutar(this.poblacion);
-			evaluar();
+			
+			if(conElite)
+				preservarElite();
+			evaluar();			
 			generaGrafica();		
 			
 			this.generacionActual++;
 		}
 	}
 	
+	/*
+	 * Inicializa la poblacion con la información obtenida en los datos de la interfaz
+	 * */
 	private void iniciarPoblacion() {
+		//Inicializamos los arrays estáticos
 		this.poblacion = new Individuo[this.tamPoblacion];
 		this.fitness = new double[this.tamPoblacion];
-		this.elite = new Individuo[10];
+		this.elite = new Individuo[(int)(this.tamPoblacion * this.perElite)];
+		
+		//Inicializamos la poblacion con la función dada
 		for(int i = 0; i< this.tamPoblacion; ++i) {
 			this.poblacion[i] = new IndividuoFuncion1();
 		}
+		//Asignamos el mejor absoluto a 0
 		this.mejor_absoluto = 0;
 	}
 	
+	/*
+	 * Evalua la generacion actual comprobando si se ha superado al mejor absoluto
+	 * Calcula también el mejor de la generación y la media
+	 * */
 	private void evaluar() {
+		//Reset de variables
 		mejor_generacion = 0;
 		media_generacion = 0;
 		
+		//Para cada individuo comprueba si ha superado al mejor absoluto o al mejor
+		//de la generacion
 		for(int i = 0; i < this.tamPoblacion; i++){
 			double fitness = this.poblacion[i].getFitness();
+			//update de fitness
+			this.fitness[i] = fitness;
 			if(fitness > this.mejor_absoluto){
 				this.mejor_absoluto = fitness;
 				this.elMejor = this.poblacion[i];
@@ -107,15 +145,10 @@ public class AlgoritmoGenetico {
 			if(fitness > this.mejor_generacion){
 				this.mejor_generacion = fitness;
 			}
+			//Añiadiamos para despues calcular la media
 			media_generacion += fitness;
 		}
-		media_generacion /= this.tamPoblacion;
-		
-		/*Arrays.sort(this.poblacion);
-		for(int i = 0; i < this.perElite; i++) {
-			this.poblacion[this.tamPoblacion - 1 - i] = this.elite[i];
-		}*/
-			
+		media_generacion /= this.tamPoblacion;			
 	}
 	
 	private void generaGrafica() {
@@ -123,13 +156,20 @@ public class AlgoritmoGenetico {
 				+ " MejorGen: " + this.mejor_generacion + " Media : " + this.media_generacion);
 	}
 	
+	/*
+	 * Selecciona de entre los individuos de la poblacion usando el método de seleccion
+	 * obtenido por la interfaz
+	 * */
 	private void seleccionar(){
 		int[] seleccionados = this.seleccion.seleccionar(this.poblacion, fitness);
 		for(int i = 0; i < this.tamPoblacion; i++){
-			this.poblacion[i] = new IndividuoFuncion1((IndividuoFuncion1)this.poblacion[i]);
+			this.poblacion[i] = new IndividuoFuncion1((IndividuoFuncion1)this.poblacion[seleccionados[i]]);
 		}
 	}
 	
+	/* 
+	 * Crea el tipo de seleccion obtenido por la interfaz y lo guarda
+	 * */
 	private void elegirSeleccion() {
 		switch(this.tipoSeleccion) {
 			case porRuleta: 	this.seleccion = new SeleccionRuleta(); 				break;
@@ -140,6 +180,10 @@ public class AlgoritmoGenetico {
 			case restos: 		this.seleccion = new SeleccionRestos(); 				break;
 		}
 	}
+	
+	/*
+	 * Crea el tipo de cruce obtenido por la interfaz y lo guarda
+	 * */
 	private void elegirCruce() {
 		switch(this.tipoCruce) {
 			case monopunto: this.cruce = new CruceMonopunto(this.probCruce); 				break;
@@ -147,9 +191,22 @@ public class AlgoritmoGenetico {
 		}
 	}
 	
-	private void guardarFitness() {
-		for(int i = 0; i < this.tamPoblacion; ++i) {
-			this.fitness[i] = this.poblacion[i].getFitness();
+	/*
+	 * Guarda la elite de la poblacion
+	 * */
+	private void guardarElite(){
+		Arrays.sort(this.poblacion);
+		for(int i = 0; i < this.elite.length; i++) {
+			this.elite[i] = new IndividuoFuncion1((IndividuoFuncion1)this.poblacion[i]);
 		}
+	}
+	
+	/*
+	 * Introduc de nuevo la elite de la poblacion
+	 * */
+	private void preservarElite(){
+		Arrays.sort(this.poblacion);
+		for(int i = 0; i < this.elite.length; i++) 
+			this.poblacion[this.tamPoblacion - 1 - i] = this.elite[i];
 	}
 }
