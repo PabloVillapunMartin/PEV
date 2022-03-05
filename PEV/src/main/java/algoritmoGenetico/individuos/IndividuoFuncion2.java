@@ -3,48 +3,51 @@ package algoritmoGenetico.individuos;
 import java.util.Arrays;
 import java.util.Random;
 
-import algoritmoGenetico.seleccion.Seleccion;
+public class IndividuoFuncion2 extends Individuo<Boolean> implements Comparable<IndividuoFuncion2> {
 
-public class IndividuoFuncion1 extends Individuo<Boolean> implements Comparable<IndividuoFuncion1>{
-	
 	private double min[];
 	private double max[];
 	private double valorError;
 	
 	private Random rand;
 	
-	public IndividuoFuncion1() {
-		inicializaValores();		
+	public IndividuoFuncion2() {
+		inicializaValores();
 		
 		for(int i = 0; i < this.cromosoma.length; i++)  
 			this.cromosoma[i] = this.rand.nextBoolean();
 	}
 	
-	protected void inicializaValores(){
-		this.min = new double[] {-3.0, 4.1};
-		this.max = new double[] {12.1, 5.8};
+	protected void inicializaValores() {
 		this.valorError = 0.001;
+		this.min = new double[] {-10.0, -10.0};
+		this.max = new double[] {10.0, 10.0};
 		this.tamGenes = new int[2];
 		this.tamGenes[0] = this.tamGen(this.valorError, min[0], max[0]);
 		this.tamGenes[1] = this.tamGen(this.valorError, min[1], max[1]);
-		int tamTotal = tamGenes[0] + tamGenes[1];
-		this.cromosoma = new Boolean[tamTotal];
+		this.cromosoma = new Boolean[tamGenes[0] + tamGenes[1]];
 		
-		this.rand = new Random();
+		rand = new Random();
 	}
 	
-	public int compareTo(IndividuoFuncion1 o) {	
+	public int compareTo(IndividuoFuncion2 o) {
 		if(this.getValor() - o.getValor() > 0)
-			return -1;
-		if(this.getValor() - o.getValor() < 0)
 			return 1;
+		if(this.getValor() - o.getValor() < 0)
+			return -1;
 		else return 0;
 	}
-	
+
 	@Override
 	public double getValor() {
-		double x1 = this.getFenotipo(0), x2 = this.getFenotipo(1);
-		return (21.5 + x1 * Math.sin(4 * Math.PI * x1) + x2 * Math.sin(20 * Math.PI * x2));
+		double sum1 = 0.0;
+		double sum2 = 0.0;
+		
+		for(int i = 1; i <= 5; ++i) sum1 += i * Math.cos((i + 1) * this.getFenotipo(0) + i);
+		
+		for(int i = 1; i <= 5; ++i) sum2 += i * Math.cos((i + 1) * this.getFenotipo(1) + i);
+		
+		return sum1 * sum2;
 	}
 
 	@Override
@@ -52,12 +55,17 @@ public class IndividuoFuncion1 extends Individuo<Boolean> implements Comparable<
 		for (int i=0; i < this.cromosoma.length; i++) {
 			if (r.nextDouble() < probMutacion) 
 				cromosoma[i] = r.nextBoolean();		
-		}
+		}		
 	}
 	
 	@Override
 	public double getFitness() {
-		return this.getValor();
+		return this.getValor() + 187;
+	}
+	
+	private double getFenotipo(int genIndex) {
+		return this.min[genIndex] + bin2dec(genIndex) *
+				((this.max[genIndex] - this.min[genIndex]) / (Math.pow(2, this.tamGenes[genIndex]) - 1.0));
 	}
 	
 	private double bin2dec(int genIndex) {
@@ -73,10 +81,5 @@ public class IndividuoFuncion1 extends Individuo<Boolean> implements Comparable<
 
         return result;
     }
-	
-	private double getFenotipo(int genIndex) {
-		return this.min[genIndex] + bin2dec(genIndex) *
-				((this.max[genIndex] - this.min[genIndex]) / (Math.pow(2, this.tamGenes[genIndex]) - 1.0));
-	}
 	
 }

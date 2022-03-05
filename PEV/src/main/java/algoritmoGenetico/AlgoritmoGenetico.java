@@ -6,6 +6,7 @@ import algoritmoGenetico.cruces.Cruce;
 import algoritmoGenetico.cruces.CruceMonopunto;
 import algoritmoGenetico.cruces.CruceUniforme;
 import algoritmoGenetico.individuos.Individuo;
+import algoritmoGenetico.individuos.IndividuoFactory;
 import algoritmoGenetico.individuos.IndividuoFuncion1;
 import algoritmoGenetico.mutacion.Mutacion;
 import algoritmoGenetico.mutacion.MutacionBasica;
@@ -24,6 +25,11 @@ public class AlgoritmoGenetico {
 	
 	TipoSeleccion tipoSeleccion = TipoSeleccion.porRuleta;
 	TipoCruce tipoCruce = TipoCruce.monopunto;
+	
+	//Enum que identifica la funcion del problema
+	public enum FuncionIndividuo { Funcion1, Funcion2, Funcion3}
+	
+	private FuncionIndividuo funcion;	//Funcion del problema
 	
 	private int generacionActual;	//generacion por la que va el algoritmo
 	
@@ -61,8 +67,10 @@ public class AlgoritmoGenetico {
 	 * @param probCruce probabilidad de cruce
 	 * @param perElite porcentaje de elite
 	 * */
-	public void configura(int tamPoblacion, int maxGeneraciones, TipoCruce tipoCruce, TipoSeleccion tipoSeleccion, 
+	public void configura(FuncionIndividuo funcion, int tamPoblacion, int maxGeneraciones, TipoCruce tipoCruce, TipoSeleccion tipoSeleccion, 
 	float probMutacion, float probCruce, float perElite, boolean elite) {
+		
+		this.funcion = funcion;
 		
 		this.tamPoblacion = tamPoblacion;
 		this.maxGeneraciones = maxGeneraciones;
@@ -117,7 +125,7 @@ public class AlgoritmoGenetico {
 		
 		//Inicializamos la poblacion con la función dada
 		for(int i = 0; i< this.tamPoblacion; ++i) {
-			this.poblacion[i] = new IndividuoFuncion1();
+			this.poblacion[i] = IndividuoFactory.getIndividuo(funcion);
 		}
 		//Asignamos el mejor absoluto a 0
 		this.mejor_absoluto = 0;
@@ -132,25 +140,28 @@ public class AlgoritmoGenetico {
 		mejor_generacion = 0;
 		media_generacion = 0;
 		
-		//Para cada individuo comprueba si ha superado al mejor absoluto o al mejor
-		//de la generacion
+		//Ordena la poblacion de individuos por valor
+		Arrays.sort(this.poblacion);
+		
+		//Mejor individuo de la generacion
+		this.mejor_generacion = this.poblacion[0].getValor();
+		
+		//Comprobamos si hemos obtenido el mejor absoluto hasta el momento TODO: Hacer generico esto
+		if(this.mejor_generacion < this.mejor_absoluto) {
+			this.mejor_absoluto = this.mejor_generacion;
+			this.elMejor = this.poblacion[0];
+		}
+		
+		//Medimos la media del valor de la generacion
 		for(int i = 0; i < this.tamPoblacion; i++){
-			double fitness = this.poblacion[i].getFitness();
-			//update de fitness
-			this.fitness[i] = fitness;
-			if(fitness > this.mejor_absoluto){
-				this.mejor_absoluto = fitness;
-				this.elMejor = this.poblacion[i];
-			}
-			if(fitness > this.mejor_generacion){
-				this.mejor_generacion = fitness;
-			}
-			//Añiadiamos para despues calcular la media
-			media_generacion += fitness;
+			media_generacion += this.poblacion[i].getValor();
 		}
 		media_generacion /= this.tamPoblacion;			
 	}
 	
+	/*
+	 * Genera una grafica con los datos recogidos en esta generacion
+	 */
 	private void generaGrafica() {
 		System.out.println("Generacion " + this.generacionActual + " " + this.mejor_absoluto
 				+ " MejorGen: " + this.mejor_generacion + " Media : " + this.media_generacion);
@@ -163,7 +174,9 @@ public class AlgoritmoGenetico {
 	private void seleccionar(){
 		int[] seleccionados = this.seleccion.seleccionar(this.poblacion, fitness);
 		for(int i = 0; i < this.tamPoblacion; i++){
-			this.poblacion[i] = new IndividuoFuncion1((IndividuoFuncion1)this.poblacion[seleccionados[i]]);
+			Individuo ind = IndividuoFactory.getIndividuo(funcion);
+			ind.copiarIndividuo(this.poblacion[seleccionados[i]]);
+			this.poblacion[i] = ind;
 		}
 	}
 	
@@ -197,12 +210,14 @@ public class AlgoritmoGenetico {
 	private void guardarElite(){
 		Arrays.sort(this.poblacion);
 		for(int i = 0; i < this.elite.length; i++) {
-			this.elite[i] = new IndividuoFuncion1((IndividuoFuncion1)this.poblacion[i]);
+			Individuo ind = IndividuoFactory.getIndividuo(funcion);
+			ind.copiarIndividuo(this.poblacion[i]);
+			this.elite[i] = ind;
 		}
 	}
 	
 	/*
-	 * Introduc de nuevo la elite de la poblacion
+	 * Introduce de nuevo la elite de la poblacion
 	 * */
 	private void preservarElite(){
 		Arrays.sort(this.poblacion);

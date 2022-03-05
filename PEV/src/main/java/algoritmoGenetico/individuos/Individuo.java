@@ -6,7 +6,6 @@ import java.util.Random;
 public abstract class Individuo<T> {
 	T[] cromosoma;	//codificación de un cromosoma
 	int[] tamGenes;	//tamaño de los genes del individuo
-	double fitness;	//fitness del indivuo actual
 	
 	/********************************************************
 	 * 					GETTERS Y SETTERS					*
@@ -47,5 +46,11 @@ public abstract class Individuo<T> {
 	 * */
 	public abstract void mutar(double probMutacion, Random r);
 	
-
+	/*
+	 * Copia los atributos de otro individuo a este objeto
+	 */
+	public void copiarIndividuo(Individuo other) {
+		for(int i = 0; i < this.cromosoma.length; i++)
+			this.cromosoma[i] = (T) other.getCromosoma()[i];
+	}
 }
