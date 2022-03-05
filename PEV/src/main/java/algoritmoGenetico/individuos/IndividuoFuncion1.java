@@ -66,7 +66,9 @@ public class IndividuoFuncion1 extends Individuo<Boolean> implements Comparable<
 	public int compareTo(IndividuoFuncion1 o) {	
 		if(this.getFitness() - o.getFitness() > 0)
 			return -1;
-		else return 1;
+		if(this.getFitness() - o.getFitness() < 0)
+			return 1;
+		else return 0;
 	}
 	
 	private double getFenotipo(int genIndex) {

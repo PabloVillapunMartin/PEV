@@ -48,8 +48,8 @@ public class AlgoritmoGenetico {
 	private Cruce cruce;
 	
 	
-	public void configure(int tamPoblacion, int tamTorneo, int maxGeneraciones,
-			TipoCruce tipoCruce, TipoSeleccion tipoSeleccion, float probMutacion, float probCruce, int perElite) {
+	public void configure(int tamPoblacion, int tamTorneo, int maxGeneraciones,	TipoCruce tipoCruce, TipoSeleccion tipoSeleccion, 
+	float probMutacion, float probCruce, int perElite) {
 		this.tamPoblacion = tamPoblacion;
 		this.tamTorneo = tamTorneo;
 		this.maxGeneraciones = maxGeneraciones;
@@ -94,32 +94,27 @@ public class AlgoritmoGenetico {
 	}
 	
 	private void evaluar() {
-	
-		guardarFitness();
+		mejor_generacion = 0;
+		media_generacion = 0;
 		
-		double fitnessInd = 0;
-		this.mejor_generacion = 0;
-		this.media_generacion = 0;
-		for(Individuo ind : this.poblacion) {
-			fitnessInd = ind.getFitness();
-			this.media_generacion += fitnessInd;
-			
-			if(fitnessInd > this.mejor_absoluto) {
-				this.mejor_absoluto = fitnessInd;
-				this.elMejor = ind;
+		for(int i = 0; i < this.tamPoblacion; i++){
+			double fitness = this.poblacion[i].getFitness();
+			if(fitness > this.mejor_absoluto){
+				this.mejor_absoluto = fitness;
+				this.elMejor = this.poblacion[i];
 			}
-			if(fitnessInd > this.mejor_generacion) this.mejor_generacion = fitnessInd;
+			if(fitness > this.mejor_generacion){
+				this.mejor_generacion = fitness;
+			}
+			media_generacion += fitness;
 		}
-		this.media_generacion /= this.poblacion.length;
-		//sustituimos los peores por los mejores
+		media_generacion /= this.tamPoblacion;
 		
-		//guardarFitness();
-		
-		//Elite
 		/*Arrays.sort(this.poblacion);
 		for(int i = 0; i < this.perElite; i++) {
-			this.poblacion[this.tamPoblacion - i - 1] = this.elite[i];
+			this.poblacion[this.tamPoblacion - 1 - i] = this.elite[i];
 		}*/
+			
 	}
 	
 	private void generaGrafica() {
