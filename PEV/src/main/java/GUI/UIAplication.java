@@ -157,6 +157,8 @@ public class UIAplication {
 		TipoFuncion.setModel(new DefaultComboBoxModel(new String[] {"Funcion1", "Funcion2", "Funcion3", "Funcion4", "Funcion5", "Funcion6"}));
 		panel_3.add(TipoFuncion);
 		
+
+		
 		JButton empezar = new JButton("Empezar Algoritmo");
 		empezar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -165,15 +167,13 @@ public class UIAplication {
 				int iteraciones = Integer.parseInt(maxIt.getText());
 				
 				AG.configura(FuncionIndividuo.values()[TipoFuncion.getSelectedIndex()], poblacion, iteraciones, TipoCruce.values()[tipoCruce.getSelectedIndex()], TipoSeleccion.values()[tipoSelec.getSelectedIndex()],
-						(float)ProbMut.getValue()/100.0f, (float)ProbCruce.getValue()/100.0f, (float)perElite.getValue()/100.0f, elite.isSelected());
+						(float)ProbMut.getValue()/100.0f, (float)ProbCruce.getValue()/100.0f, (float)perElite.getValue()/100.0f, elite.isSelected(), frmGp);
 				AG.run();
 			}
 		});
 		empezar.setForeground(UIManager.getColor("menuPressedItemB"));
 		panel_3.add(empezar);
 		
-		JPanel grafica = new JPanel();
-		frmGp.getContentPane().add(grafica, BorderLayout.CENTER);
 	}
 
 }

@@ -1,6 +1,14 @@
 package algoritmoGenetico;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.util.Arrays;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import org.math.plot.Plot2DPanel;
 
 import algoritmoGenetico.cruces.Cruce;
 import algoritmoGenetico.cruces.CruceMonopunto;
@@ -36,9 +44,10 @@ public class AlgoritmoGenetico {
 	private int tamPoblacion;		//tamaño de la poblacion
 	private int maxGeneraciones;	//numero de generaciones a ejecutar el algoritmo
 	
-	private double mejor_absoluto;		//mejor valor obtenido de todas las generaciones
-	private double mejor_generacion;	//mejor obtenido en la generacion actual
-	private double media_generacion;	//media de la generacion actual
+	private double[] mejor_absoluto;	//mejor valor obtenido de todas las generaciones
+	private double[] mejor_generacion;	//mejor obtenido en la generacion actual
+	private double[] media_generacion;	//media de la generacion actual
+	private double[] generaciones;			//array que guarda el numero de generaciones para la grafica
 	
 	private float probCruce;		//probabilidad de cruce
 	private float probMutacion;		//probabilidad de mutacion
@@ -56,6 +65,8 @@ public class AlgoritmoGenetico {
 	
 	private boolean conElite;		//Si se desea ejecutar el algoritmo con elite o sin ella
 	
+	JFrame jframe;					//panel donde se va a situar la gráfica
+	
 	
 	/*
 	 * Configura todo lo necesario para iniciar el algoritmo evolutivo
@@ -68,7 +79,7 @@ public class AlgoritmoGenetico {
 	 * @param perElite porcentaje de elite
 	 * */
 	public void configura(FuncionIndividuo funcion, int tamPoblacion, int maxGeneraciones, TipoCruce tipoCruce, TipoSeleccion tipoSeleccion, 
-	float probMutacion, float probCruce, float perElite, boolean elite) {
+	float probMutacion, float probCruce, float perElite, boolean elite,  JFrame jframe) {
 		
 		this.funcion = funcion;
 		
@@ -83,6 +94,8 @@ public class AlgoritmoGenetico {
 		
 		this.perElite = perElite;
 		this.conElite = elite;
+		
+		this.jframe = jframe;
 		
 		this.mutacion = new MutacionBasica(this.probMutacion);
 		elegirSeleccion();
@@ -108,10 +121,11 @@ public class AlgoritmoGenetico {
 			if(conElite)
 				preservarElite();
 			evaluar();			
-			generaGrafica();		
 			
+			this.generaciones[this.generacionActual] = this.generacionActual;
 			this.generacionActual++;
 		}
+		generaGrafica();		
 	}
 	
 	/*
@@ -128,7 +142,10 @@ public class AlgoritmoGenetico {
 			this.poblacion[i] = IndividuoFactory.getIndividuo(funcion);
 		}
 		//Asignamos el mejor absoluto a 0
-		this.mejor_absoluto = 0;
+		this.mejor_absoluto = new double[this.maxGeneraciones];
+		this.mejor_generacion = new double[this.maxGeneraciones];
+		this.media_generacion = new double[this.maxGeneraciones];
+		this.generaciones = new double[this.maxGeneraciones];
 		this.elMejor = this.poblacion[0];
 	}
 	
@@ -138,34 +155,54 @@ public class AlgoritmoGenetico {
 	 * */
 	private void evaluar() {
 		//Reset de variables
-		mejor_generacion = 0;
-		media_generacion = 0;
+		mejor_generacion[this.generacionActual] = 0;
+		media_generacion[this.generacionActual] = 0;
 		
 		//Ordena la poblacion de individuos por valor
 		Arrays.sort(this.poblacion);
 		
 		//Mejor individuo de la generacion
-		this.mejor_generacion = this.poblacion[0].getValor();
+		this.mejor_generacion[this.generacionActual] = this.poblacion[0].getValor();
 		
 		//Comprobamos si hemos obtenido el mejor absoluto hasta el momento
 		if(this.poblacion[0].compareTo(elMejor) < 0) {
-			this.mejor_absoluto = this.mejor_generacion;
+			this.mejor_absoluto[this.generacionActual] = this.mejor_generacion[this.generacionActual];
 			this.elMejor = this.poblacion[0];
+		}
+		else if(this.generacionActual > 0){
+			this.mejor_absoluto[this.generacionActual] = this.mejor_absoluto[this.generacionActual - 1];
 		}
 		
 		//Medimos la media del valor de la generacion
 		for(int i = 0; i < this.tamPoblacion; i++){
-			media_generacion += this.poblacion[i].getValor();
+			media_generacion[this.generacionActual] += this.poblacion[i].getValor();
 		}
-		media_generacion /= this.tamPoblacion;			
+		media_generacion[this.generacionActual] /= this.tamPoblacion;			
 	}
 	
 	/*
 	 * Genera una grafica con los datos recogidos en esta generacion
 	 */
 	private void generaGrafica() {
-		System.out.println("Generacion " + this.generacionActual + " " + this.mejor_absoluto
-				+ " MejorGen: " + this.mejor_generacion + " Media : " + this.media_generacion);
+	
+		JPanel panel = new JPanel();
+		
+        Plot2DPanel plot = new Plot2DPanel() {
+            @Override
+            public Dimension getPreferredSize() {
+                return new Dimension(400, 200);
+            }
+        };
+        plot.addLinePlot("Media Generacion", Color.BLUE, this.generaciones, this.media_generacion);
+		plot.addLinePlot("Mejor Generacion", Color.GREEN, this.generaciones, this.mejor_generacion);
+		plot.addLinePlot("Mejor Absoluto", Color.RED, this.generaciones, this.mejor_absoluto);
+		plot.addLegend("SOUTH");
+        panel.setLayout(new BorderLayout());
+        panel.add(plot);
+        jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jframe.add(panel);
+        jframe.setLocation(150, 150);
+        jframe.setVisible(true);
 	}
 	
 	/*
