@@ -27,7 +27,7 @@ public class AlgoritmoGenetico {
 	TipoCruce tipoCruce = TipoCruce.monopunto;
 	
 	//Enum que identifica la funcion del problema
-	public enum FuncionIndividuo { Funcion1, Funcion2, Funcion3}
+	public enum FuncionIndividuo { Funcion1, Funcion2, Funcion3, Funcion4}
 	
 	private FuncionIndividuo funcion;	//Funcion del problema
 	
