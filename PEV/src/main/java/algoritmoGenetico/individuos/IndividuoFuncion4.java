@@ -14,6 +14,9 @@ public class IndividuoFuncion4 extends Individuo<Boolean>{
 	
 	public IndividuoFuncion4() {
 		inicializaValores();
+		
+		for(int i = 0; i < this.cromosoma.length; i++)  
+			this.cromosoma[i] = this.rand.nextBoolean();
 	}
 	
 	public int compareTo(Individuo o) {
@@ -74,8 +77,8 @@ public class IndividuoFuncion4 extends Individuo<Boolean>{
 	
 	private double bin2dec(int genIndex) {
 		int inicio = 0;
-		if(genIndex == 1)
-			inicio += this.tamGenes[0];
+		for(int i = 0; i < genIndex; ++i) inicio += this.tamGenes[i];
+		
 		Boolean values[] = Arrays.copyOfRange(this.cromosoma, inicio, inicio + this.tamGenes[genIndex]);
 		
 		long result = 0;

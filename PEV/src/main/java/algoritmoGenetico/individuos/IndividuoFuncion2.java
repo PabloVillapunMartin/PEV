@@ -70,8 +70,8 @@ public class IndividuoFuncion2 extends Individuo<Boolean> {
 	
 	private double bin2dec(int genIndex) {
 		int inicio = 0;
-		if(genIndex == 1)
-			inicio += this.tamGenes[0];
+		for(int i = 0; i < genIndex; ++i) inicio += this.tamGenes[i];
+		
 		Boolean values[] = Arrays.copyOfRange(this.cromosoma, inicio, inicio + this.tamGenes[genIndex]);
 		
 		long result = 0;
