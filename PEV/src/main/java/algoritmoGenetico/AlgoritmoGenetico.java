@@ -15,7 +15,6 @@ import algoritmoGenetico.cruces.CruceMonopunto;
 import algoritmoGenetico.cruces.CruceUniforme;
 import algoritmoGenetico.individuos.Individuo;
 import algoritmoGenetico.individuos.IndividuoFactory;
-import algoritmoGenetico.individuos.IndividuoFuncion1;
 import algoritmoGenetico.mutacion.Mutacion;
 import algoritmoGenetico.mutacion.MutacionBasica;
 import algoritmoGenetico.seleccion.Seleccion;
@@ -114,12 +113,14 @@ public class AlgoritmoGenetico {
 			
 			if(conElite)
 				guardarElite();
+			
 			seleccionar();
-			this.poblacion = this.cruce.cruzar(this.poblacion);
-			this.poblacion = this.mutacion.mutar(this.poblacion);
+			this.cruce.cruzar(this.poblacion);
+			this.mutacion.mutar(this.poblacion);
 			
 			if(conElite)
 				preservarElite();
+			
 			evaluar();			
 			
 			this.generaciones[this.generacionActual] = this.generacionActual;

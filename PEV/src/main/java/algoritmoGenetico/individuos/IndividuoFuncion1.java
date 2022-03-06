@@ -53,11 +53,12 @@ public class IndividuoFuncion1 extends Individuo<Boolean>{
 	}
 	
 	public int compareTo(Individuo o) {
-		if(this.getValor() - o.getValor() > 0)
-			return -1;
-		if(this.getValor() - o.getValor() < 0)
-			return 1;
-		else return 0;
+		double valorMio = this.getValor();
+		double valorOtro = o.getValor();
+		
+		if(valorMio - valorOtro > 0)	return -1;
+		if(valorMio - valorOtro < 0)	return 1;
+		else							return 0;
 	}
 	
 	private double bin2dec(int genIndex) {

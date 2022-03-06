@@ -1,5 +1,6 @@
 package algoritmoGenetico.individuos;
 
+import java.util.Arrays;
 import java.util.Random;
 
 /* Clase abstracta que codifica un individuo de una poblacion*/
@@ -50,7 +51,6 @@ public abstract class Individuo<T> implements Comparable<Individuo> {
 	 * Copia los atributos de otro individuo a este objeto
 	 */
 	public void copiarIndividuo(Individuo other) {
-		for(int i = 0; i < this.cromosoma.length; i++)
-			this.cromosoma[i] = (T) other.getCromosoma()[i];
+		this.cromosoma = (T[]) Arrays.copyOfRange(other.getCromosoma(), 0, other.getCromosoma().length);
 	}
 }

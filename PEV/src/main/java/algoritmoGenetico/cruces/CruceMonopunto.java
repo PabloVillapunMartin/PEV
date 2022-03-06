@@ -1,8 +1,6 @@
 package algoritmoGenetico.cruces;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 import algoritmoGenetico.individuos.Individuo;
@@ -33,23 +31,20 @@ public class CruceMonopunto extends Cruce {
 		if(n%2 != 0) 
 			n--;	
 		for(int i = 0; i< n; ++i) {
-			//Si el individuo no ha sido visitado
-			if(!visitados[i]){	
+			float rnd = random.nextFloat();
+			
+			//Si el individuo no ha sido visitado y se selecciona para cruzar
+			if(!visitados[i] && rnd <= this.probCruce){	
 				visitados[i] = true;						//Lo visitamos
 				int padre2 = buscarIndividuo(visitados, n);	//Buscamos otro padre
-				
-				//Hallamos la probabilidad de cruce
-				float rnd = random.nextFloat();
-				//Si la probabilidad se da
-				if(rnd <= this.probCruce) {	
-					//Hallamos el punto de corte y realizamos el cruce de los individuos
-					int puntoDeCorte = random.nextInt(individuos[i].getCromosoma().length);					
-					for(int j = 0; j < individuos[i].getCromosoma().length; j++) {		
-						if(j < puntoDeCorte)
-							individuos[padre2].getCromosoma()[j] = individuos[i].getCromosoma()[j];
-						else 
-							individuos[i].getCromosoma()[j] = individuos[padre2].getCromosoma()[j];
-					}
+
+				//Hallamos el punto de corte y realizamos el cruce de los individuos
+				int puntoDeCorte = random.nextInt(individuos[i].getCromosoma().length);					
+				for(int j = 0; j < individuos[i].getCromosoma().length; j++) {		
+					if(j < puntoDeCorte)
+						individuos[padre2].getCromosoma()[j] = individuos[i].getCromosoma()[j];
+					else 
+						individuos[i].getCromosoma()[j] = individuos[padre2].getCromosoma()[j];
 				}
 			}
 		}
