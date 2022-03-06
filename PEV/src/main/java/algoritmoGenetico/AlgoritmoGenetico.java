@@ -193,9 +193,9 @@ public class AlgoritmoGenetico {
                 return new Dimension(400, 200);
             }
         };
-        plot.addLinePlot("Media Generacion", Color.BLUE, this.generaciones, this.media_generacion);
-		plot.addLinePlot("Mejor Generacion", Color.GREEN, this.generaciones, this.mejor_generacion);
-		plot.addLinePlot("Mejor Absoluto", Color.RED, this.generaciones, this.mejor_absoluto);
+        plot.addLinePlot("Media Generacion", Color.GREEN, this.generaciones, this.media_generacion);
+		plot.addLinePlot("Mejor Generacion", Color.RED, this.generaciones, this.mejor_generacion);
+		plot.addLinePlot("Mejor Absoluto", Color.BLUE, this.generaciones, this.mejor_absoluto);
 		plot.addLegend("SOUTH");
         panel.setLayout(new BorderLayout());
         panel.add(plot);

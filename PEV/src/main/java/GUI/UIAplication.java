@@ -154,7 +154,7 @@ public class UIAplication {
 		panel_3.add(lblTipoDeFuncion);
 		
 		final JComboBox TipoFuncion = new JComboBox();
-		TipoFuncion.setModel(new DefaultComboBoxModel(new String[] {"Funcion1", "Funcion2", "Funcion3", "Funcion4", "Funcion5", "Funcion6"}));
+		TipoFuncion.setModel(new DefaultComboBoxModel(new String[] {"Funcion1", "Funcion2", "Funcion3", "Funcion4"}));
 		panel_3.add(TipoFuncion);
 		
 
