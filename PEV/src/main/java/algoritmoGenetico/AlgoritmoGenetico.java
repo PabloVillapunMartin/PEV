@@ -51,9 +51,7 @@ public class AlgoritmoGenetico {
 	private float probCruce;		//probabilidad de cruce
 	private float probMutacion;		//probabilidad de mutacion
 	private float perElite;			//porcentaje de la elite
-	
-	private double[] fitness;		//fitness de los individuos
-	
+		
 	private Individuo[] poblacion;	//poblacion actual
 	private Individuo elMejor;		//el mejor individuo encontrado hasta el momento
 	private Individuo[] elite;		//elite guardada
@@ -114,7 +112,7 @@ public class AlgoritmoGenetico {
 			if(conElite)
 				guardarElite();
 			
-			seleccionar();
+			//seleccionar();
 			this.cruce.cruzar(this.poblacion);
 			this.mutacion.mutar(this.poblacion);
 			
@@ -135,7 +133,6 @@ public class AlgoritmoGenetico {
 	private void iniciarPoblacion() {
 		//Inicializamos los arrays estáticos
 		this.poblacion = new Individuo[this.tamPoblacion];
-		this.fitness = new double[this.tamPoblacion];
 		this.elite = new Individuo[(int)(this.tamPoblacion * this.perElite)];
 		
 		//Inicializamos la poblacion con la función dada
@@ -166,9 +163,11 @@ public class AlgoritmoGenetico {
 		this.mejor_generacion[this.generacionActual] = this.poblacion[0].getValor();
 		
 		//Comprobamos si hemos obtenido el mejor absoluto hasta el momento
-		if(this.poblacion[0].compareTo(elMejor) < 0) {
+		if(this.poblacion[0].compareTo(elMejor)< 0) {
 			this.mejor_absoluto[this.generacionActual] = this.mejor_generacion[this.generacionActual];
-			this.elMejor = this.poblacion[0];
+			this.elMejor = IndividuoFactory.getIndividuo(funcion);
+			this.elMejor.copiarIndividuo(this.poblacion[0]);
+			System.out.println(this.elMejor.getValor());
 		}
 		else if(this.generacionActual > 0){
 			this.mejor_absoluto[this.generacionActual] = this.mejor_absoluto[this.generacionActual - 1];
@@ -211,7 +210,7 @@ public class AlgoritmoGenetico {
 	 * obtenido por la interfaz
 	 * */
 	private void seleccionar(){
-		int[] seleccionados = this.seleccion.seleccionar(this.poblacion, fitness);
+		int[] seleccionados = this.seleccion.seleccionar(this.poblacion);
 		for(int i = 0; i < this.tamPoblacion; i++){
 			Individuo ind = IndividuoFactory.getIndividuo(funcion);
 			ind.copiarIndividuo(this.poblacion[seleccionados[i]]);

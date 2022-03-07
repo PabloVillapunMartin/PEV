@@ -15,7 +15,7 @@ public class SeleccionRuleta extends Seleccion {
 	}
 	
 	@Override
-	public int[] seleccionar(Individuo[] individuos, double[] fitness) {
+	public int[] seleccionar(Individuo[] individuos) {
 		int n = individuos.length;
 		int [] individuosSeleccionados = new int[individuos.length];
 		

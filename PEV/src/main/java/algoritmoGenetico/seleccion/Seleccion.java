@@ -4,5 +4,5 @@ import algoritmoGenetico.individuos.Individuo;
 
 public abstract class Seleccion {
 	
-	public abstract int[] seleccionar(Individuo[] individuos, double [] fitness);
+	public abstract int[] seleccionar(Individuo[] individuos);
 }

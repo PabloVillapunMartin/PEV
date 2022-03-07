@@ -10,13 +10,16 @@ public class SeleccionEstocasticaUniversal extends Seleccion {
 	Random rnd = new Random(); 
 	@SuppressWarnings("unchecked")
 	@Override
-	public int[] seleccionar(Individuo[] individuos, double [] fitness) {
+	public int[] seleccionar(Individuo[] individuos) {
 		int n = individuos.length;
 		float distancia = 1 / n;
 		double mediaFitness = 0;
 		
+		double [] fitness = new double[n];
+			
 		//Hallamos la media del fitnes
 		for(int i = 0; i< n; i++) {
+			fitness[i] = individuos[i].getFitness();
 			mediaFitness+=fitness[i];
 		}
 		mediaFitness/=n;

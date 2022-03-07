@@ -12,7 +12,7 @@ public class SeleccionRestos extends Seleccion {
 		rnd = new Random();
 	}
 	@Override
-	public int[] seleccionar(Individuo[] individuos, double[] fitness) {
+	public int[] seleccionar(Individuo[] individuos) {
 		int n = individuos.length;
 		int [] individuosSeleccionados = new int[individuos.length];
 		

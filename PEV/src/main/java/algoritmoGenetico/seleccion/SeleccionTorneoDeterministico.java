@@ -13,7 +13,7 @@ public class SeleccionTorneoDeterministico extends Seleccion {
 		this.rnd = new Random();
 	}
 	@Override
-	public int[] seleccionar(Individuo[] individuos, double[] fitness) {
+	public int[] seleccionar(Individuo[] individuos) {
 		int n = individuos.length;
 		int[] individuosSeleccionados = new int[n];
 		

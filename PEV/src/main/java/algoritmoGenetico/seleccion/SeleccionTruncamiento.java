@@ -10,7 +10,7 @@ public class SeleccionTruncamiento extends Seleccion {
 	private float truncamiento = 0.5f;
 	
 	@Override
-	public int[] seleccionar(Individuo[] individuos, double[] fitness) {
+	public int[] seleccionar(Individuo[] individuos) {
 		int n = individuos.length;
 		int [] individuosSeleccionados = new int[individuos.length];
 		

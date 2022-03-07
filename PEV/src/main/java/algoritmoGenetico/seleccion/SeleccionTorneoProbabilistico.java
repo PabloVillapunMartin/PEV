@@ -15,7 +15,7 @@ public class SeleccionTorneoProbabilistico extends Seleccion {
 	}
 	
 	@Override
-	public int[] seleccionar(Individuo[] individuos, double[] fitness) {
+	public int[] seleccionar(Individuo[] individuos) {
 		int n = individuos.length;
 		int[] individuosSeleccionados = new int[n];
 		float p = 0.55f;
