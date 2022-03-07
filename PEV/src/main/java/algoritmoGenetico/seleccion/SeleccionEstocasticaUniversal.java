@@ -15,11 +15,10 @@ public class SeleccionEstocasticaUniversal extends Seleccion {
 		float distancia = 1 / n;
 		double mediaFitness = 0;
 		
-		double [] fitness = new double[n];
+		double [] fitness = calculaFitness(individuos);
 			
 		//Hallamos la media del fitnes
 		for(int i = 0; i< n; i++) {
-			fitness[i] = individuos[i].getFitness();
 			mediaFitness+=fitness[i];
 		}
 		mediaFitness/=n;

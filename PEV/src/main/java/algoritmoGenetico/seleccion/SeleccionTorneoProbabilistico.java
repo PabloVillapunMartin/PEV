@@ -18,6 +18,8 @@ public class SeleccionTorneoProbabilistico extends Seleccion {
 	public int[] seleccionar(Individuo[] individuos) {
 		int n = individuos.length;
 		int[] individuosSeleccionados = new int[n];
+		double [] fitness = calculaFitness(individuos);
+		
 		float p = 0.55f;
 		for(int i = 0; i< n; i++) {			
 			int mejorIndividuo = rnd.nextInt(n);	
@@ -25,9 +27,9 @@ public class SeleccionTorneoProbabilistico extends Seleccion {
 			//Hallamos el mejor y el peor individuo
 			for(int j = 1; j < 3; j++) {
 				int aux = rnd.nextInt(n);
-				if(individuos[aux].getFitness() > individuos[mejorIndividuo].getFitness())
+				if(individuos[aux].compareTo(individuos[mejorIndividuo]) < 0)
 					mejorIndividuo = aux;
-				if(individuos[aux].getFitness() < individuos[peorIndividuo].getFitness())
+				if(individuos[aux].compareTo(individuos[peorIndividuo]) > 0)
 					peorIndividuo = aux;
 			}
 			//Elegimos de forma probabilistica

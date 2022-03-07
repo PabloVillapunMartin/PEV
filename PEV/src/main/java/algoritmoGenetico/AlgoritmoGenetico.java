@@ -139,6 +139,8 @@ public class AlgoritmoGenetico {
 		for(int i = 0; i< this.tamPoblacion; ++i) {
 			this.poblacion[i] = IndividuoFactory.getIndividuo(funcion);
 		}
+		//Ordena la poblacion de individuos por valor
+		Arrays.sort(this.poblacion);
 		//Asignamos el mejor absoluto a 0
 		this.mejor_absoluto = new double[this.maxGeneraciones];
 		this.mejor_generacion = new double[this.maxGeneraciones];
@@ -213,7 +215,6 @@ public class AlgoritmoGenetico {
 	private void seleccionar(){
 		int[] seleccionados = this.seleccion.seleccionar(this.poblacion);
 		Individuo[] nuevaPoblacion = new Individuo[this.tamPoblacion];
-		
 		for(int i = 0; i < this.tamPoblacion; i++){
 			nuevaPoblacion[i] = IndividuoFactory.getIndividuo(funcion);
 			nuevaPoblacion[i].copiarIndividuo(this.poblacion[seleccionados[i]]);

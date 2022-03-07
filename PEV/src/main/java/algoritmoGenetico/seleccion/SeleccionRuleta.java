@@ -19,11 +19,13 @@ public class SeleccionRuleta extends Seleccion {
 		int n = individuos.length;
 		int [] individuosSeleccionados = new int[individuos.length];
 		
+		double [] fitness = calculaFitness(individuos);
 		double [] punt_acu = new double [n + 1];
+		
 		double sumaFitness = 0;
 		for(int i = 0; i < n; ++i) {
 			punt_acu[i] = sumaFitness;
-			sumaFitness += individuos[i].getFitness();
+			sumaFitness += fitness[i];
 		}
 		for(int i = 0; i < n; ++i) {
 			punt_acu[i] /=sumaFitness;

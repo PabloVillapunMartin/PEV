@@ -16,6 +16,7 @@ public class SeleccionTorneoDeterministico extends Seleccion {
 	public int[] seleccionar(Individuo[] individuos) {
 		int n = individuos.length;
 		int[] individuosSeleccionados = new int[n];
+		double [] fitness = calculaFitness(individuos);
 		
 		//por cada proceso se toma el mejor de los individuos de un conjuntos tomados al azar
 		//de la poblacion base
@@ -24,7 +25,7 @@ public class SeleccionTorneoDeterministico extends Seleccion {
 			
 			for(int j = 1; j < 3; j++) {
 				int aux = rnd.nextInt(n);
-				if(individuos[aux].getFitness() > individuos[mejorIndividuo].getFitness())
+				if(individuos[aux].compareTo(individuos[mejorIndividuo]) < 0 )
 					mejorIndividuo = aux;
 			}
 			individuosSeleccionados[i] = mejorIndividuo;
