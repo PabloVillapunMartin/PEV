@@ -51,7 +51,6 @@ public abstract class Individuo<T> implements Comparable<Individuo> {
 	 * Copia los atributos de otro individuo a este objeto
 	 */
 	public void copiarIndividuo(Individuo other) {
-
 		this.cromosoma = (T[]) Arrays.copyOfRange(other.getCromosoma(), 0, other.getCromosoma().length);
 	}
 }
