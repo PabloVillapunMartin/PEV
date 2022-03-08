@@ -165,7 +165,7 @@ public class AlgoritmoGenetico {
 		this.mejor_generacion[this.generacionActual] = this.poblacion[0].getValor();
 		
 		//Comprobamos si hemos obtenido el mejor absoluto hasta el momento
-		if(this.poblacion[0].compareTo(elMejor)< 0) {
+		if(this.poblacion[0].compareTo(elMejor) <= 0) {
 			this.mejor_absoluto[this.generacionActual] = this.mejor_generacion[this.generacionActual];
 			this.elMejor = IndividuoFactory.getIndividuo(funcion);
 			this.elMejor.copiarIndividuo(this.poblacion[0]);

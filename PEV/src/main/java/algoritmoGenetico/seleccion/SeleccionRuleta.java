@@ -28,7 +28,7 @@ public class SeleccionRuleta extends Seleccion {
 			sumaFitness += fitness[i];
 		}
 		for(int i = 0; i < n; ++i) {
-			punt_acu[i] /=sumaFitness;
+			punt_acu[i] /= sumaFitness;
 		}
 		punt_acu[n] = 1.0;
 		
@@ -37,7 +37,7 @@ public class SeleccionRuleta extends Seleccion {
 		int pos_super = 0;
 		for(int i = 0; i < n; ++i) {
 			prob = rnd.nextFloat();
-			pos_super = 0;
+			pos_super = 1;
 			
 			while(prob > punt_acu[pos_super]){
 				pos_super++;
