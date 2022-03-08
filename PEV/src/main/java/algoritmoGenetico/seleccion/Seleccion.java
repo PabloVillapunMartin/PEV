@@ -14,10 +14,11 @@ public abstract class Seleccion {
 			if(individuos[i].getFitness() < menor)
 				menor = individuos[i].getFitness();
 		}
+		double value =  Math.abs(menor) * 1.05;
 		//Si existe un negativo dentro de los fitness de los individuos
 		//tenemos que desplazarlos
 		for(int i = 0; i < individuos.length; ++i)
-			fitness[i] = individuos[i].getFitness() + Math.abs(menor);
+			fitness[i] = individuos[i].getFitness() + value;
 	
 		return fitness;
 	}

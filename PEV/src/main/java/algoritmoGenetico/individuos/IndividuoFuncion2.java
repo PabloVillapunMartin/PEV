@@ -52,7 +52,7 @@ public class IndividuoFuncion2 extends Individuo<Boolean> {
 	
 	@Override
 	public double getFitness() {
-		return this.getValor() + 187;
+		return -this.getValor();
 	}
 	
 	public int compareTo(Individuo o) {

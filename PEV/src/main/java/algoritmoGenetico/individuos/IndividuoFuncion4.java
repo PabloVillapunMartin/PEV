@@ -41,7 +41,7 @@ public class IndividuoFuncion4 extends Individuo<Boolean>{
 
 	@Override
 	public double getFitness() {
-		return this.getValor() + 2.0;
+		return -this.getValor();
 	}
 
 	@Override

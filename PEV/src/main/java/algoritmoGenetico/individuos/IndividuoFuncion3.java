@@ -30,7 +30,7 @@ public class IndividuoFuncion3 extends Individuo<Boolean>{
 
 	@Override
 	public double getFitness() {
-		return this.getValor() + + 959.6407;
+		return -this.getValor();
 	}
 
 	@Override
