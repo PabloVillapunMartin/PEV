@@ -5,10 +5,10 @@ import algoritmoGenetico.individuos.Individuo;
 /*Clase abstracta que contiene la información y métodos necesarios para el cruce*/
 public abstract class Cruce {
 
-	protected float probCruce;	//Probabilidad de cruce
+	protected double probCruce;	//Probabilidad de cruce
 	
-	public Cruce(float probCruce) {
-		this.probCruce = probCruce;
+	public Cruce(double probCruce2) {
+		this.probCruce = probCruce2;
 	}
 	/*
 	 * Metodo abstracto para cruzar individuos

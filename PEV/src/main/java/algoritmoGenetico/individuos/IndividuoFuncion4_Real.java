@@ -1,22 +1,25 @@
 package algoritmoGenetico.individuos;
 
-import java.util.Arrays;
 import java.util.Random;
 
-public class IndividuoFuncion4 extends InidividuoBoolean{
+public class IndividuoFuncion4_Real extends Individuo<Double> {
 
-	private int n = 2;
+	protected double min[];
+	protected double max[];
+	protected double valorError;
 	
-	public IndividuoFuncion4(double valorError, int n) {
-		super(valorError);
-		
+	protected Random rand;
+	
+	int n;
+	
+	public IndividuoFuncion4_Real(double valorError, int n){
+		this.valorError = valorError;
 		this.n = n;
 		inicializaValores();
-		
 		for(int i = 0; i < this.cromosoma.length; i++)  
-			this.cromosoma[i] = this.rand.nextBoolean();
+			this.cromosoma[i] = rand.nextDouble() * Math.PI;	
+		
 	}
-	
 	public int compareTo(Individuo o) {
 		if(this.getValor() - o.getValor() > 0)
 			return 1;
@@ -41,6 +44,19 @@ public class IndividuoFuncion4 extends InidividuoBoolean{
 	public double getFitness() {
 		return -this.getValor();
 	}
+
+	@Override
+	public void mutar(double probMutacion, Random r) {
+		for (int i=0; i < this.cromosoma.length; i++) {
+			if (r.nextDouble() < probMutacion) 
+				cromosoma[i] = r.nextDouble() * Math.PI;		
+		}
+	}
+	
+	private double getFenotipo(int genIndex) {
+		return this.min[0] + cromosoma[genIndex] *
+				((this.max[0] - this.min[0]) / (Math.pow(2, this.tamGenes[genIndex]) - 1.0));
+	}
 	
 	private void inicializaValores() {
 		this.min = new double[1];
@@ -53,18 +69,14 @@ public class IndividuoFuncion4 extends InidividuoBoolean{
 		int tamTotal = 0;
 		for(int i = 0; i < n; ++i) 
 		{
-			this.tamGenes[i] = this.tamGen(this.valorError, min[0], max[0]);
+			this.tamGenes[i] = 1;
 			tamTotal += this.tamGenes[i];
 		}
 		
-		this.cromosoma = new Boolean[tamTotal];
+		this.cromosoma = new Double[tamTotal];
 		
 		rand = new Random();
 	}
-	
-	private double getFenotipo(int genIndex) {
-		return this.min[0] + bin2dec(genIndex) *
-				((this.max[0] - this.min[0]) / (Math.pow(2, this.tamGenes[genIndex]) - 1.0));
-	}
+
 
 }

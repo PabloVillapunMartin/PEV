@@ -10,7 +10,7 @@ public class CruceMonopunto extends Cruce {
 
 	Random random;
 
-	public CruceMonopunto(float probCruce) {
+	public CruceMonopunto(double probCruce) {
 		super(probCruce);
 		random = new Random();
 	}

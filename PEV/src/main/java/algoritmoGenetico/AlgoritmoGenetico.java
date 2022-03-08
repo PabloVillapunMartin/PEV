@@ -34,7 +34,7 @@ public class AlgoritmoGenetico {
 	TipoCruce tipoCruce = TipoCruce.monopunto;
 	
 	//Enum que identifica la funcion del problema
-	public enum FuncionIndividuo { Funcion1, Funcion2, Funcion3, Funcion4}
+	public enum FuncionIndividuo { Funcion1, Funcion2, Funcion3, Funcion4, Funcion4_Real}
 	
 	private FuncionIndividuo funcion;	//Funcion del problema
 	
@@ -42,15 +42,17 @@ public class AlgoritmoGenetico {
 	
 	private int tamPoblacion;		//tamaño de la poblacion
 	private int maxGeneraciones;	//numero de generaciones a ejecutar el algoritmo
+	private int n;					//numero n para el individuo 4
 	
 	private double[] mejor_absoluto;	//mejor valor obtenido de todas las generaciones
 	private double[] mejor_generacion;	//mejor obtenido en la generacion actual
 	private double[] media_generacion;	//media de la generacion actual
 	private double[] generaciones;			//array que guarda el numero de generaciones para la grafica
 	
-	private float probCruce;		//probabilidad de cruce
-	private float probMutacion;		//probabilidad de mutacion
-	private float perElite;			//porcentaje de la elite
+	private double probCruce;		//probabilidad de cruce
+	private double probMutacion;	//probabilidad de mutacion
+	private double perElite;		//porcentaje de la elite
+	private double valorError;		//precision para los individuos
 		
 	private Individuo[] poblacion;	//poblacion actual
 	private Individuo elMejor;		//el mejor individuo encontrado hasta el momento
@@ -76,12 +78,13 @@ public class AlgoritmoGenetico {
 	 * @param perElite porcentaje de elite
 	 * */
 	public void configura(FuncionIndividuo funcion, int tamPoblacion, int maxGeneraciones, TipoCruce tipoCruce, TipoSeleccion tipoSeleccion, 
-	float probMutacion, float probCruce, float perElite, boolean elite,  JFrame jframe) {
+	double probMutacion, double probCruce, double perElite, boolean elite,  JFrame jframe, double valorError, int n) {
 		
 		this.funcion = funcion;
 		
 		this.tamPoblacion = tamPoblacion;
 		this.maxGeneraciones = maxGeneraciones;
+		this.n = n;
 		
 		this.probMutacion = probMutacion;
 		this.probCruce = probCruce;
@@ -93,6 +96,8 @@ public class AlgoritmoGenetico {
 		this.conElite = elite;
 		
 		this.jframe = jframe;
+		
+		this.valorError = valorError;
 		
 		this.mutacion = new MutacionBasica(this.probMutacion);
 		elegirSeleccion();
@@ -137,7 +142,7 @@ public class AlgoritmoGenetico {
 		
 		//Inicializamos la poblacion con la función dada
 		for(int i = 0; i< this.tamPoblacion; ++i) {
-			this.poblacion[i] = IndividuoFactory.getIndividuo(funcion);
+			this.poblacion[i] = IndividuoFactory.getIndividuo(funcion, this.valorError, this.n);
 		}
 		//Ordena la poblacion de individuos por valor
 		Arrays.sort(this.poblacion);
@@ -167,7 +172,7 @@ public class AlgoritmoGenetico {
 		//Comprobamos si hemos obtenido el mejor absoluto hasta el momento
 		if(this.poblacion[0].compareTo(elMejor) <= 0) {
 			this.mejor_absoluto[this.generacionActual] = this.mejor_generacion[this.generacionActual];
-			this.elMejor = IndividuoFactory.getIndividuo(funcion);
+			this.elMejor = IndividuoFactory.getIndividuo(funcion, this.valorError, this.n);
 			this.elMejor.copiarIndividuo(this.poblacion[0]);
 		}
 		else if(this.generacionActual > 0){
@@ -216,7 +221,7 @@ public class AlgoritmoGenetico {
 		int[] seleccionados = this.seleccion.seleccionar(this.poblacion);
 		Individuo[] nuevaPoblacion = new Individuo[this.tamPoblacion];
 		for(int i = 0; i < this.tamPoblacion; i++){
-			nuevaPoblacion[i] = IndividuoFactory.getIndividuo(funcion);
+			nuevaPoblacion[i] = IndividuoFactory.getIndividuo(funcion, this.valorError, this.n);
 			nuevaPoblacion[i].copiarIndividuo(this.poblacion[seleccionados[i]]);
 		}
 		this.poblacion = nuevaPoblacion;
@@ -252,7 +257,7 @@ public class AlgoritmoGenetico {
 	private void guardarElite(){
 		Arrays.sort(this.poblacion);
 		for(int i = 0; i < this.elite.length; i++) {
-			Individuo ind = IndividuoFactory.getIndividuo(funcion);
+			Individuo ind = IndividuoFactory.getIndividuo(funcion, this.valorError, this.n);
 			ind.copiarIndividuo(this.poblacion[i]);
 			this.elite[i] = ind;
 		}

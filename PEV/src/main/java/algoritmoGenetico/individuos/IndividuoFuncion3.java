@@ -3,15 +3,10 @@ package algoritmoGenetico.individuos;
 import java.util.Arrays;
 import java.util.Random;
 
-public class IndividuoFuncion3 extends Individuo<Boolean>{
-
-	private double min[];
-	private double max[];
-	private double valorError;
+public class IndividuoFuncion3 extends InidividuoBoolean{
 	
-	private Random rand;
-	
-	public IndividuoFuncion3() {
+	public IndividuoFuncion3(double valorError) {
+		super(valorError);
 		inicializaValores();
 		
 		for(int i = 0; i < this.cromosoma.length; i++)  
@@ -33,16 +28,7 @@ public class IndividuoFuncion3 extends Individuo<Boolean>{
 		return -this.getValor();
 	}
 
-	@Override
-	public void mutar(double probMutacion, Random r) {
-		for (int i=0; i < this.cromosoma.length; i++) {
-			if (r.nextDouble() < probMutacion) 
-				cromosoma[i] = r.nextBoolean();		
-		}
-	}
-
 	protected void inicializaValores() {
-		this.valorError = 0.001;
 		this.min = new double[] {-512, -512};
 		this.max = new double[] {512, 512};
 		this.tamGenes = new int[2];
@@ -65,18 +51,4 @@ public class IndividuoFuncion3 extends Individuo<Boolean>{
 		return this.min[genIndex] + bin2dec(genIndex) *
 				((this.max[genIndex] - this.min[genIndex]) / (Math.pow(2, this.tamGenes[genIndex]) - 1.0));
 	}
-	
-	private double bin2dec(int genIndex) {
-		int inicio = 0;
-		for(int i = 0; i < genIndex; ++i) inicio += this.tamGenes[i];
-		
-		Boolean values[] = Arrays.copyOfRange(this.cromosoma, inicio, inicio + this.tamGenes[genIndex]);
-		
-		long result = 0;
-        for (boolean bit : values) {
-            result = result * 2 + (bit ? 1 : 0);
-        }
-
-        return result;
-    }
 }

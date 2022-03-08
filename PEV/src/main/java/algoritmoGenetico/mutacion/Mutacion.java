@@ -3,10 +3,10 @@ package algoritmoGenetico.mutacion;
 import algoritmoGenetico.individuos.Individuo;
 
 public abstract class Mutacion {
-	protected float probMutacion;
+	protected double probMutacion;
 	
-	public Mutacion(float probMut) {
-		this.probMutacion = probMut;
+	public Mutacion(double probMutacion2) {
+		this.probMutacion = probMutacion2;
 	}
 	
 	public abstract Individuo[] mutar(Individuo[] individuos);

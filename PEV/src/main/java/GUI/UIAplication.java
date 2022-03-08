@@ -39,6 +39,9 @@ import javax.swing.JSplitPane;
 import javax.swing.JLayeredPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.SpinnerNumberModel;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 public class UIAplication {
 
@@ -103,9 +106,8 @@ public class UIAplication {
 		final JCheckBox elite = new JCheckBox("\u00C9lite");
 		panel.add(elite);
 		
-		final JSlider perElite = new JSlider();
-		perElite.setToolTipText("Porcentaje de \u00C9lite");
-		perElite.setValue(10);
+		final JSpinner perElite = new JSpinner();
+		perElite.setModel(new SpinnerNumberModel(0.1, 0.0, 1.0, 0.1));
 		panel.add(perElite);
 		
 		JPanel panel_1 = new JPanel();
@@ -116,17 +118,16 @@ public class UIAplication {
 		JLabel lblProbabilidadCruce = new JLabel("Probabilidad Cruce");
 		panel_1.add(lblProbabilidadCruce);
 		
-		final JSlider ProbCruce = new JSlider();
-		ProbCruce.setValue(60);
+		final JSpinner ProbCruce = new JSpinner();
+		ProbCruce.setModel(new SpinnerNumberModel(0.6, 0.0, 1.0, 0.05));
 		panel_1.add(ProbCruce);
 		
 		JLabel ProbabilidadDeMutacion = new JLabel("Probabilidad de Mutaci\u00F3n");
 		ProbabilidadDeMutacion.setToolTipText("Probabilidad de Mutaci\u00F3n");
 		panel_1.add(ProbabilidadDeMutacion);
 		
-		final JSlider ProbMut = new JSlider();
-		ProbMut.setValue(5);
-		ProbMut.setToolTipText("Probabilidad de Mutacion");
+		final JSpinner ProbMut = new JSpinner();
+		ProbMut.setModel(new SpinnerNumberModel(0.05, 0.0, 1.0, 0.05));
 		panel_1.add(ProbMut);
 		
 		JLabel lblTipoCruce = new JLabel("Tipo Cruce");
@@ -145,34 +146,53 @@ public class UIAplication {
 		
 		JPanel panel_2 = new JPanel();
 		frmGp.getContentPane().add(panel_2, BorderLayout.EAST);
-		panel_2.setLayout(new GridLayout(0, 1, 70, 0));
+		panel_2.setLayout(new GridLayout(2, 1, 0, 0));
 		
 		JPanel panel_3 = new JPanel();
 		panel_2.add(panel_3);
+		panel_3.setLayout(new GridLayout(3, 2, 10, 0));
 		
 		JLabel lblTipoDeFuncion = new JLabel("Tipo de Funcion");
 		panel_3.add(lblTipoDeFuncion);
 		
 		final JComboBox TipoFuncion = new JComboBox();
-		TipoFuncion.setModel(new DefaultComboBoxModel(new String[] {"Funcion1", "Funcion2", "Funcion3", "Funcion4"}));
+		TipoFuncion.setModel(new DefaultComboBoxModel(new String[] {"Individuo Funcion 1", "Individuo Funcion 2", "Individuo Funcion 3", "Individuo Funcion 4", "Individuo Funcion 4 Real"}));
 		panel_3.add(TipoFuncion);
+		
+		JLabel lblNewLabel_2 = new JLabel("Precision de Individuo");
+		panel_3.add(lblNewLabel_2);
+		
+		final JSpinner precision = new JSpinner();
+		precision.setModel(new SpinnerNumberModel(0.001, 0.0, 1.0, 0.001));
+		panel_3.add(precision);
+		
+		JLabel lblNewLabel_3 = new JLabel("N\u00FAmero n Funcion4");
+		panel_3.add(lblNewLabel_3);
+		
+		final JSpinner n = new JSpinner();
+		n.setModel(new SpinnerNumberModel(new Integer(6), new Integer(0), null, new Integer(1)));
+		panel_3.add(n);
+		
+		JPanel panel_4 = new JPanel();
+		panel_2.add(panel_4);
+		panel_4.setLayout(new GridLayout(3, 1, 0, 0));
 		
 
 		
 		JButton empezar = new JButton("Empezar Algoritmo");
+		panel_4.add(empezar);
 		empezar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				AlgoritmoGenetico AG = new AlgoritmoGenetico();
 				int poblacion = Integer.parseInt(tamPoblacion.getText());
 				int iteraciones = Integer.parseInt(maxIt.getText());
-				
+							
 				AG.configura(FuncionIndividuo.values()[TipoFuncion.getSelectedIndex()], poblacion, iteraciones, TipoCruce.values()[tipoCruce.getSelectedIndex()], TipoSeleccion.values()[tipoSelec.getSelectedIndex()],
-						(float)ProbMut.getValue()/100.0f, (float)ProbCruce.getValue()/100.0f, (float)perElite.getValue()/100.0f, elite.isSelected(), frmGp);
+						(Double)ProbMut.getValue(), (Double)ProbCruce.getValue(), (Double)perElite.getValue(), elite.isSelected(), frmGp, (Double)precision.getValue(), (Integer)n.getValue());
 				AG.run();
 			}
 		});
 		empezar.setForeground(UIManager.getColor("menuPressedItemB"));
-		panel_3.add(empezar);
 		
 	}
 

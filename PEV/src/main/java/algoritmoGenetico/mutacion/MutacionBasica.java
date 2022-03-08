@@ -8,8 +8,8 @@ public class MutacionBasica extends Mutacion {
 
 	private Random rnd;
 	
-	public MutacionBasica(float probMut) {
-		super(probMut);
+	public MutacionBasica(double probMutacion) {
+		super(probMutacion);
 		rnd = new Random();
 	}
 
