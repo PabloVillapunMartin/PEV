@@ -150,7 +150,7 @@ public class UIAplication {
 		
 		JPanel panel_3 = new JPanel();
 		panel_2.add(panel_3);
-		panel_3.setLayout(new GridLayout(3, 2, 10, 0));
+		panel_3.setLayout(new GridLayout(4, 2, 10, 0));
 		
 		JLabel lblTipoDeFuncion = new JLabel("Tipo de Funcion");
 		panel_3.add(lblTipoDeFuncion);
@@ -158,6 +158,15 @@ public class UIAplication {
 		final JComboBox TipoFuncion = new JComboBox();
 		TipoFuncion.setModel(new DefaultComboBoxModel(new String[] {"Individuo Funcion 1", "Individuo Funcion 2", "Individuo Funcion 3", "Individuo Funcion 4", "Individuo Funcion 4 Real"}));
 		panel_3.add(TipoFuncion);
+		TipoFuncion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(TipoFuncion.getSelectedIndex() == 4) //Si estamos en el valor real
+					tipoCruce.setModel(new DefaultComboBoxModel(new String[] {"Monopunto", "Uniforme", "Aritmetico", "Blx_Alpha"}));				
+				else
+					tipoCruce.setModel(new DefaultComboBoxModel(new String[] {"Monopunto", "Uniforme"}));
+					
+			}
+		});
 		
 		JLabel lblNewLabel_2 = new JLabel("Precision de Individuo");
 		panel_3.add(lblNewLabel_2);
@@ -173,9 +182,19 @@ public class UIAplication {
 		n.setModel(new SpinnerNumberModel(new Integer(6), new Integer(0), null, new Integer(1)));
 		panel_3.add(n);
 		
+		JLabel lblNewLabel_4 = new JLabel("Alpha Funci\u00F3n 4 Real");
+		panel_3.add(lblNewLabel_4);
+		
+		final JSpinner alpha = new JSpinner();
+		alpha.setModel(new SpinnerNumberModel(new Float(0.6f), new Float(0.0f), new Float(1.0f), new Float(0.1f)));
+		panel_3.add(alpha);
+		
 		JPanel panel_4 = new JPanel();
 		panel_2.add(panel_4);
 		panel_4.setLayout(new GridLayout(3, 1, 0, 0));
+		
+		JPanel panel_5 = new JPanel();
+		panel_4.add(panel_5);
 		
 
 		
@@ -188,7 +207,7 @@ public class UIAplication {
 				int iteraciones = Integer.parseInt(maxIt.getText());
 							
 				AG.configura(FuncionIndividuo.values()[TipoFuncion.getSelectedIndex()], poblacion, iteraciones, TipoCruce.values()[tipoCruce.getSelectedIndex()], TipoSeleccion.values()[tipoSelec.getSelectedIndex()],
-						(Double)ProbMut.getValue(), (Double)ProbCruce.getValue(), (Double)perElite.getValue(), elite.isSelected(), frmGp, (Double)precision.getValue(), (Integer)n.getValue(), 0.6f);
+						(Double)ProbMut.getValue(), (Double)ProbCruce.getValue(), (Double)perElite.getValue(), elite.isSelected(), frmGp, (Double)precision.getValue(), (Integer)n.getValue(),(Float)alpha.getValue());
 				AG.run();
 			}
 		});
