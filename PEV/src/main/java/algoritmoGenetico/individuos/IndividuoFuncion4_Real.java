@@ -2,7 +2,7 @@ package algoritmoGenetico.individuos;
 
 import java.util.Random;
 
-public class IndividuoFuncion4_Real extends Individuo<Double> {
+public class IndividuoFuncion4_Real extends IndividuoReal {
 
 	protected double min[];
 	protected double max[];

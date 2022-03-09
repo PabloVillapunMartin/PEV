@@ -7,12 +7,8 @@ import algoritmoGenetico.individuos.Individuo;
 
 /*Clase que implementa el cruce uniforme*/
 public class CruceUniforme extends Cruce {
-
-	Random random;
-
 	public CruceUniforme(double probCruce) {
 		super(probCruce);
-		random = new Random();
 	}
 
 	/*
@@ -54,15 +50,6 @@ public class CruceUniforme extends Cruce {
 		}
 			
 		return individuos;
-	}
-	
-	private int buscarIndividuo(Boolean[] visitados, int n){
-		int i = 0;
-		while(visitados[i] ) {
-			i = (i + 1)%n;
-		}
-		visitados[i] = true;
-		return i;
 	}
 
 }

@@ -1,23 +1,21 @@
 package algoritmoGenetico.cruces;
 
 import java.util.Arrays;
-import java.util.Random;
 
 import algoritmoGenetico.individuos.Individuo;
+import algoritmoGenetico.individuos.IndividuoReal;
 
-/*Clase que implementa el cruce monopunto*/
-public class CruceMonopunto extends Cruce {
+public class CruceAritmetico extends Cruce {
 
-	public CruceMonopunto(double probCruce) {
-		super(probCruce);
-	}
+	private float alpha;
 	
-	/*
-	 * Cruza a una poblacion utilizando el algoritmo de monopunto
-	 * */
+	public CruceAritmetico(double probCruce2, float alpha) {
+		super(probCruce2);
+		this.alpha = alpha;
+	}
+
 	@Override
 	public Individuo[] cruzar(Individuo[] individuos) {
-		
 		int n = individuos.length;
 		//Guarda si el individuo ha sido elegido para cruzar o no
 		Boolean[] visitados = new Boolean[n];		
@@ -35,17 +33,20 @@ public class CruceMonopunto extends Cruce {
 				visitados[i] = true;						//Lo visitamos
 				int padre2 = buscarIndividuo(visitados, n);	//Buscamos otro padre
 
-				//Hallamos el punto de corte y realizamos el cruce de los individuos
-				int puntoDeCorte = random.nextInt(individuos[i].getCromosoma().length);					
-				for(int j = 0; j < individuos[i].getCromosoma().length; j++) {		
-					if(j < puntoDeCorte)
-						individuos[padre2].getCromosoma()[j] = individuos[i].getCromosoma()[j];
-					else 
-						individuos[i].getCromosoma()[j] = individuos[padre2].getCromosoma()[j];
-				}
+				cruzaMedia((IndividuoReal)individuos[i], (IndividuoReal)individuos[padre2]);
 			}
 		}
 			
 		return individuos;
+	}
+
+	private void cruzaMedia(IndividuoReal individuo1, IndividuoReal individuo2) {
+		for(int i = 0; i < individuo1.getCromosoma().length; ++i) {
+			double h1 = this.alpha * individuo1.getCromosoma()[i] + (1-this.alpha) * individuo2.getCromosoma()[i];
+			double h2 = this.alpha * individuo2.getCromosoma()[i] + (1-this.alpha) * individuo1.getCromosoma()[i];
+			
+			individuo1.getCromosoma()[i] = h1;
+			individuo2.getCromosoma()[i] = h2;
+		}
 	}
 }

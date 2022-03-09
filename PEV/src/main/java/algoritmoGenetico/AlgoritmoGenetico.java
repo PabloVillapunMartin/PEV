@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import org.math.plot.Plot2DPanel;
 
 import algoritmoGenetico.cruces.Cruce;
+import algoritmoGenetico.cruces.CruceAritmetico;
+import algoritmoGenetico.cruces.CruceBLX;
 import algoritmoGenetico.cruces.CruceMonopunto;
 import algoritmoGenetico.cruces.CruceUniforme;
 import algoritmoGenetico.individuos.Individuo;
@@ -27,7 +29,7 @@ import algoritmoGenetico.seleccion.SeleccionTruncamiento;
 
 public class AlgoritmoGenetico {
 	
-	public enum TipoCruce { monopunto, uniforme}
+	public enum TipoCruce { monopunto, uniforme, aritmetico, blx}
 	public enum TipoSeleccion {porRuleta, torneoDet, torneoProb, estoUniversal, truncamiento, restos}
 	
 	TipoSeleccion tipoSeleccion = TipoSeleccion.porRuleta;
@@ -53,6 +55,7 @@ public class AlgoritmoGenetico {
 	private double probMutacion;	//probabilidad de mutacion
 	private double perElite;		//porcentaje de la elite
 	private double valorError;		//precision para los individuos
+	private float alpha;			//alpha para cruces para reales
 		
 	private Individuo[] poblacion;	//poblacion actual
 	private Individuo elMejor;		//el mejor individuo encontrado hasta el momento
@@ -78,7 +81,7 @@ public class AlgoritmoGenetico {
 	 * @param perElite porcentaje de elite
 	 * */
 	public void configura(FuncionIndividuo funcion, int tamPoblacion, int maxGeneraciones, TipoCruce tipoCruce, TipoSeleccion tipoSeleccion, 
-	double probMutacion, double probCruce, double perElite, boolean elite,  JFrame jframe, double valorError, int n) {
+	double probMutacion, double probCruce, double perElite, boolean elite,  JFrame jframe, double valorError, int n, float alpha) {
 		
 		this.funcion = funcion;
 		
@@ -98,6 +101,7 @@ public class AlgoritmoGenetico {
 		this.jframe = jframe;
 		
 		this.valorError = valorError;
+		this.alpha = alpha;
 		
 		this.mutacion = new MutacionBasica(this.probMutacion);
 		elegirSeleccion();
@@ -246,8 +250,10 @@ public class AlgoritmoGenetico {
 	 * */
 	private void elegirCruce() {
 		switch(this.tipoCruce) {
-			case monopunto: this.cruce = new CruceMonopunto(this.probCruce); 				break;
-			case uniforme:	this.cruce = new CruceUniforme(this.probCruce);					break;
+			case monopunto: 	this.cruce = new CruceMonopunto(this.probCruce); 				break;
+			case uniforme:		this.cruce = new CruceUniforme(this.probCruce);					break;
+			case aritmetico: 	this.cruce = new CruceAritmetico(this.probCruce, this.alpha);	break;
+			case blx:			this.cruce = new CruceBLX(this.probCruce, this.alpha);			break;
 		}
 	}
 	

@@ -6,11 +6,9 @@ import algoritmoGenetico.individuos.Individuo;
 
 public class MutacionBasica extends Mutacion {
 
-	private Random rnd;
-	
+
 	public MutacionBasica(double probMutacion) {
 		super(probMutacion);
-		rnd = new Random();
 	}
 
 	@Override

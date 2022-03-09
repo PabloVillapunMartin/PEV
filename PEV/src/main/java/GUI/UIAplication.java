@@ -188,7 +188,7 @@ public class UIAplication {
 				int iteraciones = Integer.parseInt(maxIt.getText());
 							
 				AG.configura(FuncionIndividuo.values()[TipoFuncion.getSelectedIndex()], poblacion, iteraciones, TipoCruce.values()[tipoCruce.getSelectedIndex()], TipoSeleccion.values()[tipoSelec.getSelectedIndex()],
-						(Double)ProbMut.getValue(), (Double)ProbCruce.getValue(), (Double)perElite.getValue(), elite.isSelected(), frmGp, (Double)precision.getValue(), (Integer)n.getValue());
+						(Double)ProbMut.getValue(), (Double)ProbCruce.getValue(), (Double)perElite.getValue(), elite.isSelected(), frmGp, (Double)precision.getValue(), (Integer)n.getValue(), 0.6f);
 				AG.run();
 			}
 		});
