@@ -8,10 +8,17 @@ public abstract class Mutacion {
 	protected double probMutacion;
 	protected Random rnd;
 	
-	public Mutacion(double probMutacion2) {
-		this.probMutacion = probMutacion2;
+	/*
+	 * Constructora de clase
+	 * @param probMutacion probabilidad de mutacion
+	 */
+	public Mutacion(double probMutacion) {
+		this.probMutacion = probMutacion;
 		rnd = new Random();
 	}
 	
+	/*
+	 * Metodo abstracto que implementa una funcionde mutacion
+	 */
 	public abstract Individuo[] mutar(Individuo[] individuos);
 }

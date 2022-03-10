@@ -1,7 +1,5 @@
 package algoritmoGenetico.seleccion;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import algoritmoGenetico.individuos.Individuo;
@@ -10,17 +8,23 @@ public class SeleccionTorneoProbabilistico extends Seleccion {
 	
 	private Random rnd;
 	
+	/*
+	 * Constructora de clase
+	 */
 	public SeleccionTorneoProbabilistico() {
 		rnd = new Random();
 	}
 	
+	/*
+	 * Seleccion por torneo probabilistico
+	 */
 	@Override
 	public int[] seleccionar(Individuo[] individuos) {
 		int n = individuos.length;
 		int[] individuosSeleccionados = new int[n];
-		double [] fitness = calculaFitness(individuos);
 		
 		float p = 0.55f;
+		//Realizacion de tantos torneos como individuos tiene la poblacion
 		for(int i = 0; i< n; i++) {			
 			int mejorIndividuo = rnd.nextInt(n);	
 			int peorIndividuo = mejorIndividuo;

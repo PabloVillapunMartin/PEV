@@ -1,16 +1,19 @@
 package algoritmoGenetico.mutacion;
 
-import java.util.Random;
-
 import algoritmoGenetico.individuos.Individuo;
 
 public class MutacionBasica extends Mutacion {
 
-
+	/*
+	 * Constructora de clase
+	 */
 	public MutacionBasica(double probMutacion) {
 		super(probMutacion);
 	}
 
+	/*
+	 * Realiza mutaciones en los individuos segun la probabilidad de mutacion
+	 */
 	@Override
 	public Individuo[] mutar(Individuo[] individuos) {
 		int n = individuos.length;

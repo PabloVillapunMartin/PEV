@@ -1,13 +1,14 @@
 package algoritmoGenetico.cruces;
 
 import java.util.Arrays;
-import java.util.Random;
 
 import algoritmoGenetico.individuos.Individuo;
 
-/*Clase que implementa el cruce monopunto*/
 public class CruceMonopunto extends Cruce {
 
+	/*
+	 * Constructora de clase
+	 */
 	public CruceMonopunto(double probCruce) {
 		super(probCruce);
 	}

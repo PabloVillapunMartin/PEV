@@ -1,12 +1,14 @@
 package algoritmoGenetico.cruces;
 
 import java.util.Arrays;
-import java.util.Random;
 
 import algoritmoGenetico.individuos.Individuo;
 
-/*Clase que implementa el cruce uniforme*/
 public class CruceUniforme extends Cruce {
+	
+	/*
+	 * Constructora de clase
+	 */
 	public CruceUniforme(double probCruce) {
 		super(probCruce);
 	}

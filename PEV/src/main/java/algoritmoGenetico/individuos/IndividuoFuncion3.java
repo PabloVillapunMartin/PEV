@@ -1,10 +1,12 @@
 package algoritmoGenetico.individuos;
 
-import java.util.Arrays;
 import java.util.Random;
 
 public class IndividuoFuncion3 extends InidividuoBoolean{
 	
+	/*
+	 * Constructora de clase
+	 */
 	public IndividuoFuncion3(double valorError) {
 		super(valorError);
 		inicializaValores();
@@ -28,6 +30,9 @@ public class IndividuoFuncion3 extends InidividuoBoolean{
 		return -this.getValor();
 	}
 
+	/*
+	 * Inicializa los valores para individuo 3
+	 */
 	protected void inicializaValores() {
 		this.min = new double[] {-512, -512};
 		this.max = new double[] {512, 512};
@@ -39,6 +44,9 @@ public class IndividuoFuncion3 extends InidividuoBoolean{
 		rand = new Random();
 	}
 
+	/*
+	 * Operador que compara dos individuos de tipo 3
+	 */
 	public int compareTo(Individuo o) {
 		if(this.getValor() - o.getValor() > 0)
 			return 1;
@@ -47,6 +55,9 @@ public class IndividuoFuncion3 extends InidividuoBoolean{
 		else return 0;
 	}
 	
+	/*
+	 * Getter del fenotipo del individuo 3
+	 */
 	private double getFenotipo(int genIndex) {
 		return this.min[genIndex] + bin2dec(genIndex) *
 				((this.max[genIndex] - this.min[genIndex]) / (Math.pow(2, this.tamGenes[genIndex]) - 1.0));

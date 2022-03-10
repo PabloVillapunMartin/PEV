@@ -12,14 +12,44 @@ public class IndividuoFuncion4_Real extends IndividuoReal {
 	
 	int n;
 	
+	/*
+	 * Constructora de clase
+	 */
 	public IndividuoFuncion4_Real(double valorError, int n){
 		this.valorError = valorError;
 		this.n = n;
 		inicializaValores();
+		
 		for(int i = 0; i < this.cromosoma.length; i++)  
 			this.cromosoma[i] = rand.nextDouble() * Math.PI;	
-		
 	}
+	
+	/*
+	 * Inicializa los valores para individuo 4.5
+	 */
+	private void inicializaValores() {
+		this.min = new double[1];
+		this.min[0] = 0.0;
+		this.max = new double[1];
+		this.max[0] = Math.PI;
+		
+		this.tamGenes = new int[n];
+		
+		int tamTotal = 0;
+		for(int i = 0; i < n; ++i) 
+		{
+			this.tamGenes[i] = 1;
+			tamTotal += this.tamGenes[i];
+		}
+		
+		this.cromosoma = new Double[tamTotal];
+		
+		rand = new Random();
+	}
+	
+	/*
+	 * Operador que compara dos individuos de tipo 4.5
+	 */
 	public int compareTo(Individuo o) {
 		if(this.getValor() - o.getValor() > 0)
 			return 1;
@@ -53,30 +83,11 @@ public class IndividuoFuncion4_Real extends IndividuoReal {
 		}
 	}
 	
+	/*
+	 * Getter del fenotipo del individuo 4.5
+	 */
 	private double getFenotipo(int genIndex) {
 		return this.min[0] + cromosoma[genIndex] *
 				((this.max[0] - this.min[0]) / (Math.pow(2, this.tamGenes[genIndex]) - 1.0));
 	}
-	
-	private void inicializaValores() {
-		this.min = new double[1];
-		this.min[0] = 0.0;
-		this.max = new double[1];
-		this.max[0] = Math.PI;
-		
-		this.tamGenes = new int[n];
-		
-		int tamTotal = 0;
-		for(int i = 0; i < n; ++i) 
-		{
-			this.tamGenes[i] = 1;
-			tamTotal += this.tamGenes[i];
-		}
-		
-		this.cromosoma = new Double[tamTotal];
-		
-		rand = new Random();
-	}
-
-
 }

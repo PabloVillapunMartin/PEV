@@ -260,6 +260,9 @@ public class AlgoritmoGenetico {
 		}
 	}
 	
+	/*
+	 * Establece el tipo de mutacion seleccionada por el usuario
+	 */
 	private void elegirMutacion(){
 		switch(this.tipoMutacion){
 			case uniforme: 	this.mutacion = new MutacionBasica(this.probMutacion);		break;

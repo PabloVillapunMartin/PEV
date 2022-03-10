@@ -9,11 +9,17 @@ public class CruceAritmetico extends Cruce {
 
 	private float alpha;
 	
+	/*
+	 * Constructora de clase
+	 */
 	public CruceAritmetico(double probCruce2, float alpha) {
 		super(probCruce2);
 		this.alpha = alpha;
 	}
 
+	/*
+	 * Cruce aritmetico
+	 */
 	@Override
 	public Individuo[] cruzar(Individuo[] individuos) {
 		int n = individuos.length;
@@ -40,11 +46,16 @@ public class CruceAritmetico extends Cruce {
 		return individuos;
 	}
 
+	/*
+	 * Realiza la media ponderada de los cromosomas de ambos individuos y les asigna ambos valores
+	 */
 	private void cruzaMedia(IndividuoReal individuo1, IndividuoReal individuo2) {
 		for(int i = 0; i < individuo1.getCromosoma().length; ++i) {
+			//Medias ponderadas
 			double h1 = this.alpha * individuo1.getCromosoma()[i] + (1-this.alpha) * individuo2.getCromosoma()[i];
 			double h2 = this.alpha * individuo2.getCromosoma()[i] + (1-this.alpha) * individuo1.getCromosoma()[i];
 			
+			//Asignacion
 			individuo1.getCromosoma()[i] = h1;
 			individuo2.getCromosoma()[i] = h2;
 		}

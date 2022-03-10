@@ -15,20 +15,35 @@ public abstract class Individuo<T> implements Comparable<Individuo> {
 		return cromosoma;
 	}
 	
+	/*
+	 * Setter del cromosoma
+	 */
 	public void setCromosoma(T[] cromosoma) {
 		this.cromosoma = cromosoma;
 	}
 
+	/*
+	 * Getter del size de los genes
+	 */
 	public int[] getTamGenes() {
 		return tamGenes;
 	}
 
+	/*
+	 * Setter del size de los genes
+	 */
 	public void setTamGenes(int[] tamGenes) {
 		this.tamGenes = tamGenes;
 	}
 	
+	/*
+	 * Devuelve el valor del individuo
+	 */
 	public abstract double getValor();
 
+	/*
+	 * Devuelve la aptitud del individuo
+	 */
 	public abstract double getFitness();	
 	
 	/********************************************************
@@ -36,7 +51,10 @@ public abstract class Individuo<T> implements Comparable<Individuo> {
 	 ********************************************************/
 	
 	/*
-	 * Devuelve el tamnio de un gen
+	 * Calcula el size de un gen
+	 * @param precision cantidad de cifras decimales de precision
+	 * @param valor minimo
+	 * @param max valor maximo 
 	 * */
 	public int tamGen(double precision, double min, double max) {
 		return (int) (Math.log10(((max - min) / precision) + 1) / Math.log10(2));

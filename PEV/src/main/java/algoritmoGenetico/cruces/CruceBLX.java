@@ -8,11 +8,18 @@ import algoritmoGenetico.individuos.IndividuoReal;
 public class CruceBLX extends Cruce {
 
 	private double alpha;
+	
+	/*
+	 * Constructora de clase
+	 */
 	public CruceBLX(double probCruce2, double alpha) {
 		super(probCruce2);
 		this.alpha = alpha;
 	}
 
+	/*
+	 * Cruce BLX
+	 */
 	@Override
 	public Individuo[] cruzar(Individuo[] individuos) {
 		int n = individuos.length;
@@ -30,22 +37,31 @@ public class CruceBLX extends Cruce {
 			//Si el individuo no ha sido visitado y se selecciona para cruzar
 			if(!visitados[i] && rnd <= this.probCruce){	
 				visitados[i] = true;						//Lo visitamos
-				int padre2 = buscarIndividuo(visitados, n);	//Buscamos otro padre			
+				int padre2 = buscarIndividuo(visitados, n);	//Buscamos otro padre	
+				cruzaBLX((IndividuoReal)individuos[i], (IndividuoReal)individuos[padre2]);
 			}
 		}
 			
 		return individuos;
 	}
 	
+	/*
+	 * Cruce BLX para los individuos
+	 */
 	private void cruzaBLX(IndividuoReal individuo1, IndividuoReal individuo2) {
 		for(int i = 0; i < individuo1.getCromosoma().length; ++i) {
+			//Obtener el maximo y minimo valor en ambos cromosomas
 			double max = Math.max(individuo1.getCromosoma()[i], individuo2.getCromosoma()[i]);
 			double min = Math.min(individuo1.getCromosoma()[i], individuo2.getCromosoma()[i]);
 			
+			//Rango entre el maximo y minimo
 			double I = max - min;
 			
+			//aplicacion del alpha
 			max = max + I * this.alpha;
 			min = min + I * this.alpha;
+			
+			//Asignacion de valores
 			individuo1.getCromosoma()[i] = random.nextFloat() * I + min;
 			individuo2.getCromosoma()[i] = random.nextFloat() * I + min;		
 		}

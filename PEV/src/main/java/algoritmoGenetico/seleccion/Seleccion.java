@@ -4,8 +4,16 @@ import algoritmoGenetico.individuos.Individuo;
 
 public abstract class Seleccion {
 	
+	/*
+	 * Metodo abstracto que implementa la funcion de seleccion
+	 * @param individuos poblacion sobre la que realizar la seleccion
+	 * @returns indices del array de individuos de los seleccionados
+	 */
 	public abstract int[] seleccionar(Individuo[] individuos);
 	
+	/*
+	 * Calcula el fitness de cada individuo
+	 */
 	public double[] calculaFitness(Individuo[] individuos){
 		double[] fitness = new double[individuos.length];
 		

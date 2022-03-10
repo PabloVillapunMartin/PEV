@@ -1,12 +1,12 @@
 package algoritmoGenetico.individuos;
 
-import java.util.Arrays;
 import java.util.Random;
-
-import algoritmoGenetico.seleccion.Seleccion;
 
 public class IndividuoFuncion1 extends InidividuoBoolean{
 	
+	/*
+	 * Constructora de clase
+	 */
 	public IndividuoFuncion1(double valorError) {
 		super(valorError);
 		inicializaValores();		
@@ -15,6 +15,9 @@ public class IndividuoFuncion1 extends InidividuoBoolean{
 			this.cromosoma[i] = this.rand.nextBoolean();
 	}
 	
+	/*
+	 * Inicializa los valores para individuo 1
+	 */
 	protected void inicializaValores(){
 		this.min = new double[] {-3.0, 4.1};
 		this.max = new double[] {12.1, 5.8};
@@ -38,6 +41,9 @@ public class IndividuoFuncion1 extends InidividuoBoolean{
 		return this.getValor();
 	}
 	
+	/*
+	 * Operador que compara dos individuos de tipo 1
+	 */
 	public int compareTo(Individuo o) {
 		double valorMio = this.getValor();
 		double valorOtro = o.getValor();
@@ -47,6 +53,9 @@ public class IndividuoFuncion1 extends InidividuoBoolean{
 		else							return 0;
 	}
 	
+	/*
+	 * Getter del fenotipo del individuo 1
+	 */
 	private double getFenotipo(int genIndex) {
 		return this.min[genIndex] + bin2dec(genIndex) *
 				((this.max[genIndex] - this.min[genIndex]) / (Math.pow(2, this.tamGenes[genIndex]) - 1.0));

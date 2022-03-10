@@ -8,9 +8,16 @@ public class SeleccionRestos extends Seleccion {
 
 	private Random rnd;
 	
+	/*
+	 * Constructora de clase
+	 */
 	public SeleccionRestos() {
 		rnd = new Random();
 	}
+	
+	/*
+	 * Seleccion por restos
+	 */
 	@Override
 	public int[] seleccionar(Individuo[] individuos) {
 		int n = individuos.length;
@@ -24,7 +31,7 @@ public class SeleccionRestos extends Seleccion {
 		//por restos y por ruleta respectivamente
 		double sumaFitness = 0;
 		for(int i = 0; i < n; ++i) {
-			punt_acu[i] = sumaFitness;				//Guardamos el fitness acumulado
+			punt_acu[i] = sumaFitness;		//Guardamos el fitness acumulado
 			sumaFitness += fitness[i];
 		}
 		//Dividimos entre el total
@@ -45,6 +52,9 @@ public class SeleccionRestos extends Seleccion {
 		return individuosSeleccionados;
 	}
 	
+	/*
+	 * Metodo de seleccion por el cual se seleccionan los individuos sobrantes
+	 */
 	public int ruleta(double [] punt_acu){
 		float prob = rnd.nextFloat();
 		int pos_super = 0;
