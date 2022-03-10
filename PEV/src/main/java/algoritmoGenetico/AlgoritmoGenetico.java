@@ -31,9 +31,11 @@ public class AlgoritmoGenetico {
 	
 	public enum TipoCruce { monopunto, uniforme, aritmetico, blx}
 	public enum TipoSeleccion {porRuleta, torneoDet, torneoProb, estoUniversal, truncamiento, restos}
+	public enum TipoMutacion {uniforme};
 	
 	TipoSeleccion tipoSeleccion = TipoSeleccion.porRuleta;
 	TipoCruce tipoCruce = TipoCruce.monopunto;
+	TipoMutacion tipoMutacion = TipoMutacion.uniforme;
 	
 	//Enum que identifica la funcion del problema
 	public enum FuncionIndividuo { Funcion1, Funcion2, Funcion3, Funcion4, Funcion4_Real}
@@ -80,7 +82,7 @@ public class AlgoritmoGenetico {
 	 * @param probCruce probabilidad de cruce
 	 * @param perElite porcentaje de elite
 	 * */
-	public void configura(FuncionIndividuo funcion, int tamPoblacion, int maxGeneraciones, TipoCruce tipoCruce, TipoSeleccion tipoSeleccion, 
+	public void configura(FuncionIndividuo funcion, int tamPoblacion, int maxGeneraciones, TipoCruce tipoCruce, TipoSeleccion tipoSeleccion, TipoMutacion tipoMutacion,
 	double probMutacion, double probCruce, double perElite, boolean elite,  JFrame jframe, double valorError, int n, float alpha) {
 		
 		this.funcion = funcion;
@@ -94,6 +96,7 @@ public class AlgoritmoGenetico {
 		
 		this.tipoCruce = tipoCruce;
 		this.tipoSeleccion = tipoSeleccion;
+		this.tipoMutacion = tipoMutacion;
 		
 		this.perElite = perElite;
 		this.conElite = elite;
@@ -103,7 +106,7 @@ public class AlgoritmoGenetico {
 		this.valorError = valorError;
 		this.alpha = alpha;
 		
-		this.mutacion = new MutacionBasica(this.probMutacion);
+		elegirMutacion();
 		elegirSeleccion();
 		elegirCruce();
 	}
@@ -254,6 +257,12 @@ public class AlgoritmoGenetico {
 			case uniforme:		this.cruce = new CruceUniforme(this.probCruce);					break;
 			case aritmetico: 	this.cruce = new CruceAritmetico(this.probCruce, this.alpha);	break;
 			case blx:			this.cruce = new CruceBLX(this.probCruce, this.alpha);			break;
+		}
+	}
+	
+	private void elegirMutacion(){
+		switch(this.tipoMutacion){
+			case uniforme: 	this.mutacion = new MutacionBasica(this.probMutacion);		break;
 		}
 	}
 	

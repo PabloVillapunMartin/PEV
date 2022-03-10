@@ -18,6 +18,7 @@ import javax.swing.UIManager;
 import algoritmoGenetico.AlgoritmoGenetico;
 import algoritmoGenetico.AlgoritmoGenetico.FuncionIndividuo;
 import algoritmoGenetico.AlgoritmoGenetico.TipoCruce;
+import algoritmoGenetico.AlgoritmoGenetico.TipoMutacion;
 import algoritmoGenetico.AlgoritmoGenetico.TipoSeleccion;
 
 import javax.swing.JTextField;
@@ -144,6 +145,13 @@ public class UIAplication {
 		tipoSelec.setModel(new DefaultComboBoxModel(new String[] {"Por Ruleta", "Torneo Determinista", "Torneo Probabilistico", "Estoc\u00E1stico Universal", "Truncamiento", "Por Restos"}));
 		panel_1.add(tipoSelec);
 		
+		JLabel lblNewLabel_5 = new JLabel("Tipo Mutaci\u00F3n");
+		panel_1.add(lblNewLabel_5);
+		
+		final JComboBox tipoMut = new JComboBox();
+		tipoMut.setModel(new DefaultComboBoxModel(new String[] {"Uniforme"}));
+		panel_1.add(tipoMut);
+		
 		JPanel panel_2 = new JPanel();
 		frmGp.getContentPane().add(panel_2, BorderLayout.EAST);
 		panel_2.setLayout(new GridLayout(2, 1, 0, 0));
@@ -207,7 +215,8 @@ public class UIAplication {
 				int iteraciones = Integer.parseInt(maxIt.getText());
 							
 				AG.configura(FuncionIndividuo.values()[TipoFuncion.getSelectedIndex()], poblacion, iteraciones, TipoCruce.values()[tipoCruce.getSelectedIndex()], TipoSeleccion.values()[tipoSelec.getSelectedIndex()],
-						(Double)ProbMut.getValue(), (Double)ProbCruce.getValue(), (Double)perElite.getValue(), elite.isSelected(), frmGp, (Double)precision.getValue(), (Integer)n.getValue(),(Float)alpha.getValue());
+						TipoMutacion.values()[tipoMut.getSelectedIndex()],(Double)ProbMut.getValue(), (Double)ProbCruce.getValue(), (Double)perElite.getValue(), elite.isSelected(),
+						frmGp, (Double)precision.getValue(), (Integer)n.getValue(),(Float)alpha.getValue());
 				AG.run();
 			}
 		});
