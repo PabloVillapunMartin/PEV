@@ -96,7 +96,7 @@ public class UIAplication {
 		panel.add(tamPoblacion);
 		tamPoblacion.setColumns(10);
 		
-		JLabel lblNewLabel = new JLabel("Maximod de Iteraciones");
+		JLabel lblNewLabel = new JLabel("Maximo de Iteraciones");
 		panel.add(lblNewLabel);
 		
 		maxIt = new JTextField();
@@ -108,7 +108,7 @@ public class UIAplication {
 		panel.add(elite);
 		
 		final JSpinner perElite = new JSpinner();
-		perElite.setModel(new SpinnerNumberModel(0.1, 0.0, 1.0, 0.1));
+		perElite.setModel(new SpinnerNumberModel(0.01, 0.0, 1.0, 0.01));
 		panel.add(perElite);
 		
 		JPanel panel_1 = new JPanel();

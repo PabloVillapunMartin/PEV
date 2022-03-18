@@ -3,8 +3,6 @@ package algoritmoGenetico.cruces;
 import java.util.Arrays;
 
 import algoritmoGenetico.individuos.Individuo;
-import algoritmoGenetico.individuos.IndividuoReal;
-
 public class CruceAritmetico extends Cruce {
 
 	private float alpha;
@@ -16,7 +14,6 @@ public class CruceAritmetico extends Cruce {
 		super(probCruce2);
 		this.alpha = alpha;
 	}
-
 	/*
 	 * Cruce aritmetico
 	 */
@@ -39,21 +36,20 @@ public class CruceAritmetico extends Cruce {
 				visitados[i] = true;						//Lo visitamos
 				int padre2 = buscarIndividuo(visitados, n);	//Buscamos otro padre
 
-				cruzaMedia((IndividuoReal)individuos[i], (IndividuoReal)individuos[padre2]);
+				cruzaMedia(individuos[i], individuos[padre2]);
 			}
-		}
-			
+		}		
 		return individuos;
 	}
 
 	/*
 	 * Realiza la media ponderada de los cromosomas de ambos individuos y les asigna ambos valores
 	 */
-	private void cruzaMedia(IndividuoReal individuo1, IndividuoReal individuo2) {
+	private void cruzaMedia(Individuo individuo1, Individuo individuo2) {
 		for(int i = 0; i < individuo1.getCromosoma().length; ++i) {
 			//Medias ponderadas
-			double h1 = this.alpha * individuo1.getCromosoma()[i] + (1-this.alpha) * individuo2.getCromosoma()[i];
-			double h2 = this.alpha * individuo2.getCromosoma()[i] + (1-this.alpha) * individuo1.getCromosoma()[i];
+			double h1 = this.alpha * (Double)individuo1.getCromosoma()[i] + (1-this.alpha) * (Double)individuo2.getCromosoma()[i];
+			double h2 = this.alpha * (Double)individuo2.getCromosoma()[i] + (1-this.alpha) * (Double)individuo1.getCromosoma()[i];
 			
 			//Asignacion
 			individuo1.getCromosoma()[i] = h1;

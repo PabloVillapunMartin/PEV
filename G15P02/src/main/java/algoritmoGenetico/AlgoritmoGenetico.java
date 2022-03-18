@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import org.math.plot.Plot2DPanel;
 
+import algoritmoGenetico.aviones.TraficoAereo;
 import algoritmoGenetico.cruces.Cruce;
 import algoritmoGenetico.cruces.CruceAritmetico;
 import algoritmoGenetico.cruces.CruceBLX;
@@ -38,7 +39,7 @@ public class AlgoritmoGenetico {
 	TipoMutacion tipoMutacion = TipoMutacion.uniforme;
 	
 	//Enum que identifica la funcion del problema
-	public enum FuncionIndividuo { Funcion1, Funcion2, Funcion3, Funcion4, Funcion4_Real}
+	public enum FuncionIndividuo { FuncionAvion}
 	
 	private FuncionIndividuo funcion;	//Funcion del problema
 	
@@ -83,7 +84,7 @@ public class AlgoritmoGenetico {
 	 * @param perElite porcentaje de elite
 	 * */
 	public void configura(FuncionIndividuo funcion, int tamPoblacion, int maxGeneraciones, TipoCruce tipoCruce, TipoSeleccion tipoSeleccion, TipoMutacion tipoMutacion,
-	double probMutacion, double probCruce, double perElite, boolean elite,  JFrame jframe, double valorError, int n, float alpha) {
+	double probMutacion, double probCruce, double perElite, boolean elite,  JFrame jframe, double valorError, int n, float alpha,int problema) {
 		
 		this.funcion = funcion;
 		
@@ -109,6 +110,8 @@ public class AlgoritmoGenetico {
 		elegirMutacion();
 		elegirSeleccion();
 		elegirCruce();
+		//Inicializamos el singleton
+		TraficoAereo.getInstance().init(problema);
 	}
 	
 	/* 

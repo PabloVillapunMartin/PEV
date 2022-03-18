@@ -3,7 +3,6 @@ package algoritmoGenetico.cruces;
 import java.util.Arrays;
 
 import algoritmoGenetico.individuos.Individuo;
-import algoritmoGenetico.individuos.IndividuoReal;
 
 public class CruceBLX extends Cruce {
 
@@ -16,7 +15,6 @@ public class CruceBLX extends Cruce {
 		super(probCruce2);
 		this.alpha = alpha;
 	}
-
 	/*
 	 * Cruce BLX
 	 */
@@ -38,7 +36,7 @@ public class CruceBLX extends Cruce {
 			if(!visitados[i] && rnd <= this.probCruce){	
 				visitados[i] = true;						//Lo visitamos
 				int padre2 = buscarIndividuo(visitados, n);	//Buscamos otro padre	
-				cruzaBLX((IndividuoReal)individuos[i], (IndividuoReal)individuos[padre2]);
+				cruzaBLX(individuos[i], individuos[padre2]);
 			}
 		}
 			
@@ -48,11 +46,11 @@ public class CruceBLX extends Cruce {
 	/*
 	 * Cruce BLX para los individuos
 	 */
-	private void cruzaBLX(IndividuoReal individuo1, IndividuoReal individuo2) {
+	private void cruzaBLX(Individuo individuo1, Individuo individuo2) {
 		for(int i = 0; i < individuo1.getCromosoma().length; ++i) {
 			//Obtener el maximo y minimo valor en ambos cromosomas
-			double max = Math.max(individuo1.getCromosoma()[i], individuo2.getCromosoma()[i]);
-			double min = Math.min(individuo1.getCromosoma()[i], individuo2.getCromosoma()[i]);
+			double max = Math.max((Double)individuo1.getCromosoma()[i], (Double)individuo2.getCromosoma()[i]);
+			double min = Math.min((Double)individuo1.getCromosoma()[i], (Double)individuo2.getCromosoma()[i]);
 			
 			//Rango entre el maximo y minimo
 			double I = max - min;

@@ -59,11 +59,6 @@ public abstract class Individuo<T> implements Comparable<Individuo> {
 	public int tamGen(double precision, double min, double max) {
 		return (int) (Math.log10(((max - min) / precision) + 1) / Math.log10(2));
 	}
-	/*
-	 * Muta el individuo con la probabilidad dada
-	 * @probMutacion probabilidad de mutacion
-	 * */
-	public abstract void mutar(double probMutacion, Random r);
 	
 	/*
 	 * Copia los atributos de otro individuo a este objeto

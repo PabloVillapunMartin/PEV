@@ -4,6 +4,7 @@ public class InfoAvion {
 
 	enum Tipo{ W, G, P};
 	Tipo tipo;
+	String id;
 	
 	public InfoAvion(Tipo tipo, String id) {
 		this.tipo = tipo;
@@ -22,5 +23,4 @@ public class InfoAvion {
 	public void setId(String id) {
 		this.id = id;
 	}
-	String id;
 }
