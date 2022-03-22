@@ -51,7 +51,7 @@ public class AlgoritmoGenetico {
 	private double[] mejor_absoluto;	//mejor valor obtenido de todas las generaciones
 	private double[] mejor_generacion;	//mejor obtenido en la generacion actual
 	private double[] media_generacion;	//media de la generacion actual
-	private double[] generaciones;			//array que guarda el numero de generaciones para la grafica
+	private double[] generaciones;		//array que guarda el numero de generaciones para la grafica
 	
 	private double probCruce;		//probabilidad de cruce
 	private double probMutacion;	//probabilidad de mutacion
@@ -123,7 +123,7 @@ public class AlgoritmoGenetico {
 			
 			if(conElite)
 				guardarElite();
-			
+
 			seleccionar();
 			this.cruce.cruzar(this.poblacion);
 			this.mutacion.mutar(this.poblacion);
@@ -132,7 +132,7 @@ public class AlgoritmoGenetico {
 				preservarElite();
 			
 			evaluar();			
-			
+						
 			this.generaciones[this.generacionActual] = this.generacionActual;
 			this.generacionActual++;
 		}
@@ -147,17 +147,19 @@ public class AlgoritmoGenetico {
 		this.poblacion = new Individuo[this.tamPoblacion];
 		this.elite = new Individuo[(int)(this.tamPoblacion * this.perElite)];
 		
-		//Inicializamos la poblacion con la función dada
-		for(int i = 0; i< this.tamPoblacion; ++i) {
-			this.poblacion[i] = IndividuoFactory.getIndividuo(funcion, this.valorError, this.n);
-		}
-		//Ordena la poblacion de individuos por valor
-		Arrays.sort(this.poblacion);
-		//Asignamos el mejor absoluto a 0
 		this.mejor_absoluto = new double[this.maxGeneraciones];
 		this.mejor_generacion = new double[this.maxGeneraciones];
 		this.media_generacion = new double[this.maxGeneraciones];
 		this.generaciones = new double[this.maxGeneraciones];
+		
+		//Inicializamos la poblacion con la función dada
+		for(int i = 0; i< this.tamPoblacion; ++i) {
+			this.poblacion[i] = IndividuoFactory.getIndividuo(funcion, this.valorError, this.n);
+			this.mejor_absoluto[i] = 0;
+		}
+		//Ordena la poblacion de individuos por valor
+		Arrays.sort(this.poblacion);
+		//Asignamos el mejor absoluto a 0
 		this.elMejor = this.poblacion[0];
 	}
 	
@@ -174,23 +176,27 @@ public class AlgoritmoGenetico {
 		Arrays.sort(this.poblacion);
 		
 		//Mejor individuo de la generacion
-		this.mejor_generacion[this.generacionActual] = this.poblacion[0].getValor();
+		Individuo mejorGen = IndividuoFactory.getIndividuo(funcion, this.valorError, this.n);
+		mejorGen.copiarIndividuo(this.poblacion[0]);
+		
+		System.out.println("El mejor de esta gen es " + mejorGen.getValor() + " el peor es " + this.poblacion[this.tamPoblacion - 1].getValor());
+		
+		this.mejor_generacion[this.generacionActual] = mejorGen.getValor();
 		
 		//Comprobamos si hemos obtenido el mejor absoluto hasta el momento
-		if(this.poblacion[0].compareTo(elMejor) <= 0) {
+		if(mejorGen.compareTo(elMejor) <= 0) {
 			this.mejor_absoluto[this.generacionActual] = this.mejor_generacion[this.generacionActual];
-			this.elMejor = IndividuoFactory.getIndividuo(funcion, this.valorError, this.n);
-			this.elMejor.copiarIndividuo(this.poblacion[0]);
+			this.elMejor = mejorGen;
 		}
 		else if(this.generacionActual > 0){
 			this.mejor_absoluto[this.generacionActual] = this.mejor_absoluto[this.generacionActual - 1];
 		}
-		
+			
 		//Medimos la media del valor de la generacion
 		for(int i = 0; i < this.tamPoblacion; i++){
 			media_generacion[this.generacionActual] += this.poblacion[i].getValor();
 		}
-		media_generacion[this.generacionActual] /= this.tamPoblacion;			
+		media_generacion[this.generacionActual] /= this.tamPoblacion;		
 	}
 	
 	/*
@@ -203,7 +209,7 @@ public class AlgoritmoGenetico {
         Plot2DPanel plot = new Plot2DPanel() {
             @Override
             public Dimension getPreferredSize() {
-                return new Dimension(400, 200);
+                return new Dimension(600, 400);
             }
         };
         plot.addLinePlot("Media Generacion", Color.GREEN, this.generaciones, this.media_generacion);
@@ -215,6 +221,7 @@ public class AlgoritmoGenetico {
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jframe.add(panel);
         jframe.setLocation(150, 150);
+        jframe.setSize(new Dimension(1200, 800));
         jframe.setVisible(true);
         
         System.out.println("El mejor ha sido " + this.elMejor.getValor());
@@ -225,13 +232,15 @@ public class AlgoritmoGenetico {
 	 * obtenido por la interfaz
 	 * */
 	private void seleccionar(){
+		
 		int[] seleccionados = this.seleccion.seleccionar(this.poblacion);
+
 		Individuo[] nuevaPoblacion = new Individuo[this.tamPoblacion];
 		for(int i = 0; i < this.tamPoblacion; i++){
 			nuevaPoblacion[i] = IndividuoFactory.getIndividuo(funcion, this.valorError, this.n);
 			nuevaPoblacion[i].copiarIndividuo(this.poblacion[seleccionados[i]]);
 		}
-		this.poblacion = nuevaPoblacion;
+		this.poblacion = nuevaPoblacion;			
 	}
 	
 	/* 
@@ -286,7 +295,15 @@ public class AlgoritmoGenetico {
 	 * */
 	private void preservarElite(){
 		Arrays.sort(this.poblacion);
-		for(int i = 0; i < this.elite.length; i++) 
+		for(int i = 0; i < this.elite.length; i++) {
 			this.poblacion[this.tamPoblacion - 1 - i] = this.elite[i];
+		}
+	}
+	
+	private void debug(){
+		for(int i= 0; i < this.poblacion.length; i++){
+			System.out.println(this.poblacion[i].toString());
+		}
+		System.out.println("------------------------------------------------");
 	}
 }

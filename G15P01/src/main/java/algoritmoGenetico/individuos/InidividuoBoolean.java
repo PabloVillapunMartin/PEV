@@ -50,8 +50,16 @@ public class InidividuoBoolean  extends Individuo<Boolean>{
         for (boolean bit : values) {
             result = result * 2 + (bit ? 1 : 0);
         }
-
         return result;
     }
-
+	
+	/*
+	 * Copia los atributos de otro individuo a este objeto
+	 */
+	@Override
+	public void copiarIndividuo(Individuo other) {	
+		for(int i = 0; i < other.getCromosoma().length; ++i){
+			this.cromosoma[i] = (Boolean) other.getCromosoma()[i];
+		}
+	}
 }

@@ -38,11 +38,10 @@ public class CruceMonopunto extends Cruce {
 
 				//Hallamos el punto de corte y realizamos el cruce de los individuos
 				int puntoDeCorte = random.nextInt(individuos[i].getCromosoma().length);					
-				for(int j = 0; j < individuos[i].getCromosoma().length; j++) {		
-					if(j < puntoDeCorte)
-						individuos[padre2].getCromosoma()[j] = individuos[i].getCromosoma()[j];
-					else 
-						individuos[i].getCromosoma()[j] = individuos[padre2].getCromosoma()[j];
+				for(int j = 0; j <= puntoDeCorte; j++) {		
+					Object aux = individuos[padre2].getCromosoma()[j];
+					individuos[padre2].getCromosoma()[j] = individuos[i].getCromosoma()[j];
+					individuos[i].getCromosoma()[j] = aux;					
 				}
 			}
 		}

@@ -60,5 +60,7 @@ public class IndividuoFuncion1 extends InidividuoBoolean{
 		return this.min[genIndex] + bin2dec(genIndex) *
 				((this.max[genIndex] - this.min[genIndex]) / (Math.pow(2, this.tamGenes[genIndex]) - 1.0));
 	}
+
+	
 	
 }

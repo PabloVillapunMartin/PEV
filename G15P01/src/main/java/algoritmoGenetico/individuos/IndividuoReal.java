@@ -26,5 +26,16 @@ public class IndividuoReal extends Individuo<Double>{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	/*
+	 * Copia los atributos de otro individuo a este objeto
+	 */
+	@Override
+	public void copiarIndividuo(Individuo other) {	
+		for(int i = 0; i < other.getCromosoma().length; ++i){
+			this.cromosoma[i] = (Double) other.getCromosoma()[i];
+
+		}
+	}
 
 }
