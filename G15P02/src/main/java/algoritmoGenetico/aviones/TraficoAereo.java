@@ -35,41 +35,19 @@ public class TraficoAereo {
 		this.tamAviones = 12;
 		
 		infoAviones = new InfoAvion[this.tamAviones];
-		this.infoAviones[0].id = "UA138";
-		this.infoAviones[0].tipo = Tipo.W;
-		
-		this.infoAviones[1].id = "UA532";
-		this.infoAviones[1].tipo = Tipo.G;
-		
-		this.infoAviones[2].id = "UA599";
-		this.infoAviones[2].tipo = Tipo.W;
-		
-		this.infoAviones[3].id = "NW358";
-		this.infoAviones[3].tipo = Tipo.W;
-		
-		this.infoAviones[4].id = "UA2987";
-		this.infoAviones[4].tipo = Tipo.P;
-		
-		this.infoAviones[5].id = "AA128";
-		this.infoAviones[5].tipo = Tipo.W;
-		
-		this.infoAviones[6].id = "UA1482";
-		this.infoAviones[6].tipo = Tipo.G;
-		
-		this.infoAviones[7].id = "NW357";
-		this.infoAviones[7].tipo = Tipo.W;
-		
-		this.infoAviones[8].id = "AA129";
-		this.infoAviones[8].tipo = Tipo.W;
-		
-		this.infoAviones[9].id = "UA2408";
-		this.infoAviones[9].tipo = Tipo.P;
-		
-		this.infoAviones[10].id = "UA805";
-		this.infoAviones[10].tipo = Tipo.W;
-		
-		this.infoAviones[11].id = "AA309";
-		this.infoAviones[11].tipo = Tipo.G;
+		this.infoAviones[0] = new InfoAvion(Tipo.W, "UA138");
+		this.infoAviones[1] = new InfoAvion(Tipo.G, "UA532");
+		this.infoAviones[2] = new InfoAvion(Tipo.W, "UA599");
+		this.infoAviones[3] = new InfoAvion(Tipo.W, "NW358");	
+		this.infoAviones[4] = new InfoAvion(Tipo.P, "UA2987");	
+		this.infoAviones[5] = new InfoAvion(Tipo.W, "AA128");	
+		this.infoAviones[6] = new InfoAvion(Tipo.G, "UA1482");		
+		this.infoAviones[7] = new InfoAvion(Tipo.W, "NW357");	
+		this.infoAviones[8] = new InfoAvion(Tipo.W, "AA129");	
+		this.infoAviones[9] = new InfoAvion(Tipo.W, "UA2408");		
+		this.infoAviones[10] = new InfoAvion(Tipo.W, "UA805");		
+		this.infoAviones[11] = new InfoAvion(Tipo.G, "AA309");
+
 		
 		int [][] telo = {{11,15,6,6,9,7,15,6,6,9,7,9}, 
 						{10,17,7,7,12,6,17,7,7,12,6,7},
@@ -87,6 +65,10 @@ public class TraficoAereo {
 	
 	public int getNumPistas() {
 		return this.tamPistas;
+	}
+	
+	public int getNumAviones() {
+		return this.tamAviones;
 	}
 	
 	public InfoAvion getInfo(int numVuelo) {

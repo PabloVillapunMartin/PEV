@@ -19,8 +19,7 @@ public class MutacionBasica extends Mutacion {
 		int n = individuos.length;
 		
 		for(int i = 0; i < n; ++i) {
-			if(rnd.nextFloat() < this.probMutacion)
-				individuos[i].mutar(this.probMutacion, rnd);
+			individuos[i].mutar(this.probMutacion, rnd);
 		}	
 		return individuos;
 	}

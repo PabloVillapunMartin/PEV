@@ -155,6 +155,8 @@ public class AlgoritmoGenetico {
 		//Inicializamos la poblacion con la función dada
 		for(int i = 0; i< this.tamPoblacion; ++i) {
 			this.poblacion[i] = IndividuoFactory.getIndividuo(funcion, this.valorError, this.n);
+		}
+		for(int i = 0; i< this.maxGeneraciones; ++i) {
 			this.mejor_absoluto[i] = 0;
 		}
 		//Ordena la poblacion de individuos por valor
@@ -179,7 +181,7 @@ public class AlgoritmoGenetico {
 		Individuo mejorGen = IndividuoFactory.getIndividuo(funcion, this.valorError, this.n);
 		mejorGen.copiarIndividuo(this.poblacion[0]);
 		
-		System.out.println("El mejor de esta gen es " + mejorGen.getValor() + " el peor es " + this.poblacion[this.tamPoblacion - 1].getValor());
+		//System.out.println("El mejor de esta gen es " + mejorGen.getValor() + " el peor es " + this.poblacion[this.tamPoblacion - 1].getValor());
 		
 		this.mejor_generacion[this.generacionActual] = mejorGen.getValor();
 		

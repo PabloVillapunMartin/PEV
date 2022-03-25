@@ -216,7 +216,7 @@ public class UIAplication {
 							
 				AG.configura(FuncionIndividuo.values()[TipoFuncion.getSelectedIndex()], poblacion, iteraciones, TipoCruce.values()[tipoCruce.getSelectedIndex()], TipoSeleccion.values()[tipoSelec.getSelectedIndex()],
 						TipoMutacion.values()[tipoMut.getSelectedIndex()],(Double)ProbMut.getValue(), (Double)ProbCruce.getValue(), (Double)perElite.getValue(), elite.isSelected(),
-						frmGp, 1/Math.pow(10, (double)(Integer)precision.getValue()), (Integer)n.getValue(),(Float)alpha.getValue());
+						frmGp, 1/Math.pow(10, (double)(Integer)precision.getValue()), 0,(Float)alpha.getValue());
 				AG.run();
 			}
 		});

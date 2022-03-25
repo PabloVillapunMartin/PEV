@@ -2,7 +2,7 @@ package algoritmoGenetico.aviones;
 
 public class InfoAvion {
 
-	enum Tipo{ W, G, P};
+	public enum Tipo{ W, G, P};
 	Tipo tipo;
 	String id;
 	

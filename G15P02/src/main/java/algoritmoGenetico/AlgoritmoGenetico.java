@@ -12,14 +12,9 @@ import org.math.plot.Plot2DPanel;
 
 import algoritmoGenetico.aviones.TraficoAereo;
 import algoritmoGenetico.cruces.Cruce;
-import algoritmoGenetico.cruces.CruceAritmetico;
-import algoritmoGenetico.cruces.CruceBLX;
-import algoritmoGenetico.cruces.CruceMonopunto;
-import algoritmoGenetico.cruces.CruceUniforme;
 import algoritmoGenetico.individuos.Individuo;
 import algoritmoGenetico.individuos.IndividuoFactory;
 import algoritmoGenetico.mutacion.Mutacion;
-import algoritmoGenetico.mutacion.MutacionBasica;
 import algoritmoGenetico.seleccion.Seleccion;
 import algoritmoGenetico.seleccion.SeleccionEstocasticaUniversal;
 import algoritmoGenetico.seleccion.SeleccionRestos;
@@ -30,12 +25,12 @@ import algoritmoGenetico.seleccion.SeleccionTruncamiento;
 
 public class AlgoritmoGenetico {
 	
-	public enum TipoCruce { monopunto, uniforme, aritmetico, blx}
-	public enum TipoSeleccion {porRuleta, torneoDet, torneoProb, estoUniversal, truncamiento, restos}
+	public enum TipoCruce { PMX, OrdenOX, CiclosCX, CO };
+	public enum TipoSeleccion {porRuleta, torneoDet, torneoProb, estoUniversal, truncamiento, restos};
 	public enum TipoMutacion {uniforme};
 	
 	TipoSeleccion tipoSeleccion = TipoSeleccion.porRuleta;
-	TipoCruce tipoCruce = TipoCruce.monopunto;
+	TipoCruce tipoCruce = TipoCruce.PMX;
 	TipoMutacion tipoMutacion = TipoMutacion.uniforme;
 	
 	//Enum que identifica la funcion del problema
@@ -52,7 +47,7 @@ public class AlgoritmoGenetico {
 	private double[] mejor_absoluto;	//mejor valor obtenido de todas las generaciones
 	private double[] mejor_generacion;	//mejor obtenido en la generacion actual
 	private double[] media_generacion;	//media de la generacion actual
-	private double[] generaciones;			//array que guarda el numero de generaciones para la grafica
+	private double[] generaciones;		//array que guarda el numero de generaciones para la grafica
 	
 	private double probCruce;		//probabilidad de cruce
 	private double probMutacion;	//probabilidad de mutacion
@@ -84,7 +79,7 @@ public class AlgoritmoGenetico {
 	 * @param perElite porcentaje de elite
 	 * */
 	public void configura(FuncionIndividuo funcion, int tamPoblacion, int maxGeneraciones, TipoCruce tipoCruce, TipoSeleccion tipoSeleccion, TipoMutacion tipoMutacion,
-	double probMutacion, double probCruce, double perElite, boolean elite,  JFrame jframe, double valorError, int n, float alpha,int problema) {
+	double probMutacion, double probCruce, double perElite, boolean elite,  JFrame jframe, double valorError, int problema, float alpha) {
 		
 		this.funcion = funcion;
 		
@@ -256,10 +251,7 @@ public class AlgoritmoGenetico {
 	 * */
 	private void elegirCruce() {
 		switch(this.tipoCruce) {
-			case monopunto: 	this.cruce = new CruceMonopunto(this.probCruce); 				break;
-			case uniforme:		this.cruce = new CruceUniforme(this.probCruce);					break;
-			case aritmetico: 	this.cruce = new CruceAritmetico(this.probCruce, this.alpha);	break;
-			case blx:			this.cruce = new CruceBLX(this.probCruce, this.alpha);			break;
+
 		}
 	}
 	
@@ -268,7 +260,7 @@ public class AlgoritmoGenetico {
 	 */
 	private void elegirMutacion(){
 		switch(this.tipoMutacion){
-			case uniforme: 	this.mutacion = new MutacionBasica(this.probMutacion);		break;
+			//case uniforme: 	this.mutacion = new MutacionBasica(this.probMutacion);		break;
 		}
 	}
 	
