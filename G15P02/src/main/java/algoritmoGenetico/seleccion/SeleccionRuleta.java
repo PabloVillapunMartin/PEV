@@ -26,7 +26,7 @@ public class SeleccionRuleta extends Seleccion {
 		//Calcular fitness de cada individuo
 		double [] fitness = calculaFitness(individuos);
 		//Array que contiene los puntos acumulados de cada individuo
-		double [] punt_acu = new double [n + 1];
+		double [] punt_acu = new double [n];
 		
 		double sumaFitness = 0;
 		//Bucle para calcular la suma del fitness y los puntos acumulados
@@ -37,19 +37,19 @@ public class SeleccionRuleta extends Seleccion {
 		for(int i = 0; i < n; ++i) {
 			punt_acu[i] /= sumaFitness;
 		}
-		punt_acu[n] = 1.0;
+		punt_acu[n - 1] = 1.0;
 		
 		//Proceso de seleccion
 		float prob = 0.0f;
 		int pos_super = 0;
 		for(int i = 0; i < n; ++i) {
 			prob = rnd.nextFloat();
-			pos_super = 1;
+			pos_super = 0;
 			
-			while(prob > punt_acu[pos_super]){
+			while(punt_acu[pos_super] < prob){
 				pos_super++;
 			}
-			individuosSeleccionados[i] = pos_super - 1;
+			individuosSeleccionados[i] = pos_super;
 		}
 		
 

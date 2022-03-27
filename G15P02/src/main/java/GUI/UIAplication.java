@@ -108,7 +108,7 @@ public class UIAplication {
 		panel.add(elite);
 		
 		final JSpinner perElite = new JSpinner();
-		perElite.setModel(new SpinnerNumberModel(0.1, 0.0, 1.0, 0.1));
+		perElite.setModel(new SpinnerNumberModel(0.01, 0.0, 1.0, 0.01));
 		panel.add(perElite);
 		
 		JPanel panel_1 = new JPanel();
@@ -164,7 +164,8 @@ public class UIAplication {
 		panel_3.add(lblTipoDeFuncion);
 		
 		final JComboBox TipoFuncion = new JComboBox();
-		TipoFuncion.setModel(new DefaultComboBoxModel(new String[] {"Individuo Funcion 1", "Individuo Funcion 2", "Individuo Funcion 3", "Individuo Funcion 4", "Individuo Funcion 4 Real"}));
+		TipoFuncion.setModel(new DefaultComboBoxModel(new String[] {"Problema Avion"}));
+		TipoFuncion.setSelectedIndex(0);
 		panel_3.add(TipoFuncion);
 		TipoFuncion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -183,19 +184,12 @@ public class UIAplication {
 		precision.setModel(new SpinnerNumberModel(3, 0, 9, 1));
 		panel_3.add(precision);
 		
-		JLabel lblNewLabel_3 = new JLabel("N\u00FAmero n Funcion4");
+		JLabel lblNewLabel_3 = new JLabel("N\u00FAmero problema");
 		panel_3.add(lblNewLabel_3);
 		
 		final JSpinner n = new JSpinner();
-		n.setModel(new SpinnerNumberModel(new Integer(6), new Integer(0), null, new Integer(1)));
+		n.setModel(new SpinnerNumberModel(1, 1, 3, 1));
 		panel_3.add(n);
-		
-		JLabel lblNewLabel_4 = new JLabel("Alpha Funci\u00F3n 4 Real");
-		panel_3.add(lblNewLabel_4);
-		
-		final JSpinner alpha = new JSpinner();
-		alpha.setModel(new SpinnerNumberModel(new Float(0.6f), new Float(0.0f), new Float(1.0f), new Float(0.1f)));
-		panel_3.add(alpha);
 		
 		JPanel panel_4 = new JPanel();
 		panel_2.add(panel_4);
@@ -216,7 +210,7 @@ public class UIAplication {
 							
 				AG.configura(FuncionIndividuo.values()[TipoFuncion.getSelectedIndex()], poblacion, iteraciones, TipoCruce.values()[tipoCruce.getSelectedIndex()], TipoSeleccion.values()[tipoSelec.getSelectedIndex()],
 						TipoMutacion.values()[tipoMut.getSelectedIndex()],(Double)ProbMut.getValue(), (Double)ProbCruce.getValue(), (Double)perElite.getValue(), elite.isSelected(),
-						frmGp, 1/Math.pow(10, (double)(Integer)precision.getValue()), 0,(Float)alpha.getValue());
+						frmGp, 1/Math.pow(10, (double)(Integer)precision.getValue()), 0);
 				AG.run();
 			}
 		});
