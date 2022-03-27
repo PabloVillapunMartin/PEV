@@ -135,21 +135,23 @@ public class UIAplication {
 		panel_1.add(lblTipoCruce);
 		
 		final JComboBox tipoCruce = new JComboBox();
-		tipoCruce.setModel(new DefaultComboBoxModel(new String[] {"Monopunto", "Uniforme"}));
+		tipoCruce.setModel(new DefaultComboBoxModel(new String[] {"PMX"}));
+		tipoCruce.setSelectedIndex(0);
 		panel_1.add(tipoCruce);
 		
 		JLabel lblNewLabel_1 = new JLabel("Tipo Selecci\u00F3n");
 		panel_1.add(lblNewLabel_1);
 		
 		final JComboBox tipoSelec = new JComboBox();
-		tipoSelec.setModel(new DefaultComboBoxModel(new String[] {"Por Ruleta", "Torneo Determinista", "Torneo Probabilistico", "Estoc\u00E1stico Universal", "Truncamiento", "Por Restos"}));
+		tipoSelec.setModel(new DefaultComboBoxModel(new String[] {"Por Ruleta", "Torneo Determinista", "Torneo Probabilistico", "Estoc\u00E1stico Universal", "Truncamiento", "Por Restos", "Ranking"}));
 		panel_1.add(tipoSelec);
 		
 		JLabel lblNewLabel_5 = new JLabel("Tipo Mutaci\u00F3n");
 		panel_1.add(lblNewLabel_5);
 		
 		final JComboBox tipoMut = new JComboBox();
-		tipoMut.setModel(new DefaultComboBoxModel(new String[] {"Uniforme"}));
+		tipoMut.setModel(new DefaultComboBoxModel(new String[] {"Insercci\u00F3n"}));
+		tipoMut.setSelectedIndex(0);
 		panel_1.add(tipoMut);
 		
 		JPanel panel_2 = new JPanel();

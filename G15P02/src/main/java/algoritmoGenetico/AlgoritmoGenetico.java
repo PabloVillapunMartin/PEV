@@ -10,11 +10,13 @@ import javax.swing.JPanel;
 
 import org.math.plot.Plot2DPanel;
 
+import algoritmoGenetico.aviones.TraficoAereo;
 import algoritmoGenetico.cruces.Cruce;
-
+import algoritmoGenetico.cruces.CrucePMX;
 import algoritmoGenetico.individuos.Individuo;
 import algoritmoGenetico.individuos.IndividuoFactory;
 import algoritmoGenetico.mutacion.Mutacion;
+import algoritmoGenetico.mutacion.MutacionInsercion;
 import algoritmoGenetico.seleccion.Seleccion;
 import algoritmoGenetico.seleccion.SeleccionEstocasticaUniversal;
 import algoritmoGenetico.seleccion.SeleccionRanking;
@@ -104,6 +106,8 @@ public class AlgoritmoGenetico {
 		elegirMutacion();
 		elegirSeleccion();
 		elegirCruce();
+		
+		TraficoAereo.getInstance().init(n);
 	}
 	
 	/* 
@@ -149,7 +153,7 @@ public class AlgoritmoGenetico {
 		
 		//Inicializamos la poblacion con la función dada
 		for(int i = 0; i< this.tamPoblacion; ++i) {
-			this.poblacion[i] = IndividuoFactory.getIndividuo(funcion, this.valorError, this.n);
+			this.poblacion[i] = IndividuoFactory.getIndividuo(funcion);
 		}
 		for(int i = 0; i< this.maxGeneraciones; ++i) {
 			this.mejor_absoluto[i] = 0;
@@ -173,7 +177,7 @@ public class AlgoritmoGenetico {
 		Arrays.sort(this.poblacion);
 		
 		//Mejor individuo de la generacion
-		Individuo mejorGen = IndividuoFactory.getIndividuo(funcion, this.valorError, this.n);
+		Individuo mejorGen = IndividuoFactory.getIndividuo(funcion);
 		mejorGen.copiarIndividuo(this.poblacion[0]);
 		
 		//System.out.println("El mejor de esta gen es " + mejorGen.getValor() + " el peor es " + this.poblacion[this.tamPoblacion - 1].getValor());
@@ -234,7 +238,7 @@ public class AlgoritmoGenetico {
 
 		Individuo[] nuevaPoblacion = new Individuo[this.tamPoblacion];
 		for(int i = 0; i < this.tamPoblacion; i++){
-			nuevaPoblacion[i] = IndividuoFactory.getIndividuo(funcion, this.valorError, this.n);
+			nuevaPoblacion[i] = IndividuoFactory.getIndividuo(funcion);
 			nuevaPoblacion[i].copiarIndividuo(this.poblacion[seleccionados[i]]);
 		}
 		this.poblacion = nuevaPoblacion;			
@@ -260,6 +264,7 @@ public class AlgoritmoGenetico {
 	 * */
 	private void elegirCruce() {
 		switch(this.tipoCruce) {
+			case PMX:	this.cruce = new CrucePMX(this.probCruce, this.funcion);	break;
 		}
 	}
 	
@@ -268,7 +273,7 @@ public class AlgoritmoGenetico {
 	 */
 	private void elegirMutacion(){
 		switch(this.tipoMutacion){
-
+			case Inserción: this.mutacion = new MutacionInsercion(this.probMutacion, this.funcion); 	break;
 		}
 	}
 	
@@ -278,7 +283,7 @@ public class AlgoritmoGenetico {
 	private void guardarElite(){
 		Arrays.sort(this.poblacion);
 		for(int i = 0; i < this.elite.length; i++) {
-			Individuo ind = IndividuoFactory.getIndividuo(funcion, this.valorError, this.n);
+			Individuo ind = IndividuoFactory.getIndividuo(funcion);
 			ind.copiarIndividuo(this.poblacion[i]);
 			this.elite[i] = ind;
 		}
