@@ -2,16 +2,19 @@ package algoritmoGenetico.cruces;
 
 import java.util.Random;
 
+import algoritmoGenetico.AlgoritmoGenetico.FuncionIndividuo;
 import algoritmoGenetico.individuos.Individuo;
 
 /*Clase abstracta que contiene la información y métodos necesarios para el cruce*/
 public abstract class Cruce {
 
 	protected Random random;
+	protected FuncionIndividuo funcion;
 	protected double probCruce;	//Probabilidad de cruce
 	
-	public Cruce(double probCruce2) {
+	public Cruce(double probCruce2, FuncionIndividuo funcion) {
 		this.probCruce = probCruce2;
+		this.funcion = funcion;
 		this.random = new Random();
 	}
 	/*

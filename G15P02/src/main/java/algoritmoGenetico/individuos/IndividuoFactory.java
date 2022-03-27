@@ -8,7 +8,7 @@ public class IndividuoFactory {
 	/*
 	 * Devuelve un objeto del individuo correspondiente a la funcion
 	 */
-	public static Individuo getIndividuo(FuncionIndividuo funcion, double valorError, int n) {
+	public static Individuo getIndividuo(FuncionIndividuo funcion) {
 		switch(funcion) {
 			case FuncionAvion: return new IndividuoAvion(TraficoAereo.getInstance().getNumAviones());
 			default: return null;
