@@ -19,12 +19,12 @@ public class MutacionInsercion extends Mutacion {
 
 		for(int i = 0; i < n; i++){
 			if(this.rnd.nextFloat() < this.probMutacion)
-				mutarIndividuo(individuos[i]);
+				individuos[i] = mutarIndividuo(individuos[i]);
 		}
 		return individuos;
 	}
 	
-	private void mutarIndividuo(Individuo ind){
+	private Individuo mutarIndividuo(Individuo ind){
 		int inserciones = 1;
 		int n = ind.getCromosoma().length;
 		
@@ -52,7 +52,7 @@ public class MutacionInsercion extends Mutacion {
 				}
 			}
 		}
-		ind = aux;
+		return aux;
 	}
 
 }

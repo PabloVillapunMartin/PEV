@@ -17,6 +17,9 @@ import algoritmoGenetico.individuos.Individuo;
 import algoritmoGenetico.individuos.IndividuoFactory;
 import algoritmoGenetico.mutacion.Mutacion;
 import algoritmoGenetico.mutacion.MutacionInsercion;
+import algoritmoGenetico.mutacion.MutacionInversion;
+import algoritmoGenetico.mutacion.MutaciónHeurística;
+import algoritmoGenetico.mutacion.MutaciónIntercambio;
 import algoritmoGenetico.seleccion.Seleccion;
 import algoritmoGenetico.seleccion.SeleccionEstocasticaUniversal;
 import algoritmoGenetico.seleccion.SeleccionRanking;
@@ -180,8 +183,6 @@ public class AlgoritmoGenetico {
 		Individuo mejorGen = IndividuoFactory.getIndividuo(funcion);
 		mejorGen.copiarIndividuo(this.poblacion[0]);
 		
-		//System.out.println("El mejor de esta gen es " + mejorGen.getValor() + " el peor es " + this.poblacion[this.tamPoblacion - 1].getValor());
-		
 		this.mejor_generacion[this.generacionActual] = mejorGen.getValor();
 		
 		//Comprobamos si hemos obtenido el mejor absoluto hasta el momento
@@ -226,6 +227,7 @@ public class AlgoritmoGenetico {
         jframe.setVisible(true);
         
         System.out.println("El mejor ha sido " + this.elMejor.getValor());
+        System.out.println(this.elMejor.toString());
 	}
 	
 	/*
@@ -273,7 +275,10 @@ public class AlgoritmoGenetico {
 	 */
 	private void elegirMutacion(){
 		switch(this.tipoMutacion){
-			case Inserción: this.mutacion = new MutacionInsercion(this.probMutacion, this.funcion); 	break;
+			case Inserción: 	this.mutacion = new MutacionInsercion(this.probMutacion, this.funcion); 	break;
+			case Intercambio:	this.mutacion = new MutaciónIntercambio(this.probMutacion, this.funcion);	break;
+			case Inversión:		this.mutacion = new MutacionInversion(this.probMutacion, this.funcion); 	break;
+			case Heurística:	this.mutacion = new MutaciónHeurística(this.probMutacion, this.funcion);	break;
 		}
 	}
 	

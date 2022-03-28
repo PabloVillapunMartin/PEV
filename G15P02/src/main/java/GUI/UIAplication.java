@@ -150,7 +150,7 @@ public class UIAplication {
 		panel_1.add(lblNewLabel_5);
 		
 		final JComboBox tipoMut = new JComboBox();
-		tipoMut.setModel(new DefaultComboBoxModel(new String[] {"Insercci\u00F3n"}));
+		tipoMut.setModel(new DefaultComboBoxModel(new String[] {"Inserci\u00F3n", "Intercambio", "Inversi\u00F3n", "Heur\u00EDstica"}));
 		tipoMut.setSelectedIndex(0);
 		panel_1.add(tipoMut);
 		

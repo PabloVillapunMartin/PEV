@@ -35,7 +35,7 @@ public class MutacionInversion extends Mutacion {
 		Object[] tramo = Arrays.copyOfRange(individuo.getCromosoma(), corte1, corte2);
 		
 		for(int i = 0; i < tramo.length; ++i) {
-			individuo.getCromosoma()[corte1 + i] = tramo[tramo.length - i];
+			individuo.getCromosoma()[corte1 + i] = tramo[tramo.length - i - 1];
 		}
 	}
 }

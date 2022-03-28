@@ -41,11 +41,11 @@ public class CrucePMX extends Cruce {
 	
 	private void CrucePMX(Individuo p1, Individuo p2) {
 		//Copia inicial de los cromosomas de los progenitores
-		IndividuoAvion progenitor1 = (IndividuoAvion)p1;
-		IndividuoAvion progenitor2 = (IndividuoAvion)p2;
+		Individuo progenitor1 = (IndividuoAvion)p1;
+		Individuo progenitor2 = (IndividuoAvion)p2;
 		
-		IndividuoAvion hijo1 = (IndividuoAvion)IndividuoFactory.getIndividuo(funcion);
-		IndividuoAvion hijo2 = (IndividuoAvion)IndividuoFactory.getIndividuo(funcion);
+		Individuo hijo1 = IndividuoFactory.getIndividuo(funcion);
+		Individuo hijo2 = IndividuoFactory.getIndividuo(funcion);
 		
 		//Puntos de corte
 		int corte1 = this.random.nextInt(p1.getCromosoma().length);
@@ -60,44 +60,51 @@ public class CrucePMX extends Cruce {
 		
 		//Intercambio de valores entre los puntos de corte
 		for(int i = corte1; i < corte2; ++i) {
-			int aux = progenitor1.getCromosoma()[i];
 			hijo1.getCromosoma()[i] = progenitor2.getCromosoma()[i];
-			hijo2.getCromosoma()[i] = aux;
+			hijo2.getCromosoma()[i] = progenitor1.getCromosoma()[i];
 		}
 		
 		//Se especifican las X de progenitores que no generan conflicto en el hijo1
-		for(int i = 0; i < progenitor1.getCromosoma().length; ++i) {
-			if(i >= corte1 || i < corte2) continue;
-			
-			if(!ContieneObjeto(hijo1.getCromosoma(), progenitor1.getCromosoma()[i], corte1, corte2)) {
-				hijo1.getCromosoma()[i] = progenitor1.getCromosoma()[i];
-			}
-			else {
-				hijo1.getCromosoma()[i] = progenitor2.getCromosoma()[i];
-			}
-		}
+		homologo(progenitor1, hijo1.getCromosoma(),  corte1, corte2);
 		
 		//Se especifican las X de progenitores que no generan conflicto en el hijo2
-		for(int i = 0; i < progenitor2.getCromosoma().length; ++i) {
-			if(i >= corte1 || i < corte2) continue;
-					
-			if(!ContieneObjeto(hijo2.getCromosoma(), progenitor2.getCromosoma()[i], corte1, corte2)) {
-				hijo2.getCromosoma()[i] = progenitor2.getCromosoma()[i];
-			}
-			else {
-				hijo2.getCromosoma()[i] = progenitor1.getCromosoma()[i];
-			}
-		}
+		homologo(progenitor2, hijo2.getCromosoma(),  corte1, corte2);
 		
-		p1 = hijo1;
-		p2 = hijo2;
+		p1.copiarIndividuo(hijo1);
+		p2.copiarIndividuo(hijo2);
 	}
 
-	private boolean ContieneObjeto(Integer[] cromosoma, Integer o, int corte1, int corte2) {		
+	/*
+	 * Comprueba si el valor o se encuentra en el cromosoma entre corte1 y corte2
+	 * Devuelve el indice del lugar donde se ha encontrado. En caso de no encontrarlo -1
+	 * */
+	private int contieneObjeto(Object[] cromosoma, Object o, int corte1, int corte2) {		
+		int index = -1;
 		for(int i = corte1; i < corte2; ++i) {
-			if(cromosoma[i] == o) return true;
-		}
+			if(cromosoma[i] == o) {
+				return i;
+			}
+		}		
+		return index;
+	}
+	
+	/*
+	 * Baja los números del progenitor al hijo en caso de poderse. Si no se puede va buscando el homólogo hasta
+	 * conseguirlo
+	 */
+	private void homologo(Individuo progenitor, Object[] cromosoma, int corte1, int corte2){
 		
-		return false;
+		for(int i = 0; i < progenitor.getCromosoma().length; ++i) {
+			if(i >= corte1 && i < corte2) continue;
+			
+			int check = contieneObjeto(cromosoma, progenitor.getCromosoma()[i], corte1, corte2);
+			int index = i;
+			while(check != -1)		{
+				index = check;
+				check = contieneObjeto(cromosoma, progenitor.getCromosoma()[index], corte1, corte2);
+			}
+		
+			cromosoma[i] = progenitor.getCromosoma()[index];			
+		}
 	}
 }

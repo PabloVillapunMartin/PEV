@@ -46,6 +46,8 @@ public abstract class Individuo<T> implements Comparable<Individuo> {
 	 */
 	public abstract double getFitness();	
 	
+	public abstract int compareValue(double fitness);
+	
 	/********************************************************
 	 * 					OTROS MÉTODOS						*
 	 ********************************************************/
@@ -65,5 +67,12 @@ public abstract class Individuo<T> implements Comparable<Individuo> {
 	 */
 	public void copiarIndividuo(Individuo other) {
 		this.cromosoma = (T[]) Arrays.copyOfRange(other.getCromosoma(), 0, other.getCromosoma().length);
+	}
+	
+	public String toString(){
+		String s = "";
+		for(int i = 0; i < this.cromosoma.length; i++)
+			s+= " " + this.cromosoma[i];
+		return s;
 	}
 }

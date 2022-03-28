@@ -39,6 +39,16 @@ public class IndividuoAvion extends Individuo<Integer>{
 			return -1;
 		else return 0;
 	}
+	
+	@Override
+	public int compareValue(double o) {
+		if(this.getValor() - o > 0)
+			return 1;
+		if(this.getValor() - o < 0)
+			return -1;
+		else return 0;
+	}
+	
 	@Override
 	public double getValor() {
 		

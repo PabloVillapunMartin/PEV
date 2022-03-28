@@ -43,9 +43,9 @@ public class SeleccionRanking extends Seleccion {
 	}
 	
 	private double probabilidadRanking(int n, int i) {
-		double division = ((double)i-1.0f)/((double)n-1.0f);
-		double betaProduct = beta - 2 * (beta - 1) * division;
-		return (1/n) * betaProduct;
+		double division = ((double)i-1.0)/((double)n-1.0);
+		double betaProduct = beta - 2.0 * (beta - 1.0) * division;
+		return (1.0/(double)n) * betaProduct;
 	}
 	
 

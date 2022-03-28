@@ -16,8 +16,8 @@ public class MutaciónIntercambio extends Mutacion {
 
 		for(int i = 0; i < n; i++){
 			if(this.rnd.nextFloat() < this.probMutacion){
-				int pos1 = this.rnd.nextInt() % individuos[i].getCromosoma().length;
-				int pos2 = this.rnd.nextInt() % individuos[i].getCromosoma().length;
+				int pos1 = Math.abs(this.rnd.nextInt()) % individuos[i].getCromosoma().length;
+				int pos2 = Math.abs(this.rnd.nextInt()) % individuos[i].getCromosoma().length;
 				
 				Object aux = individuos[i].getCromosoma()[pos1];
 				individuos[i].getCromosoma()[pos1] = individuos[i].getCromosoma()[pos2];
