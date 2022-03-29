@@ -1,6 +1,7 @@
 package algoritmoGenetico.mutacion;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import algoritmoGenetico.AlgoritmoGenetico.FuncionIndividuo;
 import algoritmoGenetico.individuos.Individuo;
@@ -9,6 +10,7 @@ import algoritmoGenetico.individuos.IndividuoFactory;
 public class MutaciónHeurística extends Mutacion {
 
 	int n = 3;
+	
 	public MutaciónHeurística(double probMutacion, FuncionIndividuo funcion) {
 		super(probMutacion, funcion);
 		// TODO Auto-generated constructor stub
@@ -26,19 +28,28 @@ public class MutaciónHeurística extends Mutacion {
 	}
 	
 	private Individuo mutarIndividuo(Individuo ind){
-		int inserciones = 1;
 		int size = ind.getCromosoma().length;
 		
+		//Se escogen n posiciones diferentes a permutar
+		Set<Integer> usados = new HashSet<Integer>();
 		int [] posiciones = new int [n];
-		for(int i = 0; i < n; i++)
-			posiciones[i] = this.rnd.nextInt(size);
+		for(int i = 0; i < n; ++i) {
+			int pos = this.rnd.nextInt(size);
+			while(usados.contains(pos))
+				pos = (pos + 1) % size;
+			posiciones[i] = pos;
+		}
 		
 		int [] solucionActual = new int [n];
 		int [] mejorSolucion = new int [n];
+		for(int i = 0; i < n; ++i) {
+			mejorSolucion[i] = posiciones[i];
+		}
 		guardaPermutacionRec(ind, posiciones, 0, solucionActual, mejorSolucion, ind.getValor());
 		
 		Individuo aux = IndividuoFactory.getIndividuo(this.funcionIndividuo);
 		aux.copiarIndividuo(ind);
+		
 		//Asignamos al nuevo individuo el valor de la solución actual
 		for(int i = 0; i < n; i++){
 			aux.getCromosoma()[posiciones[i]] = ind.getCromosoma()[mejorSolucion[i]];
@@ -47,11 +58,10 @@ public class MutaciónHeurística extends Mutacion {
 		return aux;
 	}
 	
-	private void guardaPermutacionRec(Individuo ind, int [] posiciones, int index, int [] solucionActual, int [] mejorSolucion, double mejorValor){
+	private double guardaPermutacionRec(Individuo ind, int [] posiciones, int index, int [] solucionActual, int [] mejorSolucion, double mejorValor){
 		//si hemos llegado al final de una permutación
 		if(index == n){
-			mejorValor = checkIndividuo(ind, posiciones, solucionActual, mejorSolucion, mejorValor);
-			return;
+			return checkIndividuo(ind, posiciones, solucionActual, mejorSolucion, mejorValor);
 		}
 		//Si no hemos llegado al final de una permutacion seguimos añadiendo	
 		for(int i = 0; i < n; i++){
@@ -59,8 +69,10 @@ public class MutaciónHeurística extends Mutacion {
 			solucionActual[index] = posiciones[i];
 			//Si el valor asignado no esta dentro de la permutación rellenando
 			if(esValido(solucionActual, posiciones[i], index))
-				guardaPermutacionRec(ind, posiciones, index + 1, solucionActual, mejorSolucion, mejorValor);
+				mejorValor = guardaPermutacionRec(ind, posiciones, index + 1, solucionActual, mejorSolucion, mejorValor);
 		}
+		
+		return mejorValor;
 	}
 	
 	/*
@@ -78,7 +90,7 @@ public class MutaciónHeurística extends Mutacion {
 	/*
 	 * Comprueba si dada la solución actual el fitness del individuo ha mejorado o no
 	 * En caso de haber mejorado asigna a mejorSolucion los valores de solucionActual
-	 * @returm devuelve el mejorValor entre el actual y el que daría con la solución actual
+	 * @return devuelve el mejorValor entre el actual y el que daría con la solución actual
 	 * */
 	private double checkIndividuo(Individuo ind, int [] posiciones, int [] solucionActual, int [] mejorSolucion, double mejorValor){
 		Individuo aux = IndividuoFactory.getIndividuo(this.funcionIndividuo);

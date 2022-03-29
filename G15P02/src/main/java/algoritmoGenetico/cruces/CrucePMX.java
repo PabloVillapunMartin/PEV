@@ -41,11 +41,11 @@ public class CrucePMX extends Cruce {
 	
 	private void CrucePMX(Individuo p1, Individuo p2) {
 		//Copia inicial de los cromosomas de los progenitores
-		Individuo progenitor1 = (IndividuoAvion)p1;
-		Individuo progenitor2 = (IndividuoAvion)p2;
+		IndividuoAvion progenitor1 = (IndividuoAvion)p1;
+		IndividuoAvion progenitor2 = (IndividuoAvion)p2;
 		
-		Individuo hijo1 = IndividuoFactory.getIndividuo(funcion);
-		Individuo hijo2 = IndividuoFactory.getIndividuo(funcion);
+		IndividuoAvion hijo1 = (IndividuoAvion)IndividuoFactory.getIndividuo(funcion);
+		IndividuoAvion hijo2 = (IndividuoAvion)IndividuoFactory.getIndividuo(funcion);
 		
 		//Puntos de corte
 		int corte1 = this.random.nextInt(p1.getCromosoma().length);
@@ -78,7 +78,7 @@ public class CrucePMX extends Cruce {
 	 * Comprueba si el valor o se encuentra en el cromosoma entre corte1 y corte2
 	 * Devuelve el indice del lugar donde se ha encontrado. En caso de no encontrarlo -1
 	 * */
-	private int contieneObjeto(Object[] cromosoma, Object o, int corte1, int corte2) {		
+	private int contieneObjeto(Integer[] cromosoma, int o, int corte1, int corte2) {		
 		int index = -1;
 		for(int i = corte1; i < corte2; ++i) {
 			if(cromosoma[i] == o) {
@@ -92,19 +92,19 @@ public class CrucePMX extends Cruce {
 	 * Baja los números del progenitor al hijo en caso de poderse. Si no se puede va buscando el homólogo hasta
 	 * conseguirlo
 	 */
-	private void homologo(Individuo progenitor, Object[] cromosoma, int corte1, int corte2){
+	private void homologo(IndividuoAvion progenitor, Integer[] cromosomaHijo, int corte1, int corte2){
 		
 		for(int i = 0; i < progenitor.getCromosoma().length; ++i) {
 			if(i >= corte1 && i < corte2) continue;
 			
-			int check = contieneObjeto(cromosoma, progenitor.getCromosoma()[i], corte1, corte2);
+			int check = contieneObjeto(cromosomaHijo, progenitor.getCromosoma()[i], corte1, corte2);
 			int index = i;
-			while(check != -1)		{
+			while(check != -1){
 				index = check;
-				check = contieneObjeto(cromosoma, progenitor.getCromosoma()[index], corte1, corte2);
+				check = contieneObjeto(cromosomaHijo, progenitor.getCromosoma()[index], corte1, corte2);
 			}
 		
-			cromosoma[i] = progenitor.getCromosoma()[index];			
+			cromosomaHijo[i] = progenitor.getCromosoma()[index];			
 		}
 	}
 }
