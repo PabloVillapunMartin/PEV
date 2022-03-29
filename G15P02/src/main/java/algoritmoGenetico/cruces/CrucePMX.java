@@ -40,12 +40,9 @@ public class CrucePMX extends Cruce {
 	}
 	
 	private void CrucePMX(Individuo p1, Individuo p2) {
-		//Copia inicial de los cromosomas de los progenitores
-		IndividuoAvion progenitor1 = (IndividuoAvion)p1;
-		IndividuoAvion progenitor2 = (IndividuoAvion)p2;
-		
-		IndividuoAvion hijo1 = (IndividuoAvion)IndividuoFactory.getIndividuo(funcion);
-		IndividuoAvion hijo2 = (IndividuoAvion)IndividuoFactory.getIndividuo(funcion);
+
+		Individuo hijo1 = IndividuoFactory.getIndividuo(funcion);
+		Individuo hijo2 = IndividuoFactory.getIndividuo(funcion);
 		
 		//Puntos de corte
 		int corte1 = this.random.nextInt(p1.getCromosoma().length);
@@ -60,15 +57,15 @@ public class CrucePMX extends Cruce {
 		
 		//Intercambio de valores entre los puntos de corte
 		for(int i = corte1; i < corte2; ++i) {
-			hijo1.getCromosoma()[i] = progenitor2.getCromosoma()[i];
-			hijo2.getCromosoma()[i] = progenitor1.getCromosoma()[i];
+			hijo1.getCromosoma()[i] = p2.getCromosoma()[i];
+			hijo2.getCromosoma()[i] = p1.getCromosoma()[i];
 		}
 		
 		//Se especifican las X de progenitores que no generan conflicto en el hijo1
-		homologo(progenitor1, hijo1.getCromosoma(),  corte1, corte2);
+		homologo(p1, hijo1.getCromosoma(),  corte1, corte2);
 		
 		//Se especifican las X de progenitores que no generan conflicto en el hijo2
-		homologo(progenitor2, hijo2.getCromosoma(),  corte1, corte2);
+		homologo(p2, hijo2.getCromosoma(),  corte1, corte2);
 		
 		p1.copiarIndividuo(hijo1);
 		p2.copiarIndividuo(hijo2);
@@ -78,7 +75,7 @@ public class CrucePMX extends Cruce {
 	 * Comprueba si el valor o se encuentra en el cromosoma entre corte1 y corte2
 	 * Devuelve el indice del lugar donde se ha encontrado. En caso de no encontrarlo -1
 	 * */
-	private int contieneObjeto(Integer[] cromosoma, int o, int corte1, int corte2) {		
+	private int contieneObjeto(Object[] cromosoma, Object o, int corte1, int corte2) {		
 		int index = -1;
 		for(int i = corte1; i < corte2; ++i) {
 			if(cromosoma[i] == o) {
@@ -92,7 +89,7 @@ public class CrucePMX extends Cruce {
 	 * Baja los números del progenitor al hijo en caso de poderse. Si no se puede va buscando el homólogo hasta
 	 * conseguirlo
 	 */
-	private void homologo(IndividuoAvion progenitor, Integer[] cromosomaHijo, int corte1, int corte2){
+	private void homologo(Individuo progenitor, Object[] cromosomaHijo, int corte1, int corte2){
 		
 		for(int i = 0; i < progenitor.getCromosoma().length; ++i) {
 			if(i >= corte1 && i < corte2) continue;
