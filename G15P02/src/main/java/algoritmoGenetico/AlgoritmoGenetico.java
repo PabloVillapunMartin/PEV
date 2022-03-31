@@ -13,6 +13,7 @@ import org.math.plot.Plot2DPanel;
 import algoritmoGenetico.aviones.TraficoAereo;
 import algoritmoGenetico.cruces.Cruce;
 import algoritmoGenetico.cruces.CruceOX;
+import algoritmoGenetico.cruces.CruceOXOP;
 import algoritmoGenetico.cruces.CruceOXPP;
 import algoritmoGenetico.cruces.CrucePMX;
 import algoritmoGenetico.individuos.Individuo;
@@ -33,7 +34,7 @@ import algoritmoGenetico.seleccion.SeleccionTruncamiento;
 
 public class AlgoritmoGenetico {
 	
-	public enum TipoCruce { PMX, OrdenOX, OrdenOXPP, CiclosCX, CO };
+	public enum TipoCruce { PMX, OrdenOX, OrdenOXPP, OrdenOXOP, CiclosCX, CO };
 	public enum TipoSeleccion {porRuleta, torneoDet, torneoProb, estoUniversal, truncamiento, restos, ranking}
 	public enum TipoMutacion { Inserción, Intercambio, Inversión, Heurística};
 	
@@ -60,7 +61,6 @@ public class AlgoritmoGenetico {
 	private double probCruce;		//probabilidad de cruce
 	private double probMutacion;	//probabilidad de mutacion
 	private double perElite;		//porcentaje de la elite
-	private double valorError;		//precision para los individuos
 		
 	private Individuo[] poblacion;	//poblacion actual
 	private Individuo elMejor;		//el mejor individuo encontrado hasta el momento
@@ -86,7 +86,7 @@ public class AlgoritmoGenetico {
 	 * @param perElite porcentaje de elite
 	 * */
 	public void configura(FuncionIndividuo funcion, int tamPoblacion, int maxGeneraciones, TipoCruce tipoCruce, TipoSeleccion tipoSeleccion, TipoMutacion tipoMutacion,
-	double probMutacion, double probCruce, double perElite, boolean elite,  JFrame jframe, double valorError, int n) {
+	double probMutacion, double probCruce, double perElite, boolean elite,  JFrame jframe,int n) {
 		
 		this.funcion = funcion;
 		
@@ -105,9 +105,7 @@ public class AlgoritmoGenetico {
 		this.conElite = elite;
 		
 		this.jframe = jframe;
-		
-		this.valorError = valorError;
-		
+			
 		elegirMutacion();
 		elegirSeleccion();
 		elegirCruce();
@@ -213,7 +211,7 @@ public class AlgoritmoGenetico {
         Plot2DPanel plot = new Plot2DPanel() {
             @Override
             public Dimension getPreferredSize() {
-                return new Dimension(600, 400);
+                return new Dimension(500, 400);
             }
         };
         plot.addLinePlot("Media Generacion", Color.GREEN, this.generaciones, this.media_generacion);
@@ -224,8 +222,7 @@ public class AlgoritmoGenetico {
         panel.add(plot);
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jframe.add(panel);
-        jframe.setLocation(150, 150);
-        jframe.setSize(new Dimension(1100, 700));
+        jframe.setSize(new Dimension(1000, 700));
         jframe.setVisible(true);
         
         System.out.println("El mejor ha sido " + this.elMejor.getValor());
@@ -271,6 +268,7 @@ public class AlgoritmoGenetico {
 			case PMX:		this.cruce = new CrucePMX(this.probCruce, this.funcion);	break;
 			case OrdenOX:	this.cruce = new CruceOX(this.probCruce, this.funcion);		break;
 			case OrdenOXPP: this.cruce = new CruceOXPP(this.probCruce, this.funcion);	break;
+			case OrdenOXOP: this.cruce = new CruceOXOP(this.probCruce, this.funcion);	break;
 		}
 	}
 	

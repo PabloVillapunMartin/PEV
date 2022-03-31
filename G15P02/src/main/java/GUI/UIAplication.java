@@ -104,6 +104,21 @@ public class UIAplication {
 		panel.add(maxIt);
 		maxIt.setColumns(10);
 		
+		JLabel lblTipoDeFuncion = new JLabel("Tipo de Funcion");
+		panel.add(lblTipoDeFuncion);
+		
+		final JComboBox TipoFuncion = new JComboBox();
+		panel.add(TipoFuncion);
+		TipoFuncion.setModel(new DefaultComboBoxModel(new String[] {"Problema Avion"}));
+		TipoFuncion.setSelectedIndex(0);
+		
+		JLabel lblNewLabel_3 = new JLabel("N\u00FAmero problema");
+		panel.add(lblNewLabel_3);
+		
+		final JSpinner n = new JSpinner();
+		panel.add(n);
+		n.setModel(new SpinnerNumberModel(1, 1, 3, 1));
+		
 		final JCheckBox elite = new JCheckBox("\u00C9lite");
 		panel.add(elite);
 		
@@ -156,46 +171,15 @@ public class UIAplication {
 		
 		JPanel panel_2 = new JPanel();
 		frmGp.getContentPane().add(panel_2, BorderLayout.EAST);
-		panel_2.setLayout(new GridLayout(2, 1, 0, 0));
+		panel_2.setLayout(new GridLayout(2, 2, 0, 0));
 		
 		JPanel panel_3 = new JPanel();
 		panel_2.add(panel_3);
-		panel_3.setLayout(new GridLayout(4, 2, 10, 0));
-		
-		JLabel lblTipoDeFuncion = new JLabel("Tipo de Funcion");
-		panel_3.add(lblTipoDeFuncion);
-		
-		final JComboBox TipoFuncion = new JComboBox();
-		TipoFuncion.setModel(new DefaultComboBoxModel(new String[] {"Problema Avion"}));
-		TipoFuncion.setSelectedIndex(0);
-		panel_3.add(TipoFuncion);
-		
-		
-		JLabel lblNewLabel_2 = new JLabel("Precision de Individuo");
-		panel_3.add(lblNewLabel_2);
-		
-		final JSpinner precision = new JSpinner();
-		precision.setModel(new SpinnerNumberModel(3, 0, 9, 1));
-		panel_3.add(precision);
-		
-		JLabel lblNewLabel_3 = new JLabel("N\u00FAmero problema");
-		panel_3.add(lblNewLabel_3);
-		
-		final JSpinner n = new JSpinner();
-		n.setModel(new SpinnerNumberModel(1, 1, 3, 1));
-		panel_3.add(n);
-		
-		JPanel panel_4 = new JPanel();
-		panel_2.add(panel_4);
-		panel_4.setLayout(new GridLayout(3, 1, 0, 0));
-		
-		JPanel panel_5 = new JPanel();
-		panel_4.add(panel_5);
 		
 
 		
 		JButton empezar = new JButton("Empezar Algoritmo");
-		panel_4.add(empezar);
+		panel_3.add(empezar);
 		empezar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				AlgoritmoGenetico AG = new AlgoritmoGenetico();
@@ -204,11 +188,14 @@ public class UIAplication {
 							
 				AG.configura(FuncionIndividuo.values()[TipoFuncion.getSelectedIndex()], poblacion, iteraciones, TipoCruce.values()[tipoCruce.getSelectedIndex()], TipoSeleccion.values()[tipoSelec.getSelectedIndex()],
 						TipoMutacion.values()[tipoMut.getSelectedIndex()],(Double)ProbMut.getValue(), (Double)ProbCruce.getValue(), (Double)perElite.getValue(), elite.isSelected(),
-						frmGp, 1/Math.pow(10, (double)(Integer)precision.getValue()), 0);
+						frmGp, 0);
 				AG.run();
 			}
 		});
 		empezar.setForeground(UIManager.getColor("menuPressedItemB"));
+		
+		JPanel PanelAux = new JPanel();
+		panel_2.add(PanelAux);
 		
 	}
 
