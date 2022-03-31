@@ -50,8 +50,8 @@ public class CruceCX extends Cruce {
 			
 		//Asigno a -1 los valores de los hijos
 		for(int i = 0; i < hijo1.getCromosoma().length; ++i) {
-			hijo1.getCromosoma()[i] = -1;
-			hijo2.getCromosoma()[i] = -1;
+			hijo1.getCromosoma()[i] = null;
+			hijo2.getCromosoma()[i] = null;
 		}
 		
 		rellenaConCiclos(p1.getCromosoma(), p2.getCromosoma(), hijo1.getCromosoma());
@@ -83,11 +83,11 @@ public class CruceCX extends Cruce {
 		do{
 			cromosomaHijo[index] = progenitor1[index];				//asignamos el valor
 			index = buscaPosicion(progenitor1, progenitor2[index]);	//buscamos la siguiente posición a asignar
-		}while((Integer)cromosomaHijo[index] == -1);
+		}while(cromosomaHijo[index] == null);
 		
 		//Rellenamos lo que queda con el otro progenitor
 		for(int i = 0; i < progenitor1.length; i++){
-			if((Integer)cromosomaHijo[i] == -1) 
+			if(cromosomaHijo[i] == null) 
 				cromosomaHijo[i] = progenitor2[i];
 		}
 	}

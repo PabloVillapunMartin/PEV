@@ -12,6 +12,7 @@ import org.math.plot.Plot2DPanel;
 
 import algoritmoGenetico.aviones.TraficoAereo;
 import algoritmoGenetico.cruces.Cruce;
+import algoritmoGenetico.cruces.CruceCO;
 import algoritmoGenetico.cruces.CruceCX;
 import algoritmoGenetico.cruces.CruceOX;
 import algoritmoGenetico.cruces.CruceOXOP;
@@ -270,6 +271,7 @@ public class AlgoritmoGenetico {
 			case OrdenOXPP: this.cruce = new CruceOXPP(this.probCruce, this.funcion);	break;
 			case OrdenOXOP: this.cruce = new CruceOXOP(this.probCruce, this.funcion);	break;
 			case CiclosCX:	this.cruce = new CruceCX(this.probCruce, this.funcion);		break;	
+			case CO:		this.cruce = new CruceCO(this.probCruce, this.funcion);		break;
 		}
 	}
 	
