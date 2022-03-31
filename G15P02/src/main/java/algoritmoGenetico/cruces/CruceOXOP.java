@@ -54,20 +54,36 @@ public class CruceOXOP extends Cruce {
 			while(usados.contains(pos))
 				pos = (pos + 1) % p1.getCromosoma().length;
 			posiciones[i] = pos;
+			usados.add(pos);
 		}
 		
-		int[] posicionesEnOtro = new int[posiciones.length];
-		
-		for(int i = 0; i < posicionesEnOtro.length; ++i) {
-			posicionesEnOtro[i] = buscaIndex(p1.getCromosoma()[posiciones[i]], p2.getCromosoma());
-		}
-		
-		
+		completarIndividuo(hijo1, p1, p2, posiciones);
+		completarIndividuo(hijo2, p2, p1, posiciones);
 			
 		p1.copiarIndividuo(hijo1);
 		p2.copiarIndividuo(hijo2);
 	}
 
+	private void completarIndividuo(Individuo res, Individuo hijo1, Individuo hijo2, int[] posiciones) {
+		int[] posicionesEnSegundo = new int[posiciones.length];
+		
+		for(int i = 0; i < posicionesEnSegundo.length; ++i) {
+			posicionesEnSegundo[i] = buscaIndex(hijo1.getCromosoma()[posiciones[i]], hijo2.getCromosoma());
+		}
+		
+		for(int i = 0; i < res.getCromosoma().length; ++i) {
+			if(this.contieneIndice(posicionesEnSegundo, i)) res.getCromosoma()[i] = null;
+			else res.getCromosoma()[i] = hijo2.getCromosoma()[i];
+		}
+		
+		int pos = 0;
+		for(int i = 0; i < res.getCromosoma().length; ++i) {
+			if(res.getCromosoma()[i] != null) continue;
+			res.getCromosoma()[i] = hijo1.getCromosoma()[posiciones[pos]];
+			pos++;
+		}
+	}
+	
 	private int buscaIndex(Object index, Object[] valores) {
 		for(int i = 0; i < valores.length; ++i) {
 			if(index == valores[i]) {
@@ -78,7 +94,10 @@ public class CruceOXOP extends Cruce {
 		return -1;
 	}
 	
-	private void bajaValores(Object[] hijo1, Object[] padre2, int[] posicionesOtro) {
-		//TODO 
+	private boolean contieneIndice(int[] indices, int valor) {
+		for(int i = 0; i < indices.length; ++i) {
+			if(valor == indices[i]) return true;
+		}
+		return false;
 	}
 }
