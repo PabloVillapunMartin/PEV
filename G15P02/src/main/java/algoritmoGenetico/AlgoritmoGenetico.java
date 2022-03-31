@@ -12,6 +12,7 @@ import org.math.plot.Plot2DPanel;
 
 import algoritmoGenetico.aviones.TraficoAereo;
 import algoritmoGenetico.cruces.Cruce;
+import algoritmoGenetico.cruces.CruceCX;
 import algoritmoGenetico.cruces.CruceOX;
 import algoritmoGenetico.cruces.CruceOXOP;
 import algoritmoGenetico.cruces.CruceOXPP;
@@ -33,7 +34,6 @@ import algoritmoGenetico.seleccion.SeleccionTorneoProbabilistico;
 import algoritmoGenetico.seleccion.SeleccionTruncamiento;
 
 public class AlgoritmoGenetico {
-	
 	public enum TipoCruce { PMX, OrdenOX, OrdenOXPP, OrdenOXOP, CiclosCX, CO };
 	public enum TipoSeleccion {porRuleta, torneoDet, torneoProb, estoUniversal, truncamiento, restos, ranking}
 	public enum TipoMutacion { Inserción, Intercambio, Inversión, Heurística};
@@ -269,6 +269,7 @@ public class AlgoritmoGenetico {
 			case OrdenOX:	this.cruce = new CruceOX(this.probCruce, this.funcion);		break;
 			case OrdenOXPP: this.cruce = new CruceOXPP(this.probCruce, this.funcion);	break;
 			case OrdenOXOP: this.cruce = new CruceOXOP(this.probCruce, this.funcion);	break;
+			case CiclosCX:	this.cruce = new CruceCX(this.probCruce, this.funcion);		break;	
 		}
 	}
 	

@@ -150,7 +150,7 @@ public class UIAplication {
 		panel_1.add(lblTipoCruce);
 		
 		final JComboBox tipoCruce = new JComboBox();
-		tipoCruce.setModel(new DefaultComboBoxModel(new String[] {"PMX", "OX", "OX-PP", "CX", "CO"}));
+		tipoCruce.setModel(new DefaultComboBoxModel(new String[] {"PMX", "OX", "OX-PP", "OX-OP", "CX", "CO"}));
 		tipoCruce.setSelectedIndex(0);
 		panel_1.add(tipoCruce);
 		
