@@ -12,6 +12,8 @@ import org.math.plot.Plot2DPanel;
 
 import algoritmoGenetico.aviones.TraficoAereo;
 import algoritmoGenetico.cruces.Cruce;
+import algoritmoGenetico.cruces.CruceOX;
+import algoritmoGenetico.cruces.CruceOXPP;
 import algoritmoGenetico.cruces.CrucePMX;
 import algoritmoGenetico.individuos.Individuo;
 import algoritmoGenetico.individuos.IndividuoFactory;
@@ -31,7 +33,7 @@ import algoritmoGenetico.seleccion.SeleccionTruncamiento;
 
 public class AlgoritmoGenetico {
 	
-	public enum TipoCruce { PMX, OrdenOX, CiclosCX, CO };
+	public enum TipoCruce { PMX, OrdenOX, OrdenOXPP, CiclosCX, CO };
 	public enum TipoSeleccion {porRuleta, torneoDet, torneoProb, estoUniversal, truncamiento, restos, ranking}
 	public enum TipoMutacion { Inserción, Intercambio, Inversión, Heurística};
 	
@@ -223,7 +225,7 @@ public class AlgoritmoGenetico {
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jframe.add(panel);
         jframe.setLocation(150, 150);
-        jframe.setSize(new Dimension(1200, 800));
+        jframe.setSize(new Dimension(1100, 700));
         jframe.setVisible(true);
         
         System.out.println("El mejor ha sido " + this.elMejor.getValor());
@@ -266,7 +268,9 @@ public class AlgoritmoGenetico {
 	 * */
 	private void elegirCruce() {
 		switch(this.tipoCruce) {
-			case PMX:	this.cruce = new CrucePMX(this.probCruce, this.funcion);	break;
+			case PMX:		this.cruce = new CrucePMX(this.probCruce, this.funcion);	break;
+			case OrdenOX:	this.cruce = new CruceOX(this.probCruce, this.funcion);		break;
+			case OrdenOXPP: this.cruce = new CruceOXPP(this.probCruce, this.funcion);	break;
 		}
 	}
 	

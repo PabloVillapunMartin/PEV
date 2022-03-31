@@ -135,7 +135,7 @@ public class UIAplication {
 		panel_1.add(lblTipoCruce);
 		
 		final JComboBox tipoCruce = new JComboBox();
-		tipoCruce.setModel(new DefaultComboBoxModel(new String[] {"PMX"}));
+		tipoCruce.setModel(new DefaultComboBoxModel(new String[] {"PMX", "OX", "OX-PP", "CX", "CO"}));
 		tipoCruce.setSelectedIndex(0);
 		panel_1.add(tipoCruce);
 		
@@ -169,15 +169,7 @@ public class UIAplication {
 		TipoFuncion.setModel(new DefaultComboBoxModel(new String[] {"Problema Avion"}));
 		TipoFuncion.setSelectedIndex(0);
 		panel_3.add(TipoFuncion);
-		TipoFuncion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if(TipoFuncion.getSelectedIndex() == 4) //Si estamos en el valor real
-					tipoCruce.setModel(new DefaultComboBoxModel(new String[] {"Monopunto", "Uniforme", "Aritmetico", "Blx_Alpha"}));				
-				else
-					tipoCruce.setModel(new DefaultComboBoxModel(new String[] {"Monopunto", "Uniforme"}));
-					
-			}
-		});
+		
 		
 		JLabel lblNewLabel_2 = new JLabel("Precision de Individuo");
 		panel_3.add(lblNewLabel_2);

@@ -4,13 +4,13 @@ import java.util.Arrays;
 
 import algoritmoGenetico.AlgoritmoGenetico.FuncionIndividuo;
 import algoritmoGenetico.individuos.Individuo;
-import algoritmoGenetico.individuos.IndividuoAvion;
 import algoritmoGenetico.individuos.IndividuoFactory;
 
-public class CrucePMX extends Cruce {
+public class CruceOX extends Cruce {
 
-	public CrucePMX(double probCruce2, FuncionIndividuo funcion) {
-		super(probCruce2, funcion);
+	public CruceOX(double probCruce, FuncionIndividuo funcion) {
+		super(probCruce, funcion);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class CrucePMX extends Cruce {
 				visitados[i] = true;						//Lo visitamos
 				int padre2 = buscarIndividuo(visitados, n);	//Buscamos otro padre
 
-				CrucePMX(individuos[i], individuos[padre2]);				
+				cruceOX(individuos[i], individuos[padre2]);				
 			}
 		}
 		
@@ -41,9 +41,9 @@ public class CrucePMX extends Cruce {
 	
 	/*
 	 * Crea dos hijos dados los progenitores intercambiado una parte hallada con dos cortes
-	 * y buscando los homólogos que no se encuentren en la parte central
+	 * y probando a bajar conservando el orden relativo y omitiendo las que ya estén presentes 
 	 * */
-	private void CrucePMX(Individuo p1, Individuo p2) {
+	private void cruceOX(Individuo p1, Individuo p2) {
 
 		Individuo hijo1 = IndividuoFactory.getIndividuo(funcion);
 		Individuo hijo2 = IndividuoFactory.getIndividuo(funcion);
@@ -65,47 +65,47 @@ public class CrucePMX extends Cruce {
 			hijo2.getCromosoma()[i] = p1.getCromosoma()[i];
 		}
 		
-		//Se especifican las X de progenitores que no generan conflicto en el hijo1
-		homologo(p1, hijo1.getCromosoma(),  corte1, corte2);
-		
-		//Se especifican las X de progenitores que no generan conflicto en el hijo2
-		homologo(p2, hijo2.getCromosoma(),  corte1, corte2);
+		bajarProgenitor(p1, hijo1.getCromosoma(), corte1, corte2);
+		bajarProgenitor(p2, hijo2.getCromosoma(), corte1, corte2);
 		
 		p1.copiarIndividuo(hijo1);
 		p2.copiarIndividuo(hijo2);
 	}
-
+	
 	/*
 	 * Comprueba si el valor o se encuentra en el cromosoma entre corte1 y corte2
 	 * Devuelve el indice del lugar donde se ha encontrado. En caso de no encontrarlo -1
 	 * */
-	private int contieneObjeto(Object[] cromosoma, Object o, int corte1, int corte2) {		
-		int index = -1;
+	private boolean contieneObjeto(Object[] cromosoma, Object o, int corte1, int corte2) {		
 		for(int i = corte1; i < corte2; ++i) {
 			if(cromosoma[i] == o) {
-				return i;
+				return true;
 			}
 		}		
-		return index;
+		return false;
 	}
 	
 	/*
-	 * Baja los números del progenitor al hijo en caso de poderse. Si no se puede va buscando el homólogo hasta
-	 * conseguirlo
-	 */
-	private void homologo(Individuo progenitor, Object[] cromosomaHijo, int corte1, int corte2){
+	 * Para cada progenitor se parte de uno de los puntos de corte y se copian las
+	 * ciudades del otro progenitor conservando el orden relativo y omitiendo las que ya
+	 * estén presentes
+	 * */
+	private void bajarProgenitor(Individuo progenitor, Object[] cromosomaHijo, int corte1, int corte2) {
+		int indexPadre = corte2;
+		int indexHijo = corte2;
 		
-		for(int i = 0; i < progenitor.getCromosoma().length; ++i) {
-			if(i >= corte1 && i < corte2) continue;
-			
-			int check = contieneObjeto(cromosomaHijo, progenitor.getCromosoma()[i], corte1, corte2);
-			int index = i;
-			while(check != -1){
-				index = check;
-				check = contieneObjeto(cromosomaHijo, progenitor.getCromosoma()[index], corte1, corte2);
+		while(indexHijo != corte1) {
+			if(contieneObjeto(cromosomaHijo, progenitor.getCromosoma()[indexPadre], corte1, corte2))
+				indexPadre = (indexPadre + 1) % cromosomaHijo.length;
+			else {
+				cromosomaHijo[indexHijo] = progenitor.getCromosoma()[indexPadre];
+				indexPadre = (indexPadre + 1) % cromosomaHijo.length;
+				indexHijo = (indexHijo + 1) % cromosomaHijo.length;
 			}
-		
-			cromosomaHijo[i] = progenitor.getCromosoma()[index];			
+					
 		}
 	}
+	
+	
+
 }

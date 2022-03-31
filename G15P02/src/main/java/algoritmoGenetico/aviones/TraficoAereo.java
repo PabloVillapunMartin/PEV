@@ -21,7 +21,7 @@ public class TraficoAereo {
 	
 	public void init(int problema) {
 		
-		float[][] s = {{1f,1.5f,2f}, {1f,1.5f,1.5f}, {1f,1f,2f}};
+		float[][] s = {{1f,1.5f,2f}, {1f,1.5f,1.5f}, {1f,1f,1f}};
 		this.SEP = s;
 		switch(problema) {
 			case 0: problema1(); break;
