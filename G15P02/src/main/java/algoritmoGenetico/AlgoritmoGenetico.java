@@ -19,6 +19,7 @@ import algoritmoGenetico.cruces.CruceOXOP;
 import algoritmoGenetico.cruces.CruceOXPP;
 import algoritmoGenetico.cruces.CrucePMX;
 import algoritmoGenetico.individuos.Individuo;
+import algoritmoGenetico.individuos.IndividuoAvion;
 import algoritmoGenetico.individuos.IndividuoFactory;
 import algoritmoGenetico.mutacion.Mutacion;
 import algoritmoGenetico.mutacion.MutacionInsercion;
@@ -74,6 +75,7 @@ public class AlgoritmoGenetico {
 	private boolean conElite;		//Si se desea ejecutar el algoritmo con elite o sin ella
 	
 	JFrame jframe;					//panel donde se va a situar la gráfica
+	JPanel tabla;					//tabla para mostrar el mejor resultado
 	
 	
 	/*
@@ -87,7 +89,7 @@ public class AlgoritmoGenetico {
 	 * @param perElite porcentaje de elite
 	 * */
 	public void configura(FuncionIndividuo funcion, int tamPoblacion, int maxGeneraciones, TipoCruce tipoCruce, TipoSeleccion tipoSeleccion, TipoMutacion tipoMutacion,
-	double probMutacion, double probCruce, double perElite, boolean elite,  JFrame jframe,int n) {
+	double probMutacion, double probCruce, double perElite, boolean elite,  JFrame jframe,int n, JPanel tabla) {
 		
 		this.funcion = funcion;
 		
@@ -106,6 +108,7 @@ public class AlgoritmoGenetico {
 		this.conElite = elite;
 		
 		this.jframe = jframe;
+		this.tabla = tabla;
 			
 		elegirMutacion();
 		elegirSeleccion();
@@ -225,6 +228,8 @@ public class AlgoritmoGenetico {
         jframe.add(panel);
         jframe.setSize(new Dimension(1000, 700));
         jframe.setVisible(true);
+        
+        ((IndividuoAvion)this.elMejor).rellenaTabla(this.tabla);
         
         System.out.println("El mejor ha sido " + this.elMejor.getValor());
         System.out.println(this.elMejor.toString());

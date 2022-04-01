@@ -176,7 +176,8 @@ public class UIAplication {
 		JPanel panel_3 = new JPanel();
 		panel_2.add(panel_3);
 		
-
+		final JPanel PanelAux = new JPanel();
+		panel_2.add(PanelAux);
 		
 		JButton empezar = new JButton("Empezar Algoritmo");
 		panel_3.add(empezar);
@@ -188,14 +189,13 @@ public class UIAplication {
 							
 				AG.configura(FuncionIndividuo.values()[TipoFuncion.getSelectedIndex()], poblacion, iteraciones, TipoCruce.values()[tipoCruce.getSelectedIndex()], TipoSeleccion.values()[tipoSelec.getSelectedIndex()],
 						TipoMutacion.values()[tipoMut.getSelectedIndex()],(Double)ProbMut.getValue(), (Double)ProbCruce.getValue(), (Double)perElite.getValue(), elite.isSelected(),
-						frmGp, 0);
+						frmGp, 0, PanelAux);
 				AG.run();
 			}
 		});
 		empezar.setForeground(UIManager.getColor("menuPressedItemB"));
 		
-		JPanel PanelAux = new JPanel();
-		panel_2.add(PanelAux);
+
 		
 	}
 
