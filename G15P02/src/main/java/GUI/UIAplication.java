@@ -43,6 +43,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.SpinnerNumberModel;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import net.miginfocom.swing.MigLayout;
+import java.awt.Color;
+import java.awt.Font;
 
 public class UIAplication {
 
@@ -79,13 +82,14 @@ public class UIAplication {
 	private void initialize() {
 		frmGp = new JFrame();
 		frmGp.setTitle("G15_P1");
-		frmGp.setBounds(100, 100, 665, 561);
+		frmGp.setBounds(100, 100, 1069, 776);
 		frmGp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmGp.getContentPane().setLayout(new BorderLayout(0, 0));
+		frmGp.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
+		panel.setBounds(7, 7, 338, 498);
 		panel.setBackground(UIManager.getColor("scrollbar"));
-		frmGp.getContentPane().add(panel, BorderLayout.NORTH);
+		frmGp.getContentPane().add(panel);
 		panel.setLayout(new GridLayout(0, 2, 0, 0));
 		
 		JLabel texttamPoblacion = new JLabel("Tama\u00F1o de la poblacion");
@@ -126,61 +130,61 @@ public class UIAplication {
 		perElite.setModel(new SpinnerNumberModel(0.01, 0.0, 1.0, 0.01));
 		panel.add(perElite);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(SystemColor.scrollbar);
-		frmGp.getContentPane().add(panel_1, BorderLayout.SOUTH);
-		panel_1.setLayout(new GridLayout(0, 2, 0, 0));
-		
 		JLabel lblProbabilidadCruce = new JLabel("Probabilidad Cruce");
-		panel_1.add(lblProbabilidadCruce);
+		panel.add(lblProbabilidadCruce);
 		
 		final JSpinner ProbCruce = new JSpinner();
+		panel.add(ProbCruce);
 		ProbCruce.setModel(new SpinnerNumberModel(0.6, 0.0, 1.0, 0.05));
-		panel_1.add(ProbCruce);
 		
 		JLabel ProbabilidadDeMutacion = new JLabel("Probabilidad de Mutaci\u00F3n");
+		panel.add(ProbabilidadDeMutacion);
 		ProbabilidadDeMutacion.setToolTipText("Probabilidad de Mutaci\u00F3n");
-		panel_1.add(ProbabilidadDeMutacion);
 		
 		final JSpinner ProbMut = new JSpinner();
+		panel.add(ProbMut);
 		ProbMut.setModel(new SpinnerNumberModel(0.05, 0.0, 1.0, 0.05));
-		panel_1.add(ProbMut);
 		
 		JLabel lblTipoCruce = new JLabel("Tipo Cruce");
-		panel_1.add(lblTipoCruce);
+		panel.add(lblTipoCruce);
 		
 		final JComboBox tipoCruce = new JComboBox();
+		panel.add(tipoCruce);
 		tipoCruce.setModel(new DefaultComboBoxModel(new String[] {"PMX", "OX", "OX-PP", "OX-OP", "CX", "CO"}));
 		tipoCruce.setSelectedIndex(0);
-		panel_1.add(tipoCruce);
 		
 		JLabel lblNewLabel_1 = new JLabel("Tipo Selecci\u00F3n");
-		panel_1.add(lblNewLabel_1);
+		panel.add(lblNewLabel_1);
 		
 		final JComboBox tipoSelec = new JComboBox();
+		panel.add(tipoSelec);
 		tipoSelec.setModel(new DefaultComboBoxModel(new String[] {"Por Ruleta", "Torneo Determinista", "Torneo Probabilistico", "Estoc\u00E1stico Universal", "Truncamiento", "Por Restos", "Ranking"}));
-		panel_1.add(tipoSelec);
 		
 		JLabel lblNewLabel_5 = new JLabel("Tipo Mutaci\u00F3n");
-		panel_1.add(lblNewLabel_5);
+		panel.add(lblNewLabel_5);
 		
 		final JComboBox tipoMut = new JComboBox();
+		panel.add(tipoMut);
 		tipoMut.setModel(new DefaultComboBoxModel(new String[] {"Inserci\u00F3n", "Intercambio", "Inversi\u00F3n", "Heur\u00EDstica"}));
 		tipoMut.setSelectedIndex(0);
-		panel_1.add(tipoMut);
 		
-		JPanel panel_2 = new JPanel();
-		frmGp.getContentPane().add(panel_2, BorderLayout.EAST);
-		panel_2.setLayout(new GridLayout(2, 2, 0, 0));
+		final JPanel panelTabla = new JPanel();
+		panelTabla.setBounds(379, 7, 664, 288);
+		frmGp.getContentPane().add(panelTabla);
 		
-		JPanel panel_3 = new JPanel();
-		panel_2.add(panel_3);
+		final JPanel panelGrafica = new JPanel();
+		panelGrafica.setBounds(380, 306, 663, 420);
+		frmGp.getContentPane().add(panelGrafica);
 		
-		final JPanel PanelAux = new JPanel();
-		panel_2.add(PanelAux);
+		final JLabel texto = new JLabel("El mejor ha sido :");
+		texto.setFont(new Font("Yu Gothic UI Semilight", Font.BOLD, 12));
+		texto.setForeground(new Color(0, 128, 128));
+		texto.setBounds(7, 614, 363, 34);
+		frmGp.getContentPane().add(texto);
 		
 		JButton empezar = new JButton("Empezar Algoritmo");
-		panel_3.add(empezar);
+		empezar.setBounds(73, 516, 200, 47);
+		frmGp.getContentPane().add(empezar);
 		empezar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				AlgoritmoGenetico AG = new AlgoritmoGenetico();
@@ -189,7 +193,7 @@ public class UIAplication {
 							
 				AG.configura(FuncionIndividuo.values()[TipoFuncion.getSelectedIndex()], poblacion, iteraciones, TipoCruce.values()[tipoCruce.getSelectedIndex()], TipoSeleccion.values()[tipoSelec.getSelectedIndex()],
 						TipoMutacion.values()[tipoMut.getSelectedIndex()],(Double)ProbMut.getValue(), (Double)ProbCruce.getValue(), (Double)perElite.getValue(), elite.isSelected(),
-						frmGp, 0, PanelAux);
+						panelGrafica, 0, panelTabla, texto, frmGp);
 				AG.run();
 			}
 		});
@@ -197,6 +201,9 @@ public class UIAplication {
 		
 
 		
-	}
 
+		
+
+		
+	}
 }

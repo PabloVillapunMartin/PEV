@@ -12,6 +12,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import algoritmoGenetico.aviones.GeneraTablaAvion;
 import algoritmoGenetico.aviones.InfoAvion;
 import algoritmoGenetico.aviones.InfoPista;
 import algoritmoGenetico.aviones.TraficoAereo;
@@ -56,7 +57,7 @@ public class IndividuoAvion extends Individuo<Integer>{
 		else return 0;
 	}
 	
-	public void rellenaTabla(JPanel panelTabla){
+	public JScrollPane rellenaTabla(JPanel panelTabla){
 		ArrayList<ArrayList<InfoPista>> pistas = new ArrayList<ArrayList<InfoPista>>();
 		for(int i = 0; i < TraficoAereo.getInstance().getNumPistas(); i++) {
 			pistas.add(new ArrayList<InfoPista>());
@@ -91,28 +92,9 @@ public class IndividuoAvion extends Individuo<Integer>{
 			//Asignamos el vuelo a la mejor pista encontrada
 			pistas.get(indexPista).add(new InfoPista(this.cromosoma[avion], minimoTla));
 		}	
-		panelTabla.removeAll();
 		
-		DefaultTableModel dtm = new DefaultTableModel();
-		dtm.setColumnCount(3 * TraficoAereo.getInstance().getNumPistas());
-		
-		JTable tabla = new JTable(dtm);
-		tabla.setModel(dtm);
-		for(int i = 0; i < TraficoAereo.getInstance().getNumPistas(); i++) {
-
-			
-			String[] name ={ "Pista " + (i+1), "", ""};
-			Object [] menu = { "vuelo", "nombre", "TLA"};
-			dtm.addRow(name);
-			dtm.addRow(menu);
-			for(int j = 0; j < pistas.get(i).size(); j++){
-				Object [] valor = {Integer.toString(pistas.get(i).get(j).vuelo), TraficoAereo.getInstance().getInfo(pistas.get(i).get(j).vuelo).getId(), Float.toString(pistas.get(i).get(j).TLA)};
-				dtm.addRow(valor);
-			}
-			panelTabla.add(tabla);		
-		}		
-		
-		//panelTabla.add(jscroll);
+		GeneraTablaAvion tabla = new GeneraTablaAvion();
+		return tabla.generaTabla(panelTabla, pistas);
 	}
 	@Override
 	public double getValor() {
@@ -170,5 +152,6 @@ public class IndividuoAvion extends Individuo<Integer>{
 		this.cromosoma = new Integer[n];	
 		this.rand = new Random();
 	}
+	
 	 
 }

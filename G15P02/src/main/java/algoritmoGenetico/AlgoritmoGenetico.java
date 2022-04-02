@@ -6,7 +6,9 @@ import java.awt.Dimension;
 import java.util.Arrays;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import org.math.plot.Plot2DPanel;
 
@@ -74,8 +76,10 @@ public class AlgoritmoGenetico {
 	
 	private boolean conElite;		//Si se desea ejecutar el algoritmo con elite o sin ella
 	
-	JFrame jframe;					//panel donde se va a situar la gráfica
+	JPanel grafica;					//panel donde se va a situar la gráfica
 	JPanel tabla;					//tabla para mostrar el mejor resultado
+	JLabel texto;					//texto que muestra el mejor individuo
+	JFrame jFrame;					//jFrame
 	
 	
 	/*
@@ -89,7 +93,7 @@ public class AlgoritmoGenetico {
 	 * @param perElite porcentaje de elite
 	 * */
 	public void configura(FuncionIndividuo funcion, int tamPoblacion, int maxGeneraciones, TipoCruce tipoCruce, TipoSeleccion tipoSeleccion, TipoMutacion tipoMutacion,
-	double probMutacion, double probCruce, double perElite, boolean elite,  JFrame jframe,int n, JPanel tabla) {
+	double probMutacion, double probCruce, double perElite, boolean elite,  JPanel grafica, int n, JPanel tabla, JLabel texto, JFrame jFrame) {
 		
 		this.funcion = funcion;
 		
@@ -107,8 +111,10 @@ public class AlgoritmoGenetico {
 		this.perElite = perElite;
 		this.conElite = elite;
 		
-		this.jframe = jframe;
+		this.grafica = grafica;
 		this.tabla = tabla;
+		this.texto = texto;
+		this.jFrame = jFrame;
 			
 		elegirMutacion();
 		elegirSeleccion();
@@ -210,8 +216,6 @@ public class AlgoritmoGenetico {
 	 */
 	private void generaGrafica() {
 	
-		JPanel panel = new JPanel();
-		
         Plot2DPanel plot = new Plot2DPanel() {
             @Override
             public Dimension getPreferredSize() {
@@ -222,17 +226,24 @@ public class AlgoritmoGenetico {
 		plot.addLinePlot("Mejor Generacion", Color.RED, this.generaciones, this.mejor_generacion);
 		plot.addLinePlot("Mejor Absoluto", Color.BLUE, this.generaciones, this.mejor_absoluto);
 		plot.addLegend("SOUTH");
-        panel.setLayout(new BorderLayout());
-        panel.add(plot);
-        jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jframe.add(panel);
-        jframe.setSize(new Dimension(1000, 700));
-        jframe.setVisible(true);
+        this.grafica.setLayout(new BorderLayout());
+        this.grafica.add(plot);
+
+        if(this.tabla  != null) {
+        	jFrame.getContentPane().remove(this.tabla );
+        }
+        this.tabla = new JPanel();
+		this.tabla.setBounds(379, 7, 664, 288);
+		
+		JScrollPane scroll = ((IndividuoAvion)this.elMejor).rellenaTabla(this.tabla);
+		scroll.setPreferredSize(new Dimension(664, 288));
+		scroll.setBounds(379, 7, 664, 288);
+		
+        this.tabla.add(scroll);
+		
+        this.jFrame.add(this.tabla);
         
-        ((IndividuoAvion)this.elMejor).rellenaTabla(this.tabla);
-        
-        System.out.println("El mejor ha sido " + this.elMejor.getValor());
-        System.out.println(this.elMejor.toString());
+        this.texto.setText("El mejor ha sido: " + this.elMejor.getValor() + " | Individuo: " + this.elMejor.toString());
 	}
 	
 	/*
