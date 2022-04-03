@@ -1,5 +1,6 @@
 package algoritmoGenetico.cruces;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import algoritmoGenetico.AlgoritmoGenetico.FuncionIndividuo;
@@ -20,6 +21,11 @@ public class CruceCX extends Cruce {
 		//Inializamos todos los individuos a false
 		Arrays.fill(visitados, false);
 		
+		ArrayList<Integer> restantes = new ArrayList<Integer>();
+		for(int i = 0; i < individuos.length; ++i) {
+			restantes.add(i);
+		}
+		
 		//En caso de ser números impares, eliminamos el último individuo
 		if(n%2 != 0) 
 			n--;	
@@ -29,14 +35,20 @@ public class CruceCX extends Cruce {
 			//Si el individuo no ha sido visitado y se selecciona para cruzar
 			if(!visitados[i] && rnd <= this.probCruce){	
 				visitados[i] = true;						//Lo visitamos
-				int padre2 = buscarIndividuo(visitados, n);	//Buscamos otro padre
+				int index = restantes.indexOf(i);
+				restantes.remove(index);
+				
+				int indexRestante = buscarIndividuo(restantes);	//Buscamos otro padre
+				int padre2 = restantes.get(indexRestante);
+				
+				visitados[padre2] = true;
+				restantes.remove(indexRestante);
 
 				CruceCX(individuos[i], individuos[padre2]);				
 			}
 		}
 		
 		return individuos;
-		
 	}
 	
 	/*

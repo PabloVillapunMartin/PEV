@@ -1,5 +1,6 @@
 package algoritmoGenetico.cruces;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import algoritmoGenetico.AlgoritmoGenetico.FuncionIndividuo;
@@ -29,12 +30,8 @@ public abstract class Cruce {
 	 * @param n tamaño del array
 	 * @return devuelve el indice del individuo
 	 * */
-	protected int buscarIndividuo(Boolean[] visitados, int n){
-		int i = 0;
-		while(visitados[i] ) {
-			i = (i + 1)%n;
-		}
-		visitados[i] = true;
+	protected int buscarIndividuo(ArrayList<Integer> restantes){
+		int i = this.random.nextInt(restantes.size());
 		return i;
 	}
 }
