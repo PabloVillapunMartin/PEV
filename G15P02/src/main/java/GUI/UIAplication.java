@@ -46,6 +46,8 @@ import java.awt.Insets;
 import net.miginfocom.swing.MigLayout;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class UIAplication {
 
@@ -169,25 +171,29 @@ public class UIAplication {
 		tipoMut.setSelectedIndex(0);
 		
 		final JPanel panelTabla = new JPanel();
-		panelTabla.setBounds(379, 7, 664, 288);
+		panelTabla.setBounds(379, 7, 664, 201);
 		frmGp.getContentPane().add(panelTabla);
 		
 		final JPanel panelGrafica = new JPanel();
-		panelGrafica.setBounds(380, 306, 663, 420);
+		panelGrafica.setBounds(380, 219, 663, 507);
 		frmGp.getContentPane().add(panelGrafica);
 		
 		final JLabel texto = new JLabel("El mejor ha sido :");
+		texto.setVerticalAlignment(SwingConstants.TOP);
+		texto.setHorizontalAlignment(SwingConstants.LEFT);
 		texto.setFont(new Font("Yu Gothic UI Semilight", Font.BOLD, 12));
 		texto.setForeground(new Color(0, 128, 128));
-		texto.setBounds(7, 614, 363, 34);
+		texto.setBounds(7, 614, 363, 112);
 		frmGp.getContentPane().add(texto);
 		
 		JButton empezar = new JButton("Empezar Algoritmo");
 		empezar.setBounds(73, 516, 200, 47);
 		frmGp.getContentPane().add(empezar);
+		
+		final AlgoritmoGenetico AG = new AlgoritmoGenetico();
+		
 		empezar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				AlgoritmoGenetico AG = new AlgoritmoGenetico();
 				int poblacion = Integer.parseInt(tamPoblacion.getText());
 				int iteraciones = Integer.parseInt(maxIt.getText());
 							

@@ -2,16 +2,21 @@ package algoritmoGenetico;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 import org.math.plot.Plot2DPanel;
 
+import algoritmoGenetico.aviones.GeneraTablaAvion;
+import algoritmoGenetico.aviones.InfoPista;
 import algoritmoGenetico.aviones.TraficoAereo;
 import algoritmoGenetico.cruces.Cruce;
 import algoritmoGenetico.cruces.CruceCO;
@@ -77,8 +82,10 @@ public class AlgoritmoGenetico {
 	private boolean conElite;		//Si se desea ejecutar el algoritmo con elite o sin ella
 	
 	JPanel grafica;					//panel donde se va a situar la gráfica
-	JPanel tabla;					//tabla para mostrar el mejor resultado
+	JPanel panelTabla;				//panel que guarda la tabla para mostrar el mejor resultado
+	JTable tabla;					//tabla para mostrar mejor resultado
 	JLabel texto;					//texto que muestra el mejor individuo
+	JScrollPane scroll;				//scroll pane
 	JFrame jFrame;					//jFrame
 	
 	
@@ -98,6 +105,7 @@ public class AlgoritmoGenetico {
 		this.funcion = funcion;
 		
 		this.tamPoblacion = tamPoblacion;
+		this.generacionActual =  0;
 		this.maxGeneraciones = maxGeneraciones;
 		this.n = n;
 		
@@ -112,7 +120,7 @@ public class AlgoritmoGenetico {
 		this.conElite = elite;
 		
 		this.grafica = grafica;
-		this.tabla = tabla;
+		this.panelTabla = tabla;
 		this.texto = texto;
 		this.jFrame = jFrame;
 			
@@ -213,15 +221,17 @@ public class AlgoritmoGenetico {
 		media_generacion[this.generacionActual] /= this.tamPoblacion;		
 	}
 	
+	static int c = 0;
 	/*
 	 * Genera una grafica con los datos recogidos en esta generacion
 	 */
 	private void generaGrafica() {
 	
+		//--------Grafica de fitness---------
         Plot2DPanel plot = new Plot2DPanel() {
             @Override
             public Dimension getPreferredSize() {
-                return new Dimension(500, 400);
+                return new Dimension(663, 507);
             }
         };
         plot.addLinePlot("Media Generacion", Color.GREEN, this.generaciones, this.media_generacion);
@@ -229,23 +239,29 @@ public class AlgoritmoGenetico {
 		plot.addLinePlot("Mejor Absoluto", Color.BLUE, this.generaciones, this.mejor_absoluto);
 		plot.addLegend("SOUTH");
         this.grafica.setLayout(new BorderLayout());
+        this.grafica.removeAll();
         this.grafica.add(plot);
 
-        if(this.tabla  != null) {
-        	jFrame.getContentPane().remove(this.tabla );
-        }
-        this.tabla = new JPanel();
-		this.tabla.setBounds(379, 7, 664, 288);
-		
-		JScrollPane scroll = ((IndividuoAvion)this.elMejor).rellenaTabla(this.tabla);
-		scroll.setPreferredSize(new Dimension(664, 288));
-		scroll.setBounds(379, 7, 664, 288);
-		
-        this.tabla.add(scroll);
-		
-        this.jFrame.add(this.tabla);
+    	//--------Tabla de aviones-------------
+        //Recogemos la informacion del mejor individuo
+    	ArrayList<ArrayList<InfoPista>> pistas = ((IndividuoAvion)this.elMejor).getListaPistas();
+    	//Generamos una tabla
+    	GeneraTablaAvion info = new GeneraTablaAvion();
+    	this.tabla = info.generaTabla(pistas);
+    	//Añadimos la tabla a un scroll pane
+    	scroll = info.getScrollPane(this.tabla);
+    	scroll.setPreferredSize(new Dimension(664, 201));
+    	scroll.setBounds(379, 7, 664, 201);
+    	//Eliminamos el contenido del panel antes de añadir de nuevo la tabla
+    	this.panelTabla.removeAll();
+    	//La añadimos
+    	this.panelTabla.add(scroll);      
         
-        this.texto.setText("El mejor ha sido: " + this.elMejor.getValor() + " | Individuo: " + this.elMejor.toString());
+    	//-------Valores del mejor individuo)
+        String contenido = "<html><body>El mejor ha sido: <br>"
+        				+ this.elMejor.getValor() + "<br>"
+        				+ "Ind: " + this.elMejor.toString() + "</body></html>";
+        this.texto.setText(contenido);
 	}
 	
 	/*
