@@ -10,7 +10,6 @@ public class CruceCX extends Cruce {
 
 	public CruceCX(double probCruce, FuncionIndividuo funcion) {
 		super(probCruce, funcion);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -78,17 +77,20 @@ public class CruceCX extends Cruce {
 	 * */
 	private void rellenaConCiclos(Object[] progenitor1, Object[] progenitor2, Object[] cromosomaHijo){
 		
+		Object[] copiaP1 = Arrays.copyOf(progenitor1, progenitor1.length);
+		Object[] copiaP2 = Arrays.copyOf(progenitor2, progenitor2.length);
+		
 		int index = 0;
 		//Realizamos un ciclo completo hasta que se repita el valor
 		do{
-			cromosomaHijo[index] = progenitor1[index];				//asignamos el valor
-			index = buscaPosicion(progenitor1, progenitor2[index]);	//buscamos la siguiente posición a asignar
+			cromosomaHijo[index] = copiaP1[index];				//asignamos el valor
+			index = buscaPosicion(copiaP1, copiaP2[index]);	//buscamos la siguiente posición a asignar
 		}while(cromosomaHijo[index] == null);
 		
 		//Rellenamos lo que queda con el otro progenitor
-		for(int i = 0; i < progenitor1.length; i++){
+		for(int i = 0; i < copiaP1.length; i++){
 			if(cromosomaHijo[i] == null) 
-				cromosomaHijo[i] = progenitor2[i];
+				cromosomaHijo[i] = copiaP2[i];
 		}
 	}
 }

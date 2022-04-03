@@ -171,10 +171,11 @@ public class AlgoritmoGenetico {
 		for(int i = 0; i< this.maxGeneraciones; ++i) {
 			this.mejor_absoluto[i] = 0;
 		}
+		Individuo[] copiaPoblacion = Arrays.copyOf(this.poblacion, this.poblacion.length);
 		//Ordena la poblacion de individuos por valor
-		Arrays.sort(this.poblacion);
+		Arrays.sort(copiaPoblacion);
 		//Asignamos el mejor absoluto a 0
-		this.elMejor = this.poblacion[0];
+		this.elMejor = copiaPoblacion[0];
 	}
 	
 	/*
@@ -186,12 +187,13 @@ public class AlgoritmoGenetico {
 		mejor_generacion[this.generacionActual] = 0;
 		media_generacion[this.generacionActual] = 0;
 		
+		Individuo[] poblacionOrdenada = Arrays.copyOf(this.poblacion, this.poblacion.length);
 		//Ordena la poblacion de individuos por valor
-		Arrays.sort(this.poblacion);
+		Arrays.sort(poblacionOrdenada);
 		
 		//Mejor individuo de la generacion
 		Individuo mejorGen = IndividuoFactory.getIndividuo(funcion);
-		mejorGen.copiarIndividuo(this.poblacion[0]);
+		mejorGen.copiarIndividuo(poblacionOrdenada[0]);
 		
 		this.mejor_generacion[this.generacionActual] = mejorGen.getValor();
 		
@@ -206,7 +208,7 @@ public class AlgoritmoGenetico {
 			
 		//Medimos la media del valor de la generacion
 		for(int i = 0; i < this.tamPoblacion; i++){
-			media_generacion[this.generacionActual] += this.poblacion[i].getValor();
+			media_generacion[this.generacionActual] += poblacionOrdenada[i].getValor();
 		}
 		media_generacion[this.generacionActual] /= this.tamPoblacion;		
 	}
