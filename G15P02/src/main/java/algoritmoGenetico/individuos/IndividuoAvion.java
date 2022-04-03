@@ -57,7 +57,7 @@ public class IndividuoAvion extends Individuo<Integer>{
 		else return 0;
 	}
 	
-	public JScrollPane rellenaTabla(JPanel panelTabla){
+	public ArrayList<ArrayList<InfoPista>> getListaPistas(){
 		ArrayList<ArrayList<InfoPista>> pistas = new ArrayList<ArrayList<InfoPista>>();
 		for(int i = 0; i < TraficoAereo.getInstance().getNumPistas(); i++) {
 			pistas.add(new ArrayList<InfoPista>());
@@ -93,8 +93,7 @@ public class IndividuoAvion extends Individuo<Integer>{
 			pistas.get(indexPista).add(new InfoPista(this.cromosoma[avion], minimoTla));
 		}	
 		
-		GeneraTablaAvion tabla = new GeneraTablaAvion();
-		return tabla.generaTabla(panelTabla, pistas);
+		return pistas;
 	}
 	@Override
 	public double getValor() {

@@ -14,7 +14,7 @@ public class GeneraTablaAvion {
 		
 	}
 	
-	public JScrollPane generaTabla(JPanel panelTabla, ArrayList<ArrayList<InfoPista>> pistas){
+	public JTable generaTabla(ArrayList<ArrayList<InfoPista>> pistas){
 		
 		//numero que guarda el valor maximo de aviones entre todas las pistas
 		int max = buscaMax(pistas);
@@ -34,7 +34,7 @@ public class GeneraTablaAvion {
                return false;
             }
         };
-        
+               
         JTable tabla = new JTable(dtm);
         tabla.getTableHeader().setReorderingAllowed(false);
         tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -45,13 +45,16 @@ public class GeneraTablaAvion {
 			dtm.addColumn(" ",name[i]);
 			dtm.addColumn(" ", TLA[i]);
 		}
-				
-		JScrollPane jScroll = new JScrollPane(tabla, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		
+		return tabla;
+	}
 	
+	public JScrollPane getScrollPane(JTable table){
+		JScrollPane jScroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);	
 		return jScroll;
 	}
 	
-	public void setData(ArrayList<ArrayList<InfoPista>> pistas, String [][] vuelos, String [][] TLA, String [][] name){
+	private void setData(ArrayList<ArrayList<InfoPista>> pistas, String [][] vuelos, String [][] TLA, String [][] name){
 		for(int i = 0; i < pistas.size(); i++){
 			vuelos[i][0] = "vuelos";
 			TLA[i][0] = "TLA";
@@ -65,7 +68,7 @@ public class GeneraTablaAvion {
 		
 	}
 	
-	public int buscaMax(ArrayList<ArrayList<InfoPista>> pistas){
+	private int buscaMax(ArrayList<ArrayList<InfoPista>> pistas){
 		int max = 0;
 		for(int i = 0; i < pistas.size(); i++)
 			if(pistas.get(i).size() > max)
