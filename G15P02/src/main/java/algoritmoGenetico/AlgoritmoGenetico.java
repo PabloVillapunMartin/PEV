@@ -258,9 +258,11 @@ public class AlgoritmoGenetico {
     	this.panelTabla.add(scroll);      
         
     	//-------Valores del mejor individuo)
-        String contenido = "<html><body>El mejor ha sido: <br>"
-        				+ this.elMejor.getValor() + "<br>"
-        				+ "Ind: " + this.elMejor.toString() + "</body></html>";
+    	Arrays.sort(this.poblacion);
+        String contenido = "<html><body> "
+        				+ "Mejor Individuo: " + this.elMejor.getValor() + "  |  Fitness:" +this.elMejor.toString() + "<br>"
+        				+ "Peor Individuo: " + this.poblacion[this.poblacion.length - 1].getValor() + "  |  Fitness:"  + this.poblacion[this.poblacion.length - 1].toString() +"<br>"
+        				+ "Media: "+ this.media_generacion[this.generacionActual - 1] + "</body></html>";
         this.texto.setText(contenido);
 	}
 	

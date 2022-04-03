@@ -30,8 +30,10 @@ public abstract class Cruce {
 	 * @param n tamaño del array
 	 * @return devuelve el indice del individuo
 	 * */
+
 	protected int buscarIndividuo(ArrayList<Integer> restantes){
 		int i = this.random.nextInt(restantes.size());
+
 		return i;
 	}
 }

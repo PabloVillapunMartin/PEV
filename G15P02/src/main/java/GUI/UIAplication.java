@@ -178,11 +178,11 @@ public class UIAplication {
 		panelGrafica.setBounds(380, 219, 663, 507);
 		frmGp.getContentPane().add(panelGrafica);
 		
-		final JLabel texto = new JLabel("El mejor ha sido :");
+		final JLabel texto = new JLabel("");
 		texto.setVerticalAlignment(SwingConstants.TOP);
 		texto.setHorizontalAlignment(SwingConstants.LEFT);
 		texto.setFont(new Font("Yu Gothic UI Semilight", Font.BOLD, 12));
-		texto.setForeground(new Color(0, 128, 128));
+		texto.setForeground(Color.DARK_GRAY);
 		texto.setBounds(7, 614, 363, 112);
 		frmGp.getContentPane().add(texto);
 		
