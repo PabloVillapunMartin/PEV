@@ -121,7 +121,7 @@ public class UIAplication {
 		
 		final JSpinner n = new JSpinner();
 		panel.add(n);
-		n.setModel(new SpinnerNumberModel(1, 1, 3, 1));
+		n.setModel(new SpinnerNumberModel(0, 0, 2, 1));
 		
 		final JCheckBox elite = new JCheckBox("\u00C9lite");
 		panel.add(elite);
@@ -193,7 +193,7 @@ public class UIAplication {
 							
 				AG.configura(FuncionIndividuo.values()[TipoFuncion.getSelectedIndex()], poblacion, iteraciones, TipoCruce.values()[tipoCruce.getSelectedIndex()], TipoSeleccion.values()[tipoSelec.getSelectedIndex()],
 						TipoMutacion.values()[tipoMut.getSelectedIndex()],(Double)ProbMut.getValue(), (Double)ProbCruce.getValue(), (Double)perElite.getValue(), elite.isSelected(),
-						panelGrafica, 0, panelTabla, texto, frmGp);
+						panelGrafica, (Integer)n.getValue(), panelTabla, texto, frmGp);
 				AG.run();
 			}
 		});
