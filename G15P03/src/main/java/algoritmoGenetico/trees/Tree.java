@@ -97,4 +97,10 @@ public class Tree {
 		
 		return node;
 	}
+	/*
+	 * Evalua el arbol dados unos parámtros de entrada
+	 * */
+	public int evalue(int[] A, int[] D){
+		return this.root.evalue(A, D);
+	}
 }
