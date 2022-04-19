@@ -6,8 +6,8 @@ public class IndividuoArboreo extends Individuo<Integer> {
 
 	Tree _arbol;
 	
-	public IndividuoArboreo() {
-		
+	public IndividuoArboreo(int maxAltura) {
+		this._arbol = new Tree(maxAltura);
 	}
 	
 	public Tree getArbol() {

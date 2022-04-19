@@ -52,7 +52,7 @@ public class Tree {
 	 * ese nodo
 	 * */
 	public Node getRandomNode(int height){
-		if(height + 1 == this.maxHeight)
+		if(height + 1 == this.maxHeight || rnd.nextFloat() < 0.3f)
 			return new NodeInput(height + 1);
 		else
 			return getRandomFun(height + 1);
@@ -62,16 +62,16 @@ public class Tree {
 	 * Crea un nodo funcion aleatorio dada la altura por la que se está construyendo
 	 * */
 	public NodeFunction getRandomFun(int height){
-		FunctionType type = FunctionType.values()[this.rnd.nextInt(FunctionType.MAX_VALUES.ordinal())];
+		int r = this.rnd.nextInt(FunctionType.MAX_VALUES.ordinal());
+		FunctionType type = FunctionType.values()[r];
 		
-		NodeFunction node = null;
 		switch(type){
-		case AND: 	node = new NodeFunAND(height, getRandomNode(height), getRandomNode(height));
-		case OR: 	node = new NodeFunOR(height, getRandomNode(height), getRandomNode(height));
-		case NOT:	node = new NodeFunNOT(height, getRandomNode(height));
-		case IF:	node = new NodeFunIF(height, getRandomNode(height), getRandomNode(height), getRandomNode(height));
+		case AND: 	return new NodeFunAND(height, getRandomNode(height), getRandomNode(height));
+		case OR: 	return new NodeFunOR(height, getRandomNode(height), getRandomNode(height));
+		case NOT:	return new NodeFunNOT(height, getRandomNode(height));
+		case IF:	return new NodeFunIF(height, getRandomNode(height), getRandomNode(height), getRandomNode(height));
+		default: return new NodeFunAND(height, getRandomNode(height), getRandomNode(height));
 		}
-		return node;
 	}
 	
 	/*

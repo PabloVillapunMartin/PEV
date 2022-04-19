@@ -7,6 +7,7 @@ public class TablaMultiplexor {
 	
 	private int _numEntradasA;
 	private int _numEntradasD;
+	private int _maxProfundidad;
 	private byte[][] _tabla;
 	
 	public static TablaMultiplexor getInstance() {
@@ -16,7 +17,8 @@ public class TablaMultiplexor {
 		return tablaMultiplexor;
 	}
 	
-	public void init(int entradasA, int entradasD) {
+	public void init(int entradasA, int entradasD, int maxProfundidad) {
+		this._maxProfundidad = maxProfundidad;
 		this._numEntradasA = entradasA;
 		this._numEntradasD = entradasD;
 		
@@ -52,6 +54,10 @@ public class TablaMultiplexor {
 	
 	public int getNumEntradasD() {
 		return this._numEntradasD;
+	}
+	
+	public int getMaxProfundidad() {
+		return this._maxProfundidad;
 	}
 	
 	private byte[] intToBin(int n, int numbits) {

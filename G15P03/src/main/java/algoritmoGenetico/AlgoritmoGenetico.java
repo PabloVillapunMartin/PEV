@@ -25,6 +25,7 @@ import algoritmoGenetico.seleccion.SeleccionRuleta;
 import algoritmoGenetico.seleccion.SeleccionTorneoDeterministico;
 import algoritmoGenetico.seleccion.SeleccionTorneoProbabilistico;
 import algoritmoGenetico.seleccion.SeleccionTruncamiento;
+import algoritmoGenetico.tablaMultiplexor.TablaMultiplexor;
 
 public class AlgoritmoGenetico {
 	public enum TipoCruce { intercambio };
@@ -36,7 +37,7 @@ public class AlgoritmoGenetico {
 	TipoMutacion tipoMutacion = TipoMutacion.terminal;
 	
 	//Enum que identifica la funcion del problema
-	public enum FuncionIndividuo { FuncionAvion}
+	public enum FuncionIndividuo { FuncionArborea}
 	
 	private FuncionIndividuo funcion;	//Funcion del problema
 	
@@ -112,7 +113,7 @@ public class AlgoritmoGenetico {
 		elegirSeleccion();
 		elegirCruce();
 		
-		//Inicializar tabla
+		//Inicializar tabla		
 	}
 	
 	/* 
