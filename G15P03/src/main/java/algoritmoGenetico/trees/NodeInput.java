@@ -13,6 +13,16 @@ public class NodeInput extends Node{
 	
 	int pos;	//valor dentro de la A o D espctivamente(A1,A2,... o D1,D2..)
 	
+	public InputType getType(){
+		return this.type;
+	}
+	public void setType(InputType type){
+		this.type = type;
+	}
+	public void setPos(int p){
+		this.pos = p;
+	}
+	
 	public NodeInput(int height) {
 		super(height, true);
 		this.rnd = new Random();	

@@ -97,6 +97,82 @@ public class Tree {
 		
 		return node;
 	}
+	
+	/*
+	 * Busca una hoja aleatoriamente y la devuelve
+	 * */
+	public Node getRandomLeaf(){
+		Node node = null;
+		//Creamos una cola para hacer una busqueda en anchura
+		Queue<Node> queue = new LinkedList<Node>();
+		queue.add(this.root);
+		while(node != null){
+			Node current = queue.remove();
+			//Si es una hoja la asignamos
+			if(current.isLeaf() && this.rnd.nextFloat() < 0.5f)
+				node = current;
+			else {
+				//Recogemos los hijos de la funcion y los añadimos a la cola
+				ArrayList<Node> list = ((NodeFunction)current).getChildren();
+				for(Node n: list)
+					queue.add(n);
+			}
+		}
+		
+		return node;
+	}
+	
+	/*
+	 * Busca una hoja aleatoriamente y la devuelve
+	 * */
+	public Node getRandomBranch(){
+		Node node = null;
+		//Creamos una cola para hacer una busqueda en anchura
+		Queue<Node> queue = new LinkedList<Node>();
+		
+		ArrayList<Node> list = ((NodeFunction)this.root).getChildren();
+		for(Node n: list)
+			queue.add(n);
+		
+		while(node != null){
+			Node current = queue.remove();
+			//Si no es una hoja la asignamos
+			if(!current.isLeaf() && this.rnd.nextFloat() < 0.5f)
+				node = current;
+			else {
+				//Recogemos los hijos de la funcion y los añadimos a la cola
+				list = ((NodeFunction)current).getChildren();
+				for(Node n: list)
+					queue.add(n);
+			}
+		}
+		
+		return node;
+	}
+	
+	/*
+	 * Devuelve un subarbol aleatorio
+	 * */
+	public Node getSubtree(){
+		Node node = null;
+		//Creamos una cola para hacer una busqueda en anchura
+		Queue<Node> queue = new LinkedList<Node>();
+		queue.add(this.root);
+		while(node != null){
+			Node current = queue.remove();
+			//Si la proabilidad surje devuelve el actual, sino alguno de los hijos
+			if(this.rnd.nextFloat() < 0.4)
+				return current;
+			else {
+				//Recogemos los hijos de la funcion y los añadimos a la cola
+				ArrayList<Node> list = ((NodeFunction)current).getChildren();
+				for(Node n: list)
+					queue.add(n);
+			}
+		}
+		
+		return node;
+	}
 	/*
 	 * Evalua el arbol dados unos parámtros de entrada
 	 * */
