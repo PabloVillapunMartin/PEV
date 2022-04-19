@@ -1,9 +1,5 @@
 package algoritmoGenetico.trees;
 
-import java.util.Random;
-
-import algoritmoGenetico.trees.NodeFunction.FunctionType;
-
 public class Node {
 	
 	protected int height;

@@ -111,6 +111,8 @@ public class AlgoritmoGenetico {
 		elegirMutacion();
 		elegirSeleccion();
 		elegirCruce();
+		
+		//Inicializar tabla
 	}
 	
 	/* 

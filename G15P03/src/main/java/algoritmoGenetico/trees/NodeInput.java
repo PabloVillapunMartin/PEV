@@ -2,6 +2,8 @@ package algoritmoGenetico.trees;
 
 import java.util.Random;
 
+import algoritmoGenetico.tablaMultiplexor.TablaMultiplexor;
+
 public class NodeInput extends Node{
 	
 	enum InputType { A, D, MAX_VALUES}
@@ -18,9 +20,9 @@ public class NodeInput extends Node{
 		//Crea un tipo aleatorio de input
 		type = InputType.values()[this.rnd.nextInt(InputType.MAX_VALUES.ordinal())];
 		if(type == InputType.A)
-			pos = this.rnd.nextInt(2);
+			pos = this.rnd.nextInt(TablaMultiplexor.getInstance().getNumEntradasA());
 		else
-			pos = this.rnd.nextInt(4);
+			pos = this.rnd.nextInt(TablaMultiplexor.getInstance().getNumEntradasD());
 	}
 	
 	@Override
