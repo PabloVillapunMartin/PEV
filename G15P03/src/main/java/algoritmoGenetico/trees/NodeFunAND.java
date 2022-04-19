@@ -16,7 +16,7 @@ public class NodeFunAND extends NodeFunction {
 	}
 	
 	@Override
-	public int evalue(int []A, int []D)
+	public int evalue(byte []A, byte []D)
 	{
 		return this.first.evalue(A, D)	& this.second.evalue(A, D);
 	};

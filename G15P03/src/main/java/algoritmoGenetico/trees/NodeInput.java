@@ -36,7 +36,7 @@ public class NodeInput extends Node{
 	}
 	
 	@Override
-	public int evalue(int []A, int []D)
+	public int evalue(byte []A, byte []D)
 	{
 		if(type == InputType.A)
 			return A[pos];

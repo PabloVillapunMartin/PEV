@@ -17,7 +17,7 @@ public class NodeFunNOT extends NodeFunction{
 	}
 	
 	@Override
-	public int evalue(int []A, int []D)
+	public int evalue(byte []A, byte []D)
 	{
 		if(this.node.evalue(A, D) == 0)
 			return 1;

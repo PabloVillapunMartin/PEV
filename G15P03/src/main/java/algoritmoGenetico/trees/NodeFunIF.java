@@ -19,7 +19,7 @@ private Node cond, first, second;
 	}
 	
 	@Override
-	public int evalue(int []A, int []D)
+	public int evalue(byte []A, byte []D)
 	{
 		if(this.cond.evalue(A, D) == 1){
 			return this.first.evalue(A, D);

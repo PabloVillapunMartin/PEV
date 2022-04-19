@@ -176,7 +176,7 @@ public class Tree {
 	/*
 	 * Evalua el arbol dados unos parámtros de entrada
 	 * */
-	public int evalue(int[] A, int[] D){
+	public int evalue(byte[] A, byte[] D){
 		return this.root.evalue(A, D);
 	}
 }

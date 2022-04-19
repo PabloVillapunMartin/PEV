@@ -13,7 +13,7 @@ public class Node {
 	/*
 	 * Evalua el nodo devolviendo 1 o 0
 	 * */
-	public int evalue(int []A, int []D)
+	public int evalue(byte []A, byte []D)
 	{
 		throw new RuntimeException("Se está llamando al evaluar deNode");
 	};	

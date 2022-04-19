@@ -12,7 +12,7 @@ public class NodeFunction extends Node{
 	protected FunctionType type;
 	
 	@Override
-	public int evalue(int []A, int []D)
+	public int evalue(byte []A, byte []D)
 	{
 		throw new RuntimeException("Se está llamando al evaluar de NodeFunction");
 	};
