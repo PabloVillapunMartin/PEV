@@ -1,5 +1,6 @@
 package algoritmoGenetico.trees;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import algoritmoGenetico.tablaMultiplexor.TablaMultiplexor;
@@ -25,6 +26,7 @@ public class NodeInput extends Node{
 	
 	public NodeInput(int height) {
 		super(height, true);
+		this.childs = new ArrayList<Node>();
 		this.rnd = new Random();	
 		
 		//Crea un tipo aleatorio de input

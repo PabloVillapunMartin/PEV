@@ -10,6 +10,6 @@ public class main {
 		TablaMultiplexor tabla = TablaMultiplexor.getInstance();
 		tabla.init(2, 4, 5);
 		Individuo i = IndividuoFactory.getIndividuo(FuncionIndividuo.FuncionArborea);
-		double fit = i.getFitness();
+		double d = i.getFitness();
 	}
 }

@@ -1,9 +1,12 @@
 package algoritmoGenetico.trees;
 
+import java.util.ArrayList;
+
 public class Node {
 	
 	protected int height;
 	protected boolean isLeaf;
+	protected ArrayList<Node> childs;
 	
 	public Node(int height, boolean isLeaf){
 		this.height = height;

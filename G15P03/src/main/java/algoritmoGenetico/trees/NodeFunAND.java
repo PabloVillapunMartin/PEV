@@ -3,29 +3,19 @@ package algoritmoGenetico.trees;
 import java.util.ArrayList;
 
 public class NodeFunAND extends NodeFunction {
-
-	private Node first, second;
 	
 	public NodeFunAND(int height, Node first, Node second) {
 		super(height);
 		this.type =  FunctionType.AND;
 		
-		this.first = first;
-		this.second = second;
-		
+		this.childs = new ArrayList<Node>();
+		this.childs.add(first);
+		this.childs.add(second);
 	}
 	
 	@Override
 	public int evalue(byte []A, byte []D)
 	{
-		return this.first.evalue(A, D)	& this.second.evalue(A, D);
+		return this.childs.get(0).evalue(A, D) & this.childs.get(1).evalue(A, D);
 	};
-	
-	@Override
-	public ArrayList<Node> getChildren(){
-		ArrayList<Node> list = new ArrayList<Node>();
-		list.add(first);
-		list.add(second);
-		return list;
-	}
 }

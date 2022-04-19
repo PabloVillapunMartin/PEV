@@ -18,6 +18,6 @@ public class NodeFunction extends Node{
 	};
 
 	public ArrayList<Node> getChildren(){
-		throw new RuntimeException("Se está llamando al getChildren de NodeFunction");
+		return this.childs;
 	}
 }
