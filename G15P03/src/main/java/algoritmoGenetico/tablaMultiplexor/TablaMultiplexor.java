@@ -7,8 +7,12 @@ public class TablaMultiplexor {
 	
 	private int _numEntradasA;
 	private int _numEntradasD;
+	private int _numCombinacionesA;
+	private int _numCombinacionesD;
 	private int _maxProfundidad;
-	private byte[][] _tabla;
+	private byte[][] _tablaA;
+	private byte[][] _tablaD;
+	private byte[] _soluciones;
 	
 	public static TablaMultiplexor getInstance() {
 		if(tablaMultiplexor == null) {
@@ -22,30 +26,50 @@ public class TablaMultiplexor {
 		this._numEntradasA = entradasA;
 		this._numEntradasD = entradasD;
 		
-		int combinacionesEntradasA = (int) Math.pow(2, entradasA);
-		int combinacionesEntradasD = (int) Math.pow(2, entradasD);
-		int filasTabla = combinacionesEntradasA * combinacionesEntradasD;
+		_numCombinacionesA = (int) Math.pow(2, entradasA);
+		_numCombinacionesD = (int) Math.pow(2, entradasD);
+		int filasTabla = _numCombinacionesA * _numCombinacionesD;
 		
-		this._tabla = new byte[filasTabla][entradasA + entradasD + 1];
+		this._tablaA = new byte[_numCombinacionesA][entradasA];
+		this._tablaD = new byte[_numCombinacionesD][entradasD];
+		this._soluciones = new byte[filasTabla];
+		
+		//entradas D
+		for(int entradaD = 0; entradaD < _numCombinacionesD; ++entradaD) 
+		{
+			byte[] entradaBin = intToBin(entradaD, entradasD);
+			rellenaFila(this._tablaD[entradaD], entradaBin);
+		}
 		
 		//entradas A
-		for(int entradaA = 0; entradaA < combinacionesEntradasA; ++entradaA) 
+		for(int entradaA = 0; entradaA < _numCombinacionesA; ++entradaA) 
 		{
 			byte[] direccionBin = intToBin(entradaA, entradasA);
-			//entradas D
-			for(int entradaD = 0; entradaD < combinacionesEntradasD; ++entradaD) 
-			{
-				byte[] entradaBin = intToBin(entradaD, entradasD);
-				byte[] filaTabla = this._tabla[entradaA * combinacionesEntradasD + entradaD];
-
-				rellenaFila(filaTabla, direccionBin, entradaBin);
-				filaTabla[entradasA + entradasD] = filaTabla[entradasA + entradaA];
-			}
+			rellenaFila(this._tablaA[entradaA], direccionBin);
+		}
+		
+		//Soluciones tabla
+		for(int i = 0; i < filasTabla; ++i) {
+			int indexA = i / _numCombinacionesD;
+			this._soluciones[i] = this._tablaD[i % _numCombinacionesD][indexA];
 		}
 	}
 	
-	public byte[][] getTabla(){
-		return this._tabla;
+	public byte[] getEntradaA(int fila) {
+		
+		return this._tablaA[fila / this._numCombinacionesD];
+	}
+	
+	public byte[] getEntradaD(int fila) {
+		return this._tablaD[fila % this._numCombinacionesD];
+	}
+	
+	public byte getSolucion(int fila) {
+		return this._soluciones[fila];
+	}
+	
+	public int getNumFilas() {
+		return this._soluciones.length;
 	}
 	
 	public int getNumEntradasA() {
@@ -74,13 +98,9 @@ public class TablaMultiplexor {
 		return resultado;
 	}
 	
-	private void rellenaFila(byte[] fila, byte[] entradaA, byte[] entradaD) {
-		for(int i = 0; i < entradaA.length; ++i) {
-			fila[i] = entradaA[i];
-		}
-		
-		for(int i = 0; i < entradaD.length; ++i) {
-			fila[i + entradaA.length] = entradaD[i];
+	private void rellenaFila(byte[] fila, byte[] entrada) {
+		for(int i = 0; i < fila.length; ++i) {
+			fila[i] = entrada[i];
 		}
 	}
 }

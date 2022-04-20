@@ -1,7 +1,5 @@
 package algoritmoGenetico.individuos;
 
-import java.util.Arrays;
-
 import algoritmoGenetico.tablaMultiplexor.TablaMultiplexor;
 import algoritmoGenetico.trees.Tree;
 
@@ -28,14 +26,11 @@ public class IndividuoArboreo extends Individuo<Integer> {
 	@Override
 	public double getValor() {
 		int aciertos = 0;
-		for(int i = 0; i < TablaMultiplexor.getInstance().getTabla().length; ++i) {
-			byte[] filaTabla = TablaMultiplexor.getInstance().getTabla()[i];
-			byte[] valoresA, valoresD;
-			valoresA = Arrays.copyOfRange(filaTabla, 0, TablaMultiplexor.getInstance().getNumEntradasA());
-			valoresD = Arrays.copyOfRange(filaTabla, TablaMultiplexor.getInstance().getNumEntradasA(), filaTabla.length - 1);
-			if(this._arbol.evalue(valoresA, valoresD) == filaTabla[filaTabla.length - 1]) {
+		for(int i = 0; i < TablaMultiplexor.getInstance().getNumFilas(); ++i) {
+			byte[] valoresA = TablaMultiplexor.getInstance().getEntradaA(i)
+				  ,valoresD = TablaMultiplexor.getInstance().getEntradaD(i);
+			if(this._arbol.evalue(valoresA, valoresD) == TablaMultiplexor.getInstance().getSolucion(i))
 				++aciertos;
-			}
 		}
 		return aciertos;
 	}
@@ -55,6 +50,6 @@ public class IndividuoArboreo extends Individuo<Integer> {
 	 * Copia los atributos de otro individuo a este objeto
 	 */
 	public void copiarIndividuo(Individuo other) {
-		this.cromosoma = (T[]) Arrays.copyOfRange(other.getCromosoma(), 0, other.getCromosoma().length);
+		//this.cromosoma = (T[]) Arrays.copyOfRange(other.getCromosoma(), 0, other.getCromosoma().length);
 	}
 }
