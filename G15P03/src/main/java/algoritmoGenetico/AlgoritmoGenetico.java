@@ -8,15 +8,19 @@ import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
 import org.math.plot.Plot2DPanel;
 
 import algoritmoGenetico.cruces.Cruce;
+import algoritmoGenetico.cruces.CruceArboreo;
 import algoritmoGenetico.individuos.Individuo;
 import algoritmoGenetico.individuos.IndividuoFactory;
 import algoritmoGenetico.mutacion.Mutacion;
+import algoritmoGenetico.mutacion.MutacionArbol_Subarbol;
+import algoritmoGenetico.mutacion.MutacionContraccion;
+import algoritmoGenetico.mutacion.MutacionExpansion;
+import algoritmoGenetico.mutacion.MutacionHoist;
+import algoritmoGenetico.mutacion.MutacionTerminal;
 import algoritmoGenetico.seleccion.Seleccion;
 import algoritmoGenetico.seleccion.SeleccionEstocasticaUniversal;
 import algoritmoGenetico.seleccion.SeleccionRanking;
@@ -28,12 +32,12 @@ import algoritmoGenetico.seleccion.SeleccionTruncamiento;
 import algoritmoGenetico.tablaMultiplexor.TablaMultiplexor;
 
 public class AlgoritmoGenetico {
-	public enum TipoCruce { intercambio };
+	public enum TipoCruce { arboreo };
 	public enum TipoSeleccion {porRuleta, torneoDet, torneoProb, estoUniversal, truncamiento, restos, ranking}
-	public enum TipoMutacion { terminal, funcional, arbol, permutacion, subarbol, hoist, contraccion, expansion };
+	public enum TipoMutacion { terminal, arbol_subarbol, hoist, contraccion, expansion };
 	
 	TipoSeleccion tipoSeleccion = TipoSeleccion.porRuleta;
-	TipoCruce tipoCruce = TipoCruce.intercambio;
+	TipoCruce tipoCruce = TipoCruce.arboreo;
 	TipoMutacion tipoMutacion = TipoMutacion.terminal;
 	
 	//Enum que identifica la funcion del problema
@@ -67,10 +71,7 @@ public class AlgoritmoGenetico {
 	private boolean conElite;		//Si se desea ejecutar el algoritmo con elite o sin ella
 	
 	JPanel grafica;					//panel donde se va a situar la gráfica
-	JPanel panelTabla;				//panel que guarda la tabla para mostrar el mejor resultado
-	JTable tabla;					//tabla para mostrar mejor resultado
 	JLabel texto;					//texto que muestra el mejor individuo
-	JScrollPane scroll;				//scroll pane
 	JFrame jFrame;					//jFrame
 	
 	
@@ -85,7 +86,7 @@ public class AlgoritmoGenetico {
 	 * @param perElite porcentaje de elite
 	 * */
 	public void configura(FuncionIndividuo funcion, int tamPoblacion, int maxGeneraciones, TipoCruce tipoCruce, TipoSeleccion tipoSeleccion, TipoMutacion tipoMutacion,
-	double probMutacion, double probCruce, double perElite, boolean elite,  JPanel grafica, int n, JPanel tabla, JLabel texto, JFrame jFrame) {
+	double probMutacion, double probCruce, double perElite, boolean elite,  JPanel grafica, int n, JLabel texto, JFrame jFrame) {
 		
 		this.funcion = funcion;
 		
@@ -105,7 +106,6 @@ public class AlgoritmoGenetico {
 		this.conElite = elite;
 		
 		this.grafica = grafica;
-		this.panelTabla = tabla;
 		this.texto = texto;
 		this.jFrame = jFrame;
 			
@@ -113,7 +113,7 @@ public class AlgoritmoGenetico {
 		elegirSeleccion();
 		elegirCruce();
 		
-		//Inicializar tabla		
+		TablaMultiplexor.getInstance().init(2, 4, 5);
 	}
 	
 	/* 
@@ -216,7 +216,7 @@ public class AlgoritmoGenetico {
         Plot2DPanel plot = new Plot2DPanel() {
             @Override
             public Dimension getPreferredSize() {
-                return new Dimension(663, 507);
+                return new Dimension(663, 682);
             }
         };
         plot.addLinePlot("Media Generacion", Color.GREEN, this.generaciones, this.media_generacion);
@@ -230,8 +230,8 @@ public class AlgoritmoGenetico {
     	//-------Valores del mejor individuo)
     	Arrays.sort(this.poblacion);
         String contenido = "<html><body> "
-        				+ "Mejor Individuo: " + this.elMejor.getValor() + "  |  Fitness:" +this.elMejor.toString() + "<br>"
-        				+ "Peor Individuo: " + this.poblacion[this.poblacion.length - 1].getValor() + "  |  Fitness:"  + this.poblacion[this.poblacion.length - 1].toString() +"<br>"
+        				+ "Mejor Individuo: " + this.elMejor.getValor() + "  |  Cromosoma:" +this.elMejor.toString() + "<br>"
+        				+ "Peor Individuo: " + this.poblacion[this.poblacion.length - 1].getValor() + "  |  Cromosoma:"  + this.poblacion[this.poblacion.length - 1].toString() +"<br>"
         				+ "Media: "+ this.media_generacion[this.generacionActual - 1] + "</body></html>";
         this.texto.setText(contenido);
 	}
@@ -272,6 +272,7 @@ public class AlgoritmoGenetico {
 	 * */
 	private void elegirCruce() {
 		switch(this.tipoCruce) {
+			case arboreo: this.cruce = new CruceArboreo(this.probCruce, this.funcion); break;
 		}
 	}
 	
@@ -280,6 +281,11 @@ public class AlgoritmoGenetico {
 	 */
 	private void elegirMutacion(){
 		switch(this.tipoMutacion){
+			case terminal: 			this.mutacion = new MutacionTerminal(this.probMutacion, this.funcion); 			break;
+			case arbol_subarbol: 	this.mutacion = new MutacionArbol_Subarbol(this.probMutacion, this.funcion);	break;
+			case hoist:				this.mutacion = new MutacionHoist(this.probMutacion, this.funcion);				break;
+			case contraccion:		this.mutacion = new MutacionContraccion(this.probMutacion, this.funcion);		break;
+			case expansion:			this.mutacion = new MutacionExpansion(this.probMutacion, this.funcion);			break;
 		}
 	}
 	

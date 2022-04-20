@@ -46,7 +46,6 @@ public abstract class Individuo<T> implements Comparable<Individuo> {
 	 */
 	public abstract double getFitness();	
 	
-	public abstract int compareValue(double fitness);
 	
 	/********************************************************
 	 * 					OTROS MÉTODOS						*

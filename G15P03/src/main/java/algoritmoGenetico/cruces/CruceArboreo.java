@@ -57,9 +57,8 @@ public class CruceArboreo extends Cruce {
 		Node subarbol1 = ind1.getArbol().getSubtree();
 		Node subarbol2 = ind2.getArbol().getSubtree();
 		
-		Node aux = subarbol1;
-		subarbol1 = subarbol2;
-		subarbol2 = aux;
+		subarbol1.getParent().setChild(subarbol1.getParentList(), subarbol2);
+		subarbol2.getParent().setChild(subarbol2.getParentList(), subarbol1);
 	}
 
 }

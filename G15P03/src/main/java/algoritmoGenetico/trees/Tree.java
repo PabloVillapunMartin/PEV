@@ -27,7 +27,20 @@ public class Tree {
 		this.rnd = new Random();
 		this.maxHeight = maxHeight;
 		this.root = getRandomFun(0);
+		
+		setParents(this.root);
 	}
+	
+	/*
+	 * Constructora por copia
+	 * */
+	public Tree(Tree other){
+		this.maxHeight = other.maxHeight;
+		
+		//TODO CONSTRUCTORAS POR COPIA
+	}
+	
+	
 	
 	//--------------GETTERS & SETTERS--------------
 	public Node getRoot() {
@@ -178,5 +191,33 @@ public class Tree {
 	 * */
 	public int evalue(byte[] A, byte[] D){
 		return this.root.evalue(A, D);
+	}
+	
+	
+	/*
+	 * Busca una hoja aleatoriamente y la devuelve
+	 * */
+	private void setParents(Node node){
+		int i = 0;
+		for(Node n: node.childs) {
+			n.setParent(node);
+			n.setParentListPos(i);
+			i++;
+			setParents(n);	
+		}
+	}
+	
+	
+	
+	/*
+	 * Devuelve la informacion del arbol en cadena de string
+	 * */
+	private String toString(Node node){
+		String s = node.toString();
+		for(Node n: node.childs) {
+			s += toString(n);
+		}
+		//TODO: hacer tostring de los nodos
+		return s;
 	}
 }

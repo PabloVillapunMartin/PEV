@@ -45,10 +45,16 @@ public class IndividuoArboreo extends Individuo<Integer> {
 		return getValor();
 	}
 
+	
 	@Override
-	public int compareValue(double fitness) {
-		// TODO Auto-generated method stub
-		return 0;
+	public String toString(){
+		return this._arbol.toString();	
 	}
-
+	
+	/*
+	 * Copia los atributos de otro individuo a este objeto
+	 */
+	public void copiarIndividuo(Individuo other) {
+		this.cromosoma = (T[]) Arrays.copyOfRange(other.getCromosoma(), 0, other.getCromosoma().length);
+	}
 }

@@ -170,12 +170,8 @@ public class UIAplication {
 		tipoMut.setModel(new DefaultComboBoxModel(new String[] {"Inserci\u00F3n", "Intercambio", "Inversi\u00F3n", "Heur\u00EDstica"}));
 		tipoMut.setSelectedIndex(0);
 		
-		final JPanel panelTabla = new JPanel();
-		panelTabla.setBounds(379, 7, 664, 201);
-		frmGp.getContentPane().add(panelTabla);
-		
 		final JPanel panelGrafica = new JPanel();
-		panelGrafica.setBounds(380, 219, 663, 507);
+		panelGrafica.setBounds(380, 44, 663, 682);
 		frmGp.getContentPane().add(panelGrafica);
 		
 		final JLabel texto = new JLabel("");
@@ -199,7 +195,7 @@ public class UIAplication {
 							
 				AG.configura(FuncionIndividuo.values()[TipoFuncion.getSelectedIndex()], poblacion, iteraciones, TipoCruce.values()[tipoCruce.getSelectedIndex()], TipoSeleccion.values()[tipoSelec.getSelectedIndex()],
 						TipoMutacion.values()[tipoMut.getSelectedIndex()],(Double)ProbMut.getValue(), (Double)ProbCruce.getValue(), (Double)perElite.getValue(), elite.isSelected(),
-						panelGrafica, (Integer)n.getValue(), panelTabla, texto, frmGp);
+						panelGrafica, (Integer)n.getValue(), texto, frmGp);
 				AG.run();
 			}
 		});

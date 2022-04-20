@@ -8,6 +8,9 @@ public class Node {
 	protected boolean isLeaf;
 	protected ArrayList<Node> childs;
 	
+	protected Node parent;	//padre
+	int parentListPos;		//posicion a la pertenece dentro de la lista del padre
+	
 	public Node(int height, boolean isLeaf){
 		this.height = height;
 		this.isLeaf = isLeaf;
@@ -27,5 +30,25 @@ public class Node {
 	
 	public boolean isLeaf(){
 		return this.isLeaf;
+	}
+	
+	public Node getParent() {
+		return this.parent;
+	}
+	
+	public int getParentList() {
+		return this.parentListPos;
+	}
+	
+	public void setParent(Node node) {
+		this.parent = node;
+	}
+	
+	public void setParentListPos(int p) {
+		this.parentListPos = p;
+	}
+	
+	public void setChild(int pos, Node n) {
+		this.childs.set(pos, n);
 	}
 }
