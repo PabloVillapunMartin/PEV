@@ -21,7 +21,5 @@ public class NodeFunction extends Node{
 		throw new RuntimeException("Se está llamando al evaluar de NodeFunction");
 	};
 
-	public ArrayList<Node> getChildren(){
-		return this.childs;
-	}
+
 }

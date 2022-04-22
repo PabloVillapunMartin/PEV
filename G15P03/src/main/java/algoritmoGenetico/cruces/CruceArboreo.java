@@ -35,7 +35,7 @@ public class CruceArboreo extends Cruce {
 			float rnd = random.nextFloat();
 			
 			//Si el individuo no ha sido visitado y se selecciona para cruzar
-			if(!visitados[i] && rnd <= this.probCruce){	
+			if(!visitados[i] && restantes.size() > 1 && rnd <= this.probCruce){	
 				visitados[i] = true;						//Lo visitamos
 				int index = restantes.indexOf(i);
 				restantes.remove(index);
@@ -57,8 +57,14 @@ public class CruceArboreo extends Cruce {
 		Node subarbol1 = ind1.getArbol().getSubtree();
 		Node subarbol2 = ind2.getArbol().getSubtree();
 		
-		subarbol1.getParent().setChild(subarbol1.getParentList(), subarbol2);
-		subarbol2.getParent().setChild(subarbol2.getParentList(), subarbol1);
+		if(subarbol1.getParent() != null)
+			subarbol1.getParent().setChild(subarbol1.getParentList(), subarbol2);
+		else 
+			ind1.getArbol().setRoot(subarbol2);
+		if(subarbol2.getParent() != null)
+			subarbol2.getParent().setChild(subarbol2.getParentList(), subarbol1);
+		else
+			ind2.getArbol().setRoot(subarbol1);
 	}
 
 }

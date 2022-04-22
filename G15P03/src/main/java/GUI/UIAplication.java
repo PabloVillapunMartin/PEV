@@ -17,6 +17,7 @@ import javax.swing.UIManager;
 
 import algoritmoGenetico.AlgoritmoGenetico;
 import algoritmoGenetico.AlgoritmoGenetico.FuncionIndividuo;
+import algoritmoGenetico.AlgoritmoGenetico.TipoArbolInicio;
 import algoritmoGenetico.AlgoritmoGenetico.TipoCruce;
 import algoritmoGenetico.AlgoritmoGenetico.TipoMutacion;
 import algoritmoGenetico.AlgoritmoGenetico.TipoSeleccion;
@@ -117,12 +118,27 @@ public class UIAplication {
 		TipoFuncion.setModel(new DefaultComboBoxModel(new String[] {"Problema Avion"}));
 		TipoFuncion.setSelectedIndex(0);
 		
-		JLabel lblNewLabel_3 = new JLabel("N\u00FAmero problema");
+		JLabel lblNewLabel_3 = new JLabel("Inicializaci\u00F3n Arbol");
 		panel.add(lblNewLabel_3);
 		
-		final JSpinner n = new JSpinner();
-		panel.add(n);
-		n.setModel(new SpinnerNumberModel(0, 0, 2, 1));
+		final JComboBox TipoArbol = new JComboBox();
+		TipoArbol.setModel(new DefaultComboBoxModel(new String[] {"Full Initialization", "Grow Initialization", "RampAndHalf"}));
+		TipoArbol.setSelectedIndex(0);
+		panel.add(TipoArbol);
+		
+		JLabel lblNewLabel_5_1 = new JLabel("Numero Entrada A");
+		panel.add(lblNewLabel_5_1);
+		
+		final JSpinner entrada = new JSpinner();
+		entrada.setModel(new SpinnerNumberModel(2, 2, 20, 1));
+		panel.add(entrada);
+		
+		JLabel lblNewLabel_5_1_1 = new JLabel("Profundidad Arbol");
+		panel.add(lblNewLabel_5_1_1);
+		
+		final JSpinner profundidad = new JSpinner();
+		profundidad.setModel(new SpinnerNumberModel(3, 3, 15, 1));
+		panel.add(profundidad);
 		
 		final JCheckBox elite = new JCheckBox("\u00C9lite");
 		panel.add(elite);
@@ -166,7 +182,7 @@ public class UIAplication {
 		
 		final JComboBox tipoMut = new JComboBox();
 		panel.add(tipoMut);
-		tipoMut.setModel(new DefaultComboBoxModel(new String[] {"Arbol_Subarbol", "Contraccion", "Expansion", "Hoist", "Terminal"}));
+		tipoMut.setModel(new DefaultComboBoxModel(new String[] {"Terminal", "Arbol_Subarbol", "Hoist", "Contraccion", "Expansion"}));
 		tipoMut.setSelectedIndex(0);
 		
 		final JPanel panelGrafica = new JPanel();
@@ -193,8 +209,8 @@ public class UIAplication {
 				int iteraciones = Integer.parseInt(maxIt.getText());
 							
 				AG.configura(FuncionIndividuo.values()[TipoFuncion.getSelectedIndex()], poblacion, iteraciones, TipoCruce.values()[tipoCruce.getSelectedIndex()], TipoSeleccion.values()[tipoSelec.getSelectedIndex()],
-						TipoMutacion.values()[tipoMut.getSelectedIndex()],(Double)ProbMut.getValue(), (Double)ProbCruce.getValue(), (Double)perElite.getValue(), elite.isSelected(),
-						panelGrafica, (Integer)n.getValue(), texto, frmGp);
+						TipoMutacion.values()[tipoMut.getSelectedIndex()], TipoArbolInicio.values()[TipoArbol.getSelectedIndex()],(Double)ProbMut.getValue(), (Double)ProbCruce.getValue(), (Double)perElite.getValue(), 
+						elite.isSelected(),	panelGrafica, texto, (Integer)entrada.getValue(), (Integer)profundidad.getValue());
 				AG.run();
 			}
 		});

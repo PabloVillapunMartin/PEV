@@ -25,4 +25,9 @@ public class NodeFunNOT extends NodeFunction{
 			return 1;
 		else return 0;
 	};
+	
+	@Override
+	public String toString() {
+		return "(NOT ( " + this.childs.get(0).toString() + "))";
+	}
 }

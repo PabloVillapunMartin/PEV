@@ -24,10 +24,8 @@ public class MutacionHoist  extends Mutacion {
 	}
 	
 	private IndividuoArboreo mutarIndividuo(IndividuoArboreo ind){
-		Node node = ind.getArbol().getRoot();
 		Node rnd = ind.getArbol().getSubtree();
-		
-		node.getParent().setChild(node.getParentList(), rnd);
+		ind.getArbol().setRoot(rnd);
 		
 		return ind;
 	}

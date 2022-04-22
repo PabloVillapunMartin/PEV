@@ -55,5 +55,10 @@ public class NodeInput extends Node{
 		else
 			return D[pos];
 	};
+	
+	@Override
+	public String toString() {
+		return this.type.toString() + this.pos;
+	}
 
 }

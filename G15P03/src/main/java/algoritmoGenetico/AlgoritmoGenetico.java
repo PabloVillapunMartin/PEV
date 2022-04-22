@@ -35,11 +35,12 @@ public class AlgoritmoGenetico {
 	public enum TipoCruce { arboreo };
 	public enum TipoSeleccion {porRuleta, torneoDet, torneoProb, estoUniversal, truncamiento, restos, ranking}
 	public enum TipoMutacion { terminal, arbol_subarbol, hoist, contraccion, expansion };
-	public enum TipoArbolInicio { rampAndHalf, full, grow}
+	public enum TipoArbolInicio { full, grow, rampAndHalf}
 	
 	TipoSeleccion tipoSeleccion = TipoSeleccion.porRuleta;
 	TipoCruce tipoCruce = TipoCruce.arboreo;
 	TipoMutacion tipoMutacion = TipoMutacion.terminal;
+	TipoArbolInicio tipoInicializacionArbol = TipoArbolInicio.full;
 	
 	//Enum que identifica la funcion del problema
 	public enum FuncionIndividuo { FuncionArborea}
@@ -50,7 +51,6 @@ public class AlgoritmoGenetico {
 	
 	private int tamPoblacion;		//tamaño de la poblacion
 	private int maxGeneraciones;	//numero de generaciones a ejecutar el algoritmo
-	private int n;					//numero n para el individuo 4
 	
 	private double[] mejor_absoluto;	//mejor valor obtenido de todas las generaciones
 	private double[] mejor_generacion;	//mejor obtenido en la generacion actual
@@ -73,7 +73,6 @@ public class AlgoritmoGenetico {
 	
 	JPanel grafica;					//panel donde se va a situar la gráfica
 	JLabel texto;					//texto que muestra el mejor individuo
-	JFrame jFrame;					//jFrame
 	
 	
 	/*
@@ -86,15 +85,14 @@ public class AlgoritmoGenetico {
 	 * @param probCruce probabilidad de cruce
 	 * @param perElite porcentaje de elite
 	 * */
-	public void configura(FuncionIndividuo funcion, int tamPoblacion, int maxGeneraciones, TipoCruce tipoCruce, TipoSeleccion tipoSeleccion, TipoMutacion tipoMutacion,
-	double probMutacion, double probCruce, double perElite, boolean elite,  JPanel grafica, int n, JLabel texto, JFrame jFrame) {
+	public void configura(FuncionIndividuo funcion, int tamPoblacion, int maxGeneraciones, TipoCruce tipoCruce, TipoSeleccion tipoSeleccion, TipoMutacion tipoMutacion, TipoArbolInicio tipoAinicio,
+	double probMutacion, double probCruce, double perElite, boolean elite,  JPanel grafica, JLabel texto, int entradasA, int profundidadMax) {
 		
 		this.funcion = funcion;
 		
 		this.tamPoblacion = tamPoblacion;
 		this.generacionActual =  0;
 		this.maxGeneraciones = maxGeneraciones;
-		this.n = n;
 		
 		this.probMutacion = probMutacion;
 		this.probCruce = probCruce;
@@ -102,19 +100,19 @@ public class AlgoritmoGenetico {
 		this.tipoCruce = tipoCruce;
 		this.tipoSeleccion = tipoSeleccion;
 		this.tipoMutacion = tipoMutacion;
+		this.tipoInicializacionArbol = tipoAinicio;
 		
 		this.perElite = perElite;
 		this.conElite = elite;
 		
 		this.grafica = grafica;
 		this.texto = texto;
-		this.jFrame = jFrame;
 			
 		elegirMutacion();
 		elegirSeleccion();
 		elegirCruce();
 		
-		TablaMultiplexor.getInstance().init(2, 4, 5);
+		TablaMultiplexor.getInstance().init(entradasA, profundidadMax);
 	}
 	
 	/* 
@@ -158,10 +156,31 @@ public class AlgoritmoGenetico {
 		this.media_generacion = new double[this.maxGeneraciones];
 		this.generaciones = new double[this.maxGeneraciones];
 		
-		//Inicializamos la poblacion con la función dada
-		for(int i = 0; i< this.tamPoblacion; ++i) {
-			this.poblacion[i] = IndividuoFactory.getIndividuo(funcion);
+		if(this.tipoInicializacionArbol != TipoArbolInicio.rampAndHalf) {
+			//Inicializamos la poblacion con la función dada
+			for(int i = 0; i< this.tamPoblacion; ++i) {
+				this.poblacion[i] = IndividuoFactory.getIndividuo(funcion, this.tipoInicializacionArbol, TablaMultiplexor.getInstance().getMaxProfundidad());
+			}			
 		}
+		else {
+			int numGrupos = TablaMultiplexor.getInstance().getMaxProfundidad() - 1;
+			int tamGrupos = this.tamPoblacion / numGrupos;
+			
+			int profundidad = 2;
+			int ind = 0;
+			for(int i = 0; i < numGrupos; ++i) {
+				for(int j = 0; j < tamGrupos/2; ++j) {
+					this.poblacion[ind] = IndividuoFactory.getIndividuo(funcion, TipoArbolInicio.full, profundidad);
+					++ind;
+				}
+				for(int j = 0; j < tamGrupos/2; ++j) {
+					this.poblacion[ind] = IndividuoFactory.getIndividuo(funcion, TipoArbolInicio.grow, profundidad);
+					++ind;
+				}
+				++profundidad;
+			}
+		}
+		
 		for(int i = 0; i< this.maxGeneraciones; ++i) {
 			this.mejor_absoluto[i] = 0;
 		}
@@ -186,7 +205,7 @@ public class AlgoritmoGenetico {
 		Arrays.sort(poblacionOrdenada);
 		
 		//Mejor individuo de la generacion
-		Individuo mejorGen = IndividuoFactory.getIndividuo(funcion);
+		Individuo mejorGen = IndividuoFactory.getIndividuo(funcion, this.tipoInicializacionArbol,TablaMultiplexor.getInstance().getMaxProfundidad() );
 		mejorGen.copiarIndividuo(poblacionOrdenada[0]);
 		
 		this.mejor_generacion[this.generacionActual] = mejorGen.getValor();
@@ -231,8 +250,8 @@ public class AlgoritmoGenetico {
     	//-------Valores del mejor individuo)
     	Arrays.sort(this.poblacion);
         String contenido = "<html><body> "
-        				+ "Mejor Individuo: " + this.elMejor.getValor() + "  |  Cromosoma:" +this.elMejor.toString() + "<br>"
-        				+ "Peor Individuo: " + this.poblacion[this.poblacion.length - 1].getValor() + "  |  Cromosoma:"  + this.poblacion[this.poblacion.length - 1].toString() +"<br>"
+        				+ "Mejor Individuo: " + this.elMejor.getValor() + "  |  Árbol:" +this.elMejor.toString() + "<br>"
+        				+ "Peor Individuo: " + this.poblacion[this.poblacion.length - 1].getValor() + "  |  Árbol:"  + this.poblacion[this.poblacion.length - 1].toString() +"<br>"
         				+ "Media: "+ this.media_generacion[this.generacionActual - 1] + "</body></html>";
         this.texto.setText(contenido);
 	}
@@ -247,7 +266,7 @@ public class AlgoritmoGenetico {
 
 		Individuo[] nuevaPoblacion = new Individuo[this.tamPoblacion];
 		for(int i = 0; i < this.tamPoblacion; i++){
-			nuevaPoblacion[i] = IndividuoFactory.getIndividuo(funcion);
+			nuevaPoblacion[i] = IndividuoFactory.getIndividuo(funcion, this.tipoInicializacionArbol, TablaMultiplexor.getInstance().getMaxProfundidad());
 			nuevaPoblacion[i].copiarIndividuo(this.poblacion[seleccionados[i]]);
 		}
 		this.poblacion = nuevaPoblacion;			
@@ -296,7 +315,7 @@ public class AlgoritmoGenetico {
 	private void guardarElite(){
 		Arrays.sort(this.poblacion);
 		for(int i = 0; i < this.elite.length; i++) {
-			Individuo ind = IndividuoFactory.getIndividuo(funcion);
+			Individuo ind = IndividuoFactory.getIndividuo(funcion, this.tipoInicializacionArbol, TablaMultiplexor.getInstance().getMaxProfundidad());
 			ind.copiarIndividuo(this.poblacion[i]);
 			this.elite[i] = ind;
 		}

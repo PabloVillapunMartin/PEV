@@ -14,6 +14,7 @@ public class Node {
 	public Node(int height, boolean isLeaf){
 		this.height = height;
 		this.isLeaf = isLeaf;
+		childs = new ArrayList<Node>();
 	}
 	public Node(Node node) {
 		this.height = node.height;
@@ -29,11 +30,18 @@ public class Node {
 					case AND: 	this.childs.add(new NodeFunAND(child));	break;
 					case OR:	this.childs.add(new NodeFunOR(child));	break;
 					case IF:	this.childs.add(new NodeFunIF(child));	break;
-					case NOT:	this.childs.add(new NodeFunIF(child));	break;
+					case NOT:	this.childs.add(new NodeFunNOT(child));	break;
 				}
 			}
 		}
 	}
+
+	@Override
+	public String toString() 
+	{
+		return null;
+	}
+	
 	/*
 	 * Evalua el nodo devolviendo 1 o 0
 	 * */
@@ -68,5 +76,9 @@ public class Node {
 	
 	public void setChild(int pos, Node n) {
 		this.childs.set(pos, n);
+	}
+	
+	public ArrayList<Node> getChildren(){
+		return this.childs;
 	}
 }

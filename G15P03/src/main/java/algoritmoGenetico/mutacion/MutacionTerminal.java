@@ -24,7 +24,7 @@ public class MutacionTerminal extends Mutacion {
 		return individuos;
 	}
 	private IndividuoArboreo mutarIndividuo(IndividuoArboreo ind){
-		NodeInput node = (NodeInput) ind.getArbol().getRandomLeaf();
+		NodeInput node = ind.getArbol().getRandomLeaf();
 		int p = this.rnd.nextInt(TablaMultiplexor.getInstance().getNumEntradasA());
 		node.setPos(p);
 		

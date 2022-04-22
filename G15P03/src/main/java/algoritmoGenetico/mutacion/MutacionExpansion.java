@@ -26,9 +26,10 @@ public class MutacionExpansion extends Mutacion {
 	private IndividuoArboreo mutarIndividuo(IndividuoArboreo ind){
 		Node node = ind.getArbol().getRandomLeaf();
 		Node rnd = ind.getArbol().getRandomNode(node.getHeight() - 1);
-		
-		node.getParent().setChild(node.getParentList(), rnd);
-		
+		if(node.getParent() != null)
+			node.getParent().setChild(node.getParentList(), rnd);
+		else
+			ind.getArbol().setRoot(rnd);
 		return ind;
 	}
 }

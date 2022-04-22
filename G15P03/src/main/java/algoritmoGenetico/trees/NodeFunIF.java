@@ -27,4 +27,11 @@ public class NodeFunIF extends NodeFunction {
 		}
 		else return this.childs.get(2).evalue(A, D);
 	};
+	
+	@Override
+	public String toString() {
+		return "(IF ( " + this.childs.get(0).toString() + ", " 
+				+ this.childs.get(1).toString() + ", "
+				+ this.childs.get(2).toString() +"))";
+	}
 }

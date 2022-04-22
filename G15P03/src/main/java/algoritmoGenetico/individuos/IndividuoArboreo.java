@@ -1,5 +1,6 @@
 package algoritmoGenetico.individuos;
 
+import algoritmoGenetico.AlgoritmoGenetico.TipoArbolInicio;
 import algoritmoGenetico.tablaMultiplexor.TablaMultiplexor;
 import algoritmoGenetico.trees.Tree;
 
@@ -7,8 +8,8 @@ public class IndividuoArboreo extends Individuo<Integer> {
 
 	Tree _arbol;
 	
-	public IndividuoArboreo(int maxAltura) {
-		this._arbol = new Tree(maxAltura);
+	public IndividuoArboreo(int maxAltura, TipoArbolInicio t) {
+		this._arbol = new Tree(maxAltura, t);
 	}
 	
 	public Tree getArbol() {
@@ -16,11 +17,12 @@ public class IndividuoArboreo extends Individuo<Integer> {
 	}
 	
 	public int compareTo(Individuo o) {
-		if(this.getValor() - o.getValor() > 0)
-			return 1;
-		if(this.getValor() - o.getValor() < 0)
-			return -1;
-		else return 0;
+		double valorMio = this.getValor();
+		double valorOtro = o.getValor();
+		
+		if(valorMio - valorOtro > 0)	return -1;
+		if(valorMio - valorOtro < 0)	return 1;
+		else							return 0;
 	}
 
 	@Override
@@ -46,10 +48,11 @@ public class IndividuoArboreo extends Individuo<Integer> {
 		return this._arbol.toString();	
 	}
 	
+	
 	/*
 	 * Copia los atributos de otro individuo a este objeto
 	 */
 	public void copiarIndividuo(Individuo other) {
-		//this.cromosoma = (T[]) Arrays.copyOfRange(other.getCromosoma(), 0, other.getCromosoma().length);
+		this._arbol = new Tree(((IndividuoArboreo)other).getArbol());
 	}
 }

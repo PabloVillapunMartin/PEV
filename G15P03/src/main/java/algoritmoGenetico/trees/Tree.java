@@ -15,22 +15,15 @@ public class Tree {
 	int maxHeight;
 	
 	/*
-	 * Constructora arbol hoja
-	 * */
-	public Tree(){
-		this.root = new NodeInput(0);
-	}
-	
-	/*
 	 * Constructora arbol
 	 * */
 	public Tree(int maxHeight, TipoArbolInicio tipo){
 		this.rnd = new Random();
-		this.maxHeight = maxHeight;
+		this.maxHeight = maxHeight - 1;
 			
 		switch(tipo) {
-			case grow:  growInitialization();	break;
-			case full:	fullInitialization(0);	break;
+			case grow:  growInitialization();				break;
+			case full:	this.root = fullInitialization(0);	break;
 		}
 		setParents(this.root);
 	}
@@ -42,11 +35,15 @@ public class Tree {
 		this.maxHeight = other.maxHeight;
 		this.rnd = new Random();
 
-		switch(((NodeFunction)other.root).type){
-			case AND: 	new NodeFunAND(other.root);	break;
-			case OR:	new NodeFunOR(other.root);	break;
-			case IF:	new NodeFunIF(other.root);	break;
-			case NOT:	new NodeFunIF(other.root);	break;
+		if(other.root.isLeaf)
+			this.root = new NodeInput((NodeInput)other.root);
+		else {
+			switch(((NodeFunction)other.root).type){
+				case AND: 	this.root = new NodeFunAND(other.root);	break;
+				case OR:	this.root = new NodeFunOR(other.root);	break;
+				case IF:	this.root = new NodeFunIF(other.root);	break;
+				case NOT:	this.root = new NodeFunNOT(other.root);	break;
+			}
 		}
 		
 		setParents(this.root);
@@ -56,7 +53,7 @@ public class Tree {
 	
 	//--------------GETTERS & SETTERS--------------
 	public Node getRoot() {
-		return root;
+		return this.root;
 	}
 
 	public void setRoot(Node root) {
@@ -85,10 +82,10 @@ public class Tree {
 	 * */
 	public Node getRandomNode(int height){
 		//TODO quitar porbabilidad
-		if(height + 1 == this.maxHeight || rnd.nextFloat() < 0.3f)
-			return new NodeInput(height + 1);
+		if(height >= this.maxHeight || rnd.nextFloat() < 0.3f)
+			return new NodeInput(height);
 		else
-			return getRandomFun(height + 1);
+			return getRandomFun(height);
 	}
 	/*
 	 * Crea un nodo funcion aleatorio dada la altura por la que se está construyendo
@@ -98,11 +95,11 @@ public class Tree {
 		FunctionType type = FunctionType.values()[r];
 		
 		switch(type){
-		case AND: 	return new NodeFunAND(height, getRandomNode(height), getRandomNode(height));
-		case OR: 	return new NodeFunOR(height, getRandomNode(height), getRandomNode(height));
-		case NOT:	return new NodeFunNOT(height, getRandomNode(height));
-		case IF:	return new NodeFunIF(height, getRandomNode(height), getRandomNode(height), getRandomNode(height));
-		default: 	return new NodeFunAND(height, getRandomNode(height), getRandomNode(height));
+		case AND: 	return new NodeFunAND(height, getRandomNode(height + 1), getRandomNode(height + 1));
+		case OR: 	return new NodeFunOR(height, getRandomNode(height + 1), getRandomNode(height + 1));
+		case NOT:	return new NodeFunNOT(height, getRandomNode(height + 1));
+		case IF:	return new NodeFunIF(height, getRandomNode(height + 1), getRandomNode(height + 1), getRandomNode(height + 1));
+		default: 	return new NodeFunAND(height, getRandomNode(height + 1), getRandomNode(height + 1));
 		}
 	}
 	
@@ -118,15 +115,15 @@ public class Tree {
 			FunctionType type = FunctionType.values()[r];
 			
 			switch(type){
-			case AND: 	return new NodeFunAND(height, fullInitialization(height), fullInitialization(height));
-			case OR: 	return new NodeFunOR(height, fullInitialization(height), fullInitialization(height));
-			case NOT:	return new NodeFunNOT(height, fullInitialization(height));
-			case IF:	return new NodeFunIF(height, fullInitialization(height), fullInitialization(height), getRandomNode(height));
-			default: 	return new NodeFunAND(height, fullInitialization(height), fullInitialization(height));
+			case AND: 	return new NodeFunAND(height, fullInitialization(height + 1), fullInitialization(height + 1));
+			case OR: 	return new NodeFunOR(height, fullInitialization(height + 1), fullInitialization(height + 1));
+			case NOT:	return new NodeFunNOT(height, fullInitialization(height + 1));
+			case IF:	return new NodeFunIF(height, fullInitialization(height + 1), fullInitialization(height + 1), getRandomNode(height + 1));
+			default: 	return new NodeFunAND(height, fullInitialization(height + 1), fullInitialization(height + 1));
 			}
 		}
 		else
-			return new NodeInput(height + 1); 
+			return new NodeInput(height); 
 	}
 	
 	/*
@@ -167,54 +164,59 @@ public class Tree {
 	/*
 	 * Busca una hoja aleatoriamente y la devuelve
 	 * */
-	public Node getRandomLeaf(){
+	public NodeInput getRandomLeaf(){
 		Node node = null;
 		//Creamos una cola para hacer una busqueda en anchura
 		Queue<Node> queue = new LinkedList<Node>();
 		queue.add(this.root);
-		while(node != null){
+				
+		ArrayList<NodeInput> candidates = new ArrayList<NodeInput>();
+		if(this.root.isLeaf())
+			candidates.add((NodeInput)this.root);
+		while(!queue.isEmpty()){
 			Node current = queue.remove();
-			//Si es una hoja la asignamos
-			if(current.isLeaf() && this.rnd.nextFloat() < 0.5f)
-				node = current;
-			else {
-				//Recogemos los hijos de la funcion y los añadimos a la cola
-				ArrayList<Node> list = ((NodeFunction)current).getChildren();
-				for(Node n: list)
-					queue.add(n);
+			//Recogemos los hijos de la funcion y los añadimos a la cola
+			ArrayList<Node> list = current.getChildren();
+			for(Node n: list) {
+				queue.add(n);
+				if(!n.isLeaf()) continue;
+				candidates.add((NodeInput)n);
 			}
 		}
-		
-		return node;
+		if(candidates.size() == 0)
+			candidates.size();
+		int rand = rnd.nextInt(candidates.size());
+		return candidates.get(rand);
 	}
 	
 	/*
-	 * Busca una hoja aleatoriamente y la devuelve
-	 * */
-	public Node getRandomBranch(){
+	 * Busca una rama aleatoria y la devuelve
+	 */
+	public Node getRandomBranch() {
 		Node node = null;
 		//Creamos una cola para hacer una busqueda en anchura
 		Queue<Node> queue = new LinkedList<Node>();
+		queue.add(this.root);
 		
-		ArrayList<Node> list = ((NodeFunction)this.root).getChildren();
-		for(Node n: list)
-			queue.add(n);
-		
-		while(node != null){
+		ArrayList<Node> candidates = new ArrayList<Node>();
+		if(!this.root.isLeaf())
+			candidates.add(this.root);
+		while(!queue.isEmpty()){
 			Node current = queue.remove();
-			//Si no es una hoja la asignamos
-			if(!current.isLeaf() && this.rnd.nextFloat() < 0.5f)
-				node = current;
-			else {
-				//Recogemos los hijos de la funcion y los añadimos a la cola
-				list = ((NodeFunction)current).getChildren();
-				for(Node n: list)
-					queue.add(n);
+			//Recogemos los hijos de la funcion y los añadimos a la cola
+			ArrayList<Node> list = current.getChildren();
+			for(Node n: list) {
+				if(n.isLeaf()) continue;
+				queue.add(n);
+				candidates.add(n);
 			}
 		}
-		
-		return node;
+		if(candidates.size() == 0)
+			return this.root;
+		int rand = rnd.nextInt(candidates.size());
+		return candidates.get(rand);
 	}
+	
 	
 	/*
 	 * Devuelve un subarbol aleatorio
@@ -224,33 +226,29 @@ public class Tree {
 		//Creamos una cola para hacer una busqueda en anchura
 		Queue<Node> queue = new LinkedList<Node>();
 		queue.add(this.root);
-		while(node != null){
+		
+		ArrayList<Node> candidates = new ArrayList<Node>();
+		candidates.add(this.root);
+		while(!queue.isEmpty()){
 			Node current = queue.remove();
-			//Si la proabilidad surje devuelve el actual, sino alguno de los hijos
-			if(this.rnd.nextFloat() < 0.4)
-				return current;
-			else {
-				//Recogemos los hijos de la funcion y los añadimos a la cola
-				ArrayList<Node> list = ((NodeFunction)current).getChildren();
-				for(Node n: list)
-					queue.add(n);
+			//Recogemos los hijos de la funcion y los añadimos a la cola
+			ArrayList<Node> list = current.getChildren();
+			for(Node n: list) {
+				candidates.add(n);
+				if(n.isLeaf()) continue;
+				queue.add(n);
 			}
 		}
-		
-		return node;
+		int rand = rnd.nextInt(candidates.size());
+		return candidates.get(rand);
 	}
 	
 	//-----------------------------------------------------------------------------------
 	/*
 	 * Devuelve la informacion del arbol en cadena de string
 	 * */
-	public String toString(Node node){
-		String s = node.toString();
-		for(Node n: node.childs) {
-			s += toString(n);
-		}
-		//TODO: hacer tostring de los nodos
-		return s;
+	public String toString(){
+		return this.root.toString();
 	}
 	
 	/*

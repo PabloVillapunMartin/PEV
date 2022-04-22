@@ -21,23 +21,25 @@ public class TablaMultiplexor {
 		return tablaMultiplexor;
 	}
 	
-	public void init(int entradasA, int entradasD, int maxProfundidad) {
+	public void init(int entradasA, int maxProfundidad) {
 		this._maxProfundidad = maxProfundidad;
-		this._numEntradasA = entradasA;
-		this._numEntradasD = entradasD;
 		
 		_numCombinacionesA = (int) Math.pow(2, entradasA);
-		_numCombinacionesD = (int) Math.pow(2, entradasD);
+		_numCombinacionesD = (int) Math.pow(2, _numCombinacionesA);
+		
+		this._numEntradasA = entradasA;
+		this._numEntradasD = _numCombinacionesA;
+		
 		int filasTabla = _numCombinacionesA * _numCombinacionesD;
 		
 		this._tablaA = new byte[_numCombinacionesA][entradasA];
-		this._tablaD = new byte[_numCombinacionesD][entradasD];
+		this._tablaD = new byte[_numCombinacionesD][this._numEntradasD];
 		this._soluciones = new byte[filasTabla];
 		
 		//entradas D
 		for(int entradaD = 0; entradaD < _numCombinacionesD; ++entradaD) 
 		{
-			byte[] entradaBin = intToBin(entradaD, entradasD);
+			byte[] entradaBin = intToBin(entradaD, this._numEntradasD);
 			rellenaFila(this._tablaD[entradaD], entradaBin);
 		}
 		

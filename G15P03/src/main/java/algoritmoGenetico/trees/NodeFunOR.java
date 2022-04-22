@@ -24,4 +24,9 @@ public class NodeFunOR extends NodeFunction {
 	{
 		return this.childs.get(0).evalue(A, D) | this.childs.get(1).evalue(A, D);
 	};
+	
+	@Override
+	public String toString() {
+		return "(OR ( " + this.childs.get(0).toString() + ", " + this.childs.get(1) + "))";
+	}
 }
