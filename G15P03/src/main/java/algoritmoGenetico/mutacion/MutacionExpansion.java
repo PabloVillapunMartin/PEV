@@ -24,12 +24,11 @@ public class MutacionExpansion extends Mutacion {
 	}
 	
 	private IndividuoArboreo mutarIndividuo(IndividuoArboreo ind){
-		Node leaf = ind.getArbol().getRandomLeaf();
-		Node node = ind.getArbol().getRandomNode(leaf.getHeight() - 1);
+		Node node = ind.getArbol().getRandomLeaf();
+		Node rnd = ind.getArbol().getRandomNode(node.getHeight() - 1);
 		
-		leaf = node;
+		node.getParent().setChild(node.getParentList(), rnd);
 		
 		return ind;
 	}
-
 }

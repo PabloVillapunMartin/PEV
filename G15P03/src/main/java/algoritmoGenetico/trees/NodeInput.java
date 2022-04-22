@@ -14,15 +14,6 @@ public class NodeInput extends Node{
 	
 	int pos;	//valor dentro de la A o D espctivamente(A1,A2,... o D1,D2..)
 	
-	public InputType getType(){
-		return this.type;
-	}
-	public void setType(InputType type){
-		this.type = type;
-	}
-	public void setPos(int p){
-		this.pos = p;
-	}
 	
 	public NodeInput(int height) {
 		super(height, true);
@@ -35,6 +26,25 @@ public class NodeInput extends Node{
 			pos = this.rnd.nextInt(TablaMultiplexor.getInstance().getNumEntradasA());
 		else
 			pos = this.rnd.nextInt(TablaMultiplexor.getInstance().getNumEntradasD());
+	}
+	
+	
+	public NodeInput(NodeInput other) {
+		super(other);
+		this.rnd = new Random();	
+		
+		this.type = other.type;
+		this.pos = other.pos;
+	}
+	
+	public InputType getType(){
+		return this.type;
+	}
+	public void setType(InputType type){
+		this.type = type;
+	}
+	public void setPos(int p){
+		this.pos = p;
 	}
 	
 	@Override

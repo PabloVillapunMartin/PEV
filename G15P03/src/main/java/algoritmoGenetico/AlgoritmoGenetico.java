@@ -35,6 +35,7 @@ public class AlgoritmoGenetico {
 	public enum TipoCruce { arboreo };
 	public enum TipoSeleccion {porRuleta, torneoDet, torneoProb, estoUniversal, truncamiento, restos, ranking}
 	public enum TipoMutacion { terminal, arbol_subarbol, hoist, contraccion, expansion };
+	public enum TipoArbolInicio { rampAndHalf, full, grow}
 	
 	TipoSeleccion tipoSeleccion = TipoSeleccion.porRuleta;
 	TipoCruce tipoCruce = TipoCruce.arboreo;

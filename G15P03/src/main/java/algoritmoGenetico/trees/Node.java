@@ -15,7 +15,25 @@ public class Node {
 		this.height = height;
 		this.isLeaf = isLeaf;
 	}
-	
+	public Node(Node node) {
+		this.height = node.height;
+		this.isLeaf = node.isLeaf;
+		
+		childs = new ArrayList<Node>();
+		
+		for(Node child: node.childs) {
+			if(child.isLeaf)
+				this.childs.add(new NodeInput((NodeInput)child));
+			else {
+				switch(((NodeFunction)child).type){
+					case AND: 	this.childs.add(new NodeFunAND(child));	break;
+					case OR:	this.childs.add(new NodeFunOR(child));	break;
+					case IF:	this.childs.add(new NodeFunIF(child));	break;
+					case NOT:	this.childs.add(new NodeFunIF(child));	break;
+				}
+			}
+		}
+	}
 	/*
 	 * Evalua el nodo devolviendo 1 o 0
 	 * */

@@ -26,7 +26,8 @@ public class MutacionContraccion extends Mutacion {
 	}
 	private IndividuoArboreo mutarIndividuo(IndividuoArboreo ind){
 		Node node =  ind.getArbol().getRandomBranch();
-		node = ind.getArbol().getRandomLeaf();
+		Node rnd = ind.getArbol().getRandomLeaf();
+		node.getParent().setChild(node.getParentList(), rnd);
 		
 		return ind;
 	}

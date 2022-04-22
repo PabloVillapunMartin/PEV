@@ -43,7 +43,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.SpinnerNumberModel;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import net.miginfocom.swing.MigLayout;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JTable;
@@ -152,7 +151,7 @@ public class UIAplication {
 		
 		final JComboBox tipoCruce = new JComboBox();
 		panel.add(tipoCruce);
-		tipoCruce.setModel(new DefaultComboBoxModel(new String[] {"PMX", "OX", "OX-PP", "OX-OP", "CX", "CO"}));
+		tipoCruce.setModel(new DefaultComboBoxModel(new String[] {"Cruce Arboreo"}));
 		tipoCruce.setSelectedIndex(0);
 		
 		JLabel lblNewLabel_1 = new JLabel("Tipo Selecci\u00F3n");
@@ -167,7 +166,7 @@ public class UIAplication {
 		
 		final JComboBox tipoMut = new JComboBox();
 		panel.add(tipoMut);
-		tipoMut.setModel(new DefaultComboBoxModel(new String[] {"Inserci\u00F3n", "Intercambio", "Inversi\u00F3n", "Heur\u00EDstica"}));
+		tipoMut.setModel(new DefaultComboBoxModel(new String[] {"Arbol_Subarbol", "Contraccion", "Expansion", "Hoist", "Terminal"}));
 		tipoMut.setSelectedIndex(0);
 		
 		final JPanel panelGrafica = new JPanel();

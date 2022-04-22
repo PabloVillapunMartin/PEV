@@ -15,6 +15,9 @@ public class NodeFunIF extends NodeFunction {
 		this.childs.add(first);
 		this.childs.add(second);
 	}
+	public NodeFunIF(Node other) {
+		super(other);
+	}
 	
 	@Override
 	public int evalue(byte []A, byte []D)

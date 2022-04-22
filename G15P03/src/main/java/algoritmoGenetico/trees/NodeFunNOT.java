@@ -14,6 +14,10 @@ public class NodeFunNOT extends NodeFunction{
 		this.childs.add(node);		
 	}
 	
+	public NodeFunNOT(Node other) {
+		super(other);
+	}
+	
 	@Override
 	public int evalue(byte []A, byte []D)
 	{

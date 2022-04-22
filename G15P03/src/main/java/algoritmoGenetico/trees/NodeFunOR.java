@@ -15,6 +15,10 @@ public class NodeFunOR extends NodeFunction {
 		this.childs.add(second);
 	}
 	
+	public NodeFunOR(Node other) {
+		super(other);
+	}
+	
 	@Override
 	public int evalue(byte []A, byte []D)
 	{

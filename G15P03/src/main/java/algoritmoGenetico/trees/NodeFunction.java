@@ -7,6 +7,10 @@ public class NodeFunction extends Node{
 	public NodeFunction(int height) {
 		super(height, false);
 	}
+	public NodeFunction(Node n) {
+		super(n);
+		this.type = ((NodeFunction)n).type;
+	}
 
 	enum FunctionType {  AND, OR, NOT, IF, MAX_VALUES }
 	protected FunctionType type;

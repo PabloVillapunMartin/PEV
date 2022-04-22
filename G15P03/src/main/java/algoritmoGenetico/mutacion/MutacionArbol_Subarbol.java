@@ -29,7 +29,8 @@ public class MutacionArbol_Subarbol extends Mutacion {
 	
 	private IndividuoArboreo mutarIndividuo(IndividuoArboreo ind){
 		Node node = ind.getArbol().getSubtree();
-		node = ind.getArbol().getRandomNode(node.getHeight());
+		Node rnd = ind.getArbol().getRandomNode(node.getHeight());
+		node.getParent().setChild(node.getParentList(), rnd);
 		
 		return ind;
 	}
