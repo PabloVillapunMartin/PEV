@@ -28,6 +28,6 @@ public class NodeFunNOT extends NodeFunction{
 	
 	@Override
 	public String toString() {
-		return "(NOT ( " + this.childs.get(0).toString() + "))";
+		return "(NOT " + this.childs.get(0).toString() + ")";
 	}
 }

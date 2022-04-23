@@ -1,7 +1,5 @@
 package algoritmoGenetico.trees;
 
-import java.util.ArrayList;
-
 public class NodeFunction extends Node{
 
 	public NodeFunction(int height) {

@@ -7,6 +7,7 @@ import algoritmoGenetico.AlgoritmoGenetico.FuncionIndividuo;
 import algoritmoGenetico.individuos.Individuo;
 import algoritmoGenetico.individuos.IndividuoArboreo;
 import algoritmoGenetico.trees.Node;
+import algoritmoGenetico.trees.Tree;
 
 public class CruceArboreo extends Cruce {
 
@@ -65,6 +66,9 @@ public class CruceArboreo extends Cruce {
 			subarbol2.getParent().setChild(subarbol2.getParentList(), subarbol1);
 		else
 			ind2.getArbol().setRoot(subarbol1);
+		
+		Tree.bloatingCheck(subarbol1, ind2.getArbol().getMaxHeight());
+		Tree.bloatingCheck(subarbol2, ind1.getArbol().getMaxHeight());
 	}
 
 }

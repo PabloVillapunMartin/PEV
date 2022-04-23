@@ -16,6 +16,7 @@ public class Node {
 		this.isLeaf = isLeaf;
 		childs = new ArrayList<Node>();
 	}
+	
 	public Node(Node node) {
 		this.height = node.height;
 		this.isLeaf = node.isLeaf;
@@ -47,7 +48,7 @@ public class Node {
 	 * */
 	public int evalue(byte []A, byte []D)
 	{
-		throw new RuntimeException("Se está llamando al evaluar deNode");
+		throw new RuntimeException("Se está llamando al evaluar de Node");
 	};	
 	
 	public int getHeight(){

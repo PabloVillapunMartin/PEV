@@ -81,7 +81,6 @@ public class Tree {
 	 * ese nodo
 	 * */
 	public Node getRandomNode(int height){
-		//TODO quitar porbabilidad
 		if(height >= this.maxHeight || rnd.nextFloat() < 0.3f)
 			return new NodeInput(height);
 		else
@@ -264,5 +263,29 @@ public class Tree {
 		}
 	}
 	
-
+	/*
+	 * Controlar el bloating cuando se asigna una nueva altura, cortando las ramas que sobrepasen
+	 * la altura maxima
+	 */
+	public static void bloatingCheck(Node node, int maxHeight) {
+		//Asignamos nueva altura
+		if(node.parent == null) {
+			node.height = 0;
+		}
+		else node.height = node.parent.height + 1;
+		
+		//Si llegamos a la altura maxima, decimos al padre que pase todos sus hijos a hojas
+		if(node.height >= maxHeight) {
+			for(int i = 0; i < node.parent.childs.size(); ++i) {
+				node.parent.childs.set(i, new NodeInput(node.height));
+			}
+		}
+		//En caso contrario se sigue controlando el bloating en los hijos
+		else {
+			for(int i = 0; i < node.childs.size(); ++i) {
+				bloatingCheck(node.childs.get(i), maxHeight);
+			}
+		}
+	}
+	
 }

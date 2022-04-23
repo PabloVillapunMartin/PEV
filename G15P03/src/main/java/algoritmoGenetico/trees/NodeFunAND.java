@@ -27,7 +27,7 @@ public class NodeFunAND extends NodeFunction {
 	
 	@Override
 	public String toString() {
-		return "(AND ( " + this.childs.get(0).toString() + ", " 
-				+ this.childs.get(1).toString() +"))";
+		return "(AND " + this.childs.get(0).toString() + ", " 
+				+ this.childs.get(1).toString() +")";
 	}
 }

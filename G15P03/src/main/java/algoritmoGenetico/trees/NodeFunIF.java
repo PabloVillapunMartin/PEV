@@ -30,8 +30,8 @@ public class NodeFunIF extends NodeFunction {
 	
 	@Override
 	public String toString() {
-		return "(IF ( " + this.childs.get(0).toString() + ", " 
+		return "(IF " + this.childs.get(0).toString() + ", " 
 				+ this.childs.get(1).toString() + ", "
-				+ this.childs.get(2).toString() +"))";
+				+ this.childs.get(2).toString() +")";
 	}
 }
