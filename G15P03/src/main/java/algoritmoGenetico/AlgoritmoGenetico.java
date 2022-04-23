@@ -179,6 +179,7 @@ public class AlgoritmoGenetico {
 				}
 				++profundidad;
 			}
+			this.tipoInicializacionArbol = TipoArbolInicio.full;
 		}
 		
 		for(int i = 0; i< this.maxGeneraciones; ++i) {
@@ -189,6 +190,8 @@ public class AlgoritmoGenetico {
 		Arrays.sort(copiaPoblacion);
 		//Asignamos el mejor absoluto a 0
 		this.elMejor = copiaPoblacion[0];
+		
+		
 	}
 	
 	/*
