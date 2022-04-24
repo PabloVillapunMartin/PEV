@@ -267,7 +267,7 @@ public class Tree {
 	 * Controlar el bloating cuando se asigna una nueva altura, cortando las ramas que sobrepasen
 	 * la altura maxima
 	 */
-	public static void bloatingCheck(Node node, int maxHeight) {
+	public void bloatingCheck(Node node) {
 		//Asignamos nueva altura
 		if(node.parent == null) {
 			node.height = 0;
@@ -283,7 +283,7 @@ public class Tree {
 		//En caso contrario se sigue controlando el bloating en los hijos
 		else {
 			for(int i = 0; i < node.childs.size(); ++i) {
-				bloatingCheck(node.childs.get(i), maxHeight);
+				bloatingCheck(node.childs.get(i));
 			}
 		}
 	}

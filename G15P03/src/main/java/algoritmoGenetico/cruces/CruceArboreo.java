@@ -67,8 +67,8 @@ public class CruceArboreo extends Cruce {
 		else
 			ind2.getArbol().setRoot(subarbol1);
 		
-		Tree.bloatingCheck(subarbol1, ind2.getArbol().getMaxHeight());
-		Tree.bloatingCheck(subarbol2, ind1.getArbol().getMaxHeight());
+		ind1.getArbol().bloatingCheck(subarbol1);
+		ind1.getArbol().bloatingCheck(subarbol2);
 	}
 
 }

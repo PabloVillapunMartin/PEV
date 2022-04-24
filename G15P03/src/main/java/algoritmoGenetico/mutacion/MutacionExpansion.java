@@ -30,6 +30,9 @@ public class MutacionExpansion extends Mutacion {
 			node.getParent().setChild(node.getParentList(), rnd);
 		else
 			ind.getArbol().setRoot(rnd);
+		
+		ind.getArbol().bloatingCheck(rnd);
+		
 		return ind;
 	}
 }

@@ -26,12 +26,14 @@ public class MutacionContraccion extends Mutacion {
 	}
 	private IndividuoArboreo mutarIndividuo(IndividuoArboreo ind){
 		Node node =  ind.getArbol().getRandomBranch();
-		Node rnd = ind.getArbol().getRandomLeaf();
+		Node rnd = new NodeInput(node.getHeight());
 		
 		if(node.getParent() != null)
 			node.getParent().setChild(node.getParentList(), rnd);
 		else
 			ind.getArbol().setRoot(rnd);
+		
+		ind.getArbol().bloatingCheck(rnd);
 		
 		return ind;
 	}
