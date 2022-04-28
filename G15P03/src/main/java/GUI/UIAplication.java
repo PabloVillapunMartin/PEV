@@ -130,14 +130,14 @@ public class UIAplication {
 		panel.add(lblNewLabel_5_1);
 		
 		final JSpinner entrada = new JSpinner();
-		entrada.setModel(new SpinnerNumberModel(2, 2, 20, 1));
+		entrada.setModel(new SpinnerNumberModel(2, 2, 3, 1));
 		panel.add(entrada);
 		
 		JLabel lblNewLabel_5_1_1 = new JLabel("Profundidad Arbol");
 		panel.add(lblNewLabel_5_1_1);
 		
 		final JSpinner profundidad = new JSpinner();
-		profundidad.setModel(new SpinnerNumberModel(3, 3, 15, 1));
+		profundidad.setModel(new SpinnerNumberModel(5, 3, 15, 1));
 		panel.add(profundidad);
 		
 		final JCheckBox elite = new JCheckBox("\u00C9lite");
@@ -160,7 +160,7 @@ public class UIAplication {
 		
 		final JSpinner ProbMut = new JSpinner();
 		panel.add(ProbMut);
-		ProbMut.setModel(new SpinnerNumberModel(0.05, 0.0, 1.0, 0.05));
+		ProbMut.setModel(new SpinnerNumberModel(0.15, 0.0, 1.0, 0.05));
 		
 		JLabel lblTipoCruce = new JLabel("Tipo Cruce");
 		panel.add(lblTipoCruce);
@@ -194,7 +194,7 @@ public class UIAplication {
 		texto.setHorizontalAlignment(SwingConstants.LEFT);
 		texto.setFont(new Font("Yu Gothic UI Semilight", Font.BOLD, 12));
 		texto.setForeground(Color.DARK_GRAY);
-		texto.setBounds(7, 614, 363, 112);
+		texto.setBounds(7, 574, 363, 152);
 		frmGp.getContentPane().add(texto);
 		
 		JButton empezar = new JButton("Empezar Algoritmo");

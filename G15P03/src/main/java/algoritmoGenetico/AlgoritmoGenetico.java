@@ -253,9 +253,7 @@ public class AlgoritmoGenetico {
     	//-------Valores del mejor individuo)
     	Arrays.sort(this.poblacion);
         String contenido = "<html><body> "
-        				+ "Mejor Individuo: " + this.elMejor.getValor() + "  |  Árbol:" +this.elMejor.toString() + "<br>"
-        				+ "Peor Individuo: " + this.poblacion[this.poblacion.length - 1].getValor() + "  |  Árbol:"  + this.poblacion[this.poblacion.length - 1].toString() +"<br>"
-        				+ "Media: "+ this.media_generacion[this.generacionActual - 1] + "</body></html>";
+        				+ "Mejor Individuo: " + this.elMejor.getValor() + "  |  Árbol:" +this.elMejor.toString() + "</body></html>";
         this.texto.setText(contenido);
 	}
 	
