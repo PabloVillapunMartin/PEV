@@ -8,6 +8,7 @@ import algoritmoGenetico.individuos.Individuo;
 import algoritmoGenetico.individuos.IndividuoArboreo;
 import algoritmoGenetico.tablaMultiplexor.TablaMultiplexor;
 import algoritmoGenetico.trees.Node;
+import algoritmoGenetico.trees.Tree;
 
 public class MutacionArbol_Subarbol extends Mutacion {
 
@@ -35,6 +36,8 @@ public class MutacionArbol_Subarbol extends Mutacion {
 			node.getParent().setChild(node.getParentList(), rnd);
 		else
 			ind.getArbol().setRoot(rnd);
+		
+		ind.getArbol().bloatingCheck(rnd);
 		
 		return ind;
 	}

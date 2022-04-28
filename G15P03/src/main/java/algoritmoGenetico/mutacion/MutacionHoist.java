@@ -27,6 +27,8 @@ public class MutacionHoist  extends Mutacion {
 		Node rnd = ind.getArbol().getSubtree();
 		ind.getArbol().setRoot(rnd);
 		
+		ind.getArbol().bloatingCheck(rnd);
+		
 		return ind;
 	}
 }
