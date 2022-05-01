@@ -83,7 +83,7 @@ public class UIAplication {
 	 */
 	private void initialize() {
 		frmGp = new JFrame();
-		frmGp.setTitle("G15_P1");
+		frmGp.setTitle("G15_P3");
 		frmGp.setBounds(100, 100, 1069, 776);
 		frmGp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmGp.getContentPane().setLayout(null);
